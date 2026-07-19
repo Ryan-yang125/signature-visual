@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#dbe1e9" />
+    <title>Spatial Lineage — Signature Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="scene">
+      <header>
+        <span class="wordmark">LINEAGE</span>
+        <span class="mono">PROVENANCE GRAPH / TRACE 064</span>
+      </header>
+
+      <section class="copy">
+        <p class="mono eyebrow">EXPLAINABLE SYSTEM · 05</p>
+        <h1>Every output<br />has a path.</h1>
+        <p>Focus a node to follow one decision through evidence, reasoning, and action.</p>
+      </section>
+
+      <div class="diagram-wrap">
+        <svg id="diagram" viewBox="0 0 920 620" role="img" aria-labelledby="diagram-title diagram-description">
+          <title id="diagram-title">Provenance system map</title>
+          <desc id="diagram-description">A network showing evidence flowing through retrieval, reasoning, review, and output nodes.</desc>
+          <defs>
+            <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="5" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <pattern id="micro-grid" width="36" height="36" patternUnits="userSpaceOnUse">
+              <path d="M36 0H0V36" fill="none" stroke="currentColor" stroke-width="0.55" opacity="0.16" />
+            </pattern>
+          </defs>
+
+          <rect class="grid" x="40" y="40" width="840" height="540" fill="url(#micro-grid)" />
+          <g class="rings" fill="none">
+            <circle cx="510" cy="315" r="214" />
+            <circle cx="510" cy="315" r="142" />
+            <path d="M510 72V558M267 315H753" />
+          </g>
+
+          <g class="routes" fill="none">
+            <path id="route-1" data-route d="M120 215 C205 215 214 132 302 132 C382 132 402 250 486 250" />
+            <path id="route-2" data-route d="M120 396 C225 396 231 484 340 484 C425 484 422 346 486 346" />
+            <path id="route-3" data-route d="M302 132 C405 132 440 176 564 176 C652 176 669 246 760 246" />
+            <path id="route-4" data-route d="M340 484 C447 484 492 456 592 456 C686 456 684 366 760 366" />
+            <path id="route-5" data-route d="M486 250 C540 250 548 315 606 315 C666 315 700 306 760 306" />
+            <path id="route-6" data-route d="M486 346 C540 346 550 315 606 315" />
+          </g>
+
+          <g class="signals" filter="url(#glow)">
+            <circle data-signal="route-1" r="5" />
+            <circle data-signal="route-2" r="4" />
+            <circle data-signal="route-3" r="4" />
+            <circle data-signal="route-4" r="5" />
+            <circle data-signal="route-5" r="4" />
+          </g>
+
+          <g class="nodes">
+            <g class="node source" data-node="evidence" tabindex="0" transform="translate(120 215)">
+              <circle class="halo" r="27" /><circle class="body" r="11" /><circle class="core" r="3" />
+              <text class="label" x="-4" y="-40">EVIDENCE</text><text class="code" x="-4" y="39">SRC / A1</text>
+            </g>
+            <g class="node source" data-node="context" tabindex="0" transform="translate(120 396)">
+              <circle class="halo" r="27" /><circle class="body" r="11" /><circle class="core" r="3" />
+              <text class="label" x="-4" y="-40">CONTEXT</text><text class="code" x="-4" y="39">SRC / B4</text>
+            </g>
+            <g class="node relay" data-node="retrieve" tabindex="0" transform="translate(302 132)">
+              <circle class="halo" r="23" /><circle class="body" r="9" /><circle class="core" r="3" />
+              <text class="label" x="18" y="-20">RETRIEVE</text><text class="code" x="18" y="-6">PASS / 01</text>
+            </g>
+            <g class="node relay" data-node="memory" tabindex="0" transform="translate(340 484)">
+              <circle class="halo" r="23" /><circle class="body" r="9" /><circle class="core" r="3" />
+              <text class="label" x="18" y="26">MEMORY</text><text class="code" x="18" y="40">PASS / 02</text>
+            </g>
+            <g class="node process" data-node="reason" tabindex="0" transform="translate(486 250)">
+              <circle class="halo" r="35" /><circle class="body" r="17" /><circle class="core" r="5" />
+              <text class="label" x="-5" y="-49">REASON</text><text class="code" x="-5" y="51">CORE / R8</text>
+            </g>
+            <g class="node process" data-node="review" tabindex="0" transform="translate(486 346)">
+              <circle class="halo" r="28" /><circle class="body" r="13" /><circle class="core" r="4" />
+              <text class="label" x="-5" y="-42">REVIEW</text><text class="code" x="-5" y="44">GATE / V2</text>
+            </g>
+            <g class="node relay" data-node="synthesis" tabindex="0" transform="translate(606 315)">
+              <circle class="halo" r="27" /><circle class="body" r="12" /><circle class="core" r="4" />
+              <text class="label" x="17" y="-20">SYNTHESIS</text><text class="code" x="17" y="-6">MERGE / S1</text>
+            </g>
+            <g class="node output" data-node="output-a" tabindex="0" transform="translate(760 246)">
+              <rect class="halo-box" x="-25" y="-25" width="50" height="50" /><rect class="body-box" x="-10" y="-10" width="20" height="20" />
+              <text class="label" x="18" y="-15">OUTPUT A</text><text class="code" x="18" y="0">TRACE / 064</text>
+            </g>
+            <g class="node output" data-node="output-b" tabindex="0" transform="translate(760 366)">
+              <rect class="halo-box" x="-25" y="-25" width="50" height="50" /><rect class="body-box" x="-10" y="-10" width="20" height="20" />
+              <text class="label" x="18" y="-15">OUTPUT B</text><text class="code" x="18" y="0">TRACE / 065</text>
+            </g>
+          </g>
+
+          <g class="measurements">
+            <text x="52" y="64">X / 000</text><text x="810" y="64">X / 840</text>
+            <text x="52" y="562">Y / 540</text><text x="786" y="562">SYSTEM / COHERENT</text>
+          </g>
+        </svg>
+      </div>
+
+      <aside class="legend mono">
+        <span><i class="source-key"></i>SOURCE</span>
+        <span><i class="process-key"></i>PROCESS</span>
+        <span><i class="output-key"></i>OUTPUT</span>
+      </aside>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

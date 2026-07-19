@@ -1,0 +1,38 @@
+{
+  "name": "signature-visual",
+  "version": "1.0.0",
+  "description": "A computational visual design skill for AI coding assistants. Adds memorable Canvas, Three.js, WebGL shader, and SVG moments to websites.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "cursor",
+    "codex",
+    "skill",
+    "design",
+    "canvas",
+    "threejs",
+    "webgl",
+    "shader",
+    "svg",
+    "generative-art"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "skills"
+  ],
+  "skill": {
+    "entry": "skills/signature-visual/SKILL.md",
+    "references": "skills/signature-visual/references",
+    "harnesses": [
+      "claude-code",
+      "cursor",
+      "codex"
+    ]
+  },
+  "scripts": {
+    "serve": "python3 -m http.server --directory site 4173",
+    "check": "node site/_tests/verify.mjs",
+    "screenshots": "node site/_tests/capture.mjs"
+  }
+}

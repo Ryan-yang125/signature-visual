@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ece8e5" />
+    <title>Living Orb — Signature Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main class="scene">
+      <div id="three-stage" aria-hidden="true">
+        <div class="fallback-orb"></div>
+      </div>
+      <div class="axis axis-x" aria-hidden="true"></div>
+      <div class="axis axis-y" aria-hidden="true"></div>
+
+      <header>
+        <span class="wordmark">SOMA</span>
+        <span class="mono">SYNTHETIC BIOLOGY / SESSION 04</span>
+      </header>
+
+      <section class="copy">
+        <p class="mono eyebrow">LIVING INTERFACE</p>
+        <h1>Intelligence,<br />with a pulse.</h1>
+        <p>A responsive membrane for systems that sense, adapt, and grow.</p>
+      </section>
+
+      <aside class="spec mono" aria-label="Form specification">
+        <span>FORM <strong>MEMBRANE</strong></span>
+        <span>STATE <strong>RECEPTIVE</strong></span>
+        <span>FIELD <strong>0.72</strong></span>
+      </aside>
+
+      <div class="pointer-note mono">MOVE TO ORIENT / IDLE TO BREATHE</div>
+      <div class="marker marker-a mono" aria-hidden="true">A</div>
+      <div class="marker marker-b mono" aria-hidden="true">B</div>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

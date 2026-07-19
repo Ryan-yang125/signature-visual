@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10091f" />
+    <title>Radiance Field — Signature Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="scene">
+      <canvas id="shader" aria-hidden="true"></canvas>
+      <div class="scanlines" aria-hidden="true"></div>
+      <header>
+        <span class="wordmark">RADIANCE</span>
+        <span class="mono">DISTRIBUTED FIELD / ONLINE</span>
+      </header>
+
+      <section class="copy">
+        <p class="mono eyebrow">PLANETARY COMPUTE · 04</p>
+        <h1>Energy finds<br />its path.</h1>
+        <p>A responsive field for infrastructure that routes around pressure and keeps moving.</p>
+      </section>
+
+      <div class="reticle" aria-hidden="true"><span></span></div>
+      <aside class="telemetry mono">
+        <span>FIELD <strong>STABLE</strong></span>
+        <span>PHASE <strong id="phase">0.00</strong></span>
+        <span>LENS <strong id="lens">IDLE</strong></span>
+      </aside>
+      <div class="hint mono">MOVE TO BEND THE FIELD</div>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

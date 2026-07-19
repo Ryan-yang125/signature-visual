@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Signature Visual starter harness</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+        }
+      }
+    </script>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #0a0e27; }
+      main { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+      .tile { position: relative; min-height: 360px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); }
+      .tile:last-child { background: #dbe1e9; }
+      @media (max-width: 700px) { main { grid-template-columns: 1fr; } .tile { min-height: 320px; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="tile" id="canvas"></div>
+      <div class="tile" id="three"></div>
+      <div class="tile" id="webgl"></div>
+      <div class="tile" id="svg"></div>
+    </main>
+    <script type="module">
+      import { createCanvasField } from '/skills/signature-visual/references/starters/canvas-field.js';
+      import { createLivingForm } from '/skills/signature-visual/references/starters/three-living-form.js';
+      import { createShaderField } from '/skills/signature-visual/references/starters/webgl-shader-field.js';
+      import { createTechnicalSystem } from '/skills/signature-visual/references/starters/svg-technical-system.js';
+
+      const disposers = [
+        createCanvasField(document.querySelector('#canvas'), { accent: '#5b78ff', secondary: '#74dad3' }),
+        createLivingForm(document.querySelector('#three'), { accent: '#786cff', secondary: '#ff6e62', detail: 4 }),
+        createShaderField(document.querySelector('#webgl'), { accentA: [0.18, 0.36, 0.96], accentB: [1, 0.3, 0.38] }),
+        createTechnicalSystem(document.querySelector('#svg'), { decorative: false, ink: '#172033' })
+      ];
+
+      window.__starterReady = true;
+      window.__disposeAll = () => disposers.forEach(dispose => dispose());
+    </script>
+  </body>
+</html>

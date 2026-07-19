@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#070b20" />
+    <title>Particle Current — Signature Visual</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="scene">
+      <canvas id="field" aria-hidden="true"></canvas>
+      <div class="grid" aria-hidden="true"></div>
+      <header>
+        <span class="wordmark">NEXUS</span>
+        <span class="mono">MULTI-AGENT FABRIC / LIVE</span>
+      </header>
+
+      <section class="copy">
+        <p class="mono eyebrow">COORDINATION FIELD · 01</p>
+        <h1>Many agents.<br />One current.</h1>
+        <p>Move through the field. Local decisions bend the flow; the system keeps its direction.</p>
+      </section>
+
+      <aside class="legend mono" aria-label="Visualization legend">
+        <span><i class="dot cobalt"></i>PLANNING</span>
+        <span><i class="dot cyan"></i>EXECUTION</span>
+        <span><i class="dot coral"></i>REVIEW</span>
+      </aside>
+
+      <div class="coordinate mono">PTR / <span id="coordinate">0.500 : 0.500</span></div>
+      <div class="status mono"><i></i> FIELD COHERENT</div>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

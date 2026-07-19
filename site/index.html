@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0e27" />
+    <meta
+      name="description"
+      content="Signature Visual is a design skill that gives websites one memorable computational visual using Canvas, Three.js, WebGL shaders, or SVG."
+    />
+    <meta property="og:title" content="Signature Visual" />
+    <meta property="og:description" content="Give any website one unforgettable visual moment." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/screenshots/og-signature-visual.png" />
+    <title>Signature Visual — one unforgettable visual moment</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/sections.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Signature Visual home">
+        <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+          <circle cx="18" cy="18" r="14" />
+          <path d="M7 18h22M18 7v22" />
+          <circle cx="18" cy="18" r="3" />
+        </svg>
+        <span>Signature Visual</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#cases">Live cases</a>
+        <a href="#inside">Inside the skill</a>
+        <a href="https://github.com/Ryan-yang125/signature-visual">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <canvas id="hero-field" aria-hidden="true"></canvas>
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-orbit hero-orbit-a" aria-hidden="true"></div>
+        <div class="hero-orbit hero-orbit-b" aria-hidden="true"></div>
+
+        <div class="hero-meta hero-meta-top mono">DESIGN SKILL / COMPUTATIONAL VISUALS</div>
+        <div class="hero-copy">
+          <p class="eyebrow">For Claude Code · Cursor · Codex</p>
+          <h1>Give any website one unforgettable visual moment.</h1>
+          <p class="hero-lede">
+            Translate “make this feel special” into a production-ready Canvas, Three.js, WebGL, or SVG system—chosen for the idea, integrated with the page.
+          </p>
+          <div class="hero-actions">
+            <button class="install-command" type="button" data-copy="npx skills add Ryan-yang125/signature-visual">
+              <span class="mono">npx skills add Ryan-yang125/signature-visual</span>
+              <span class="copy-label mono">COPY</span>
+            </button>
+            <a class="text-link" href="#cases">Explore four live cases <span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+
+        <div class="hero-engines mono" aria-label="Supported visual systems">
+          <span>CANVAS 2D</span>
+          <span>THREE.JS</span>
+          <span>WEBGL GLSL</span>
+          <span>SVG</span>
+        </div>
+        <div class="hero-coordinate hero-coordinate-left mono" aria-hidden="true">PTR / 00.000</div>
+        <div class="hero-coordinate hero-coordinate-right mono" aria-hidden="true">FIELD / ACTIVE</div>
+      </section>
+
+      <section class="router" aria-labelledby="router-title">
+        <div class="section-index mono">ROUTER / 01</div>
+        <div class="router-heading">
+          <p class="eyebrow ink">Users describe a feeling</p>
+          <h2 id="router-title">The skill chooses the visual language and renderer.</h2>
+        </div>
+        <div class="router-flow" aria-label="Signature Visual workflow">
+          <div class="router-node">
+            <span class="mono">INPUT</span>
+            <strong>“The hero feels empty. Make it feel alive.”</strong>
+          </div>
+          <div class="router-arrow" aria-hidden="true">→</div>
+          <div class="router-node">
+            <span class="mono">VISUAL BRIEF</span>
+            <strong>Hero focal · organic · breathing · pointer-aware</strong>
+          </div>
+          <div class="router-arrow" aria-hidden="true">→</div>
+          <div class="router-node accent-node">
+            <span class="mono">ROUTE</span>
+            <strong>Living orb · Three.js + shader deformation</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="cases" id="cases" aria-labelledby="cases-title">
+        <div class="section-head">
+          <div>
+            <div class="section-index mono">LIVE RECIPES / 02–05</div>
+            <h2 id="cases-title">Four engines.<br />Four kinds of memory.</h2>
+          </div>
+          <p>
+            Each case begins with a different page job. Move your pointer through the live frames, then open any case full-screen.
+          </p>
+        </div>
+
+        <article class="case case-canvas">
+          <div class="case-copy">
+            <div class="case-number mono">02 / CANVAS 2D</div>
+            <p class="case-prompt">“Show agents coordinating without another network diagram.”</p>
+            <h3>Particle Current</h3>
+            <p>A coherent field bends around the visitor and leaves a calm text-safe corridor.</p>
+            <div class="case-tags mono"><span>FLOW FIELD</span><span>POINTER FORCE</span><span>AREA-CAPPED</span></div>
+            <a href="/examples/particle-current/">Open full case ↗</a>
+          </div>
+          <div class="case-frame">
+            <iframe
+              title="Particle Current Canvas case"
+              data-src="/examples/particle-current/"
+              loading="lazy"
+              allow="autoplay"
+            ></iframe>
+            <div class="frame-status mono">LIVE / POINTER ACTIVE</div>
+          </div>
+        </article>
+
+        <article class="case case-three">
+          <div class="case-copy">
+            <div class="case-number mono">03 / THREE.JS</div>
+            <p class="case-prompt">“The product is synthetic biology. Give it presence.”</p>
+            <h3>Living Orb</h3>
+            <p>A breathing membrane carries the brand palette through depth, topology, and restrained parallax.</p>
+            <div class="case-tags mono"><span>SHADER FORM</span><span>FRESNEL</span><span>CALM CAMERA</span></div>
+            <a href="/examples/living-orb/">Open full case ↗</a>
+          </div>
+          <div class="case-frame">
+            <iframe
+              title="Living Orb Three.js case"
+              data-src="/examples/living-orb/"
+              loading="lazy"
+              allow="autoplay"
+            ></iframe>
+            <div class="frame-status mono">LIVE / DEPTH ACTIVE</div>
+          </div>
+        </article>
+
+        <article class="case case-webgl">
+          <div class="case-copy">
+            <div class="case-number mono">04 / RAW WEBGL</div>
+            <p class="case-prompt">“Make the infrastructure feel energetic at planetary scale.”</p>
+            <h3>Radiance Field</h3>
+            <p>A continuous shader field turns interference, noise, and light into a responsive material.</p>
+            <div class="case-tags mono"><span>GLSL</span><span>DOMAIN WARP</span><span>LOCAL LENS</span></div>
+            <a href="/examples/radiance-field/">Open full case ↗</a>
+          </div>
+          <div class="case-frame">
+            <iframe
+              title="Radiance Field WebGL case"
+              data-src="/examples/radiance-field/"
+              loading="lazy"
+              allow="autoplay"
+            ></iframe>
+            <div class="frame-status mono">LIVE / FIELD ACTIVE</div>
+          </div>
+        </article>
+
+        <article class="case case-svg">
+          <div class="case-copy">
+            <div class="case-number mono">05 / SVG</div>
+            <p class="case-prompt">“Explain provenance like a precision instrument.”</p>
+            <h3>Spatial Lineage</h3>
+            <p>Crisp routes, semantic labels, and traveling signals turn system relationships into an artifact.</p>
+            <div class="case-tags mono"><span>TOPOLOGY</span><span>PATH SIGNALS</span><span>SEMANTIC SVG</span></div>
+            <a href="/examples/spatial-lineage/">Open full case ↗</a>
+          </div>
+          <div class="case-frame">
+            <iframe
+              title="Spatial Lineage SVG case"
+              data-src="/examples/spatial-lineage/"
+              loading="lazy"
+              allow="autoplay"
+            ></iframe>
+            <div class="frame-status mono">LIVE / SYSTEM ACTIVE</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="inside" id="inside" aria-labelledby="inside-title">
+        <div class="inside-intro">
+          <div class="section-index mono">PROGRESSIVE DISCLOSURE / 06</div>
+          <h2 id="inside-title">A small router with deep visual grammar behind it.</h2>
+          <p>
+            The core skill reads the project and routes the request. It loads one placement guide, one recipe family, one renderer guide, and the production contract needed for the job.
+          </p>
+        </div>
+
+        <div class="skill-tree mono" aria-label="Signature Visual skill structure">
+          <div class="tree-row tree-root"><span>SKILL.md</span><em>intent · routing · workflow</em></div>
+          <div class="tree-branch">
+            <div class="tree-row"><span>routing.md</span><em>experience → engine</em></div>
+            <div class="tree-row"><span>placements.md</span><em>hero · field · artifact · system</em></div>
+            <div class="tree-row"><span>recipes.md</span><em>eight composable visual grammars</em></div>
+            <div class="tree-row"><span>families/</span><em>Canvas · Three · WebGL · SVG</em></div>
+            <div class="tree-row"><span>starters/</span><em>lifecycle-aware reference code</em></div>
+            <div class="tree-row"><span>quality-gates.md</span><em>concept · craft · resilience</em></div>
+          </div>
+        </div>
+
+        <div class="quality-grid">
+          <div><span class="mono">01</span><strong>Specific to the product</strong></div>
+          <div><span class="mono">02</span><strong>Integrated with content</strong></div>
+          <div><span class="mono">03</span><strong>Composed on mobile</strong></div>
+          <div><span class="mono">04</span><strong>Reduced-motion aware</strong></div>
+          <div><span class="mono">05</span><strong>Lifecycle complete</strong></div>
+          <div><span class="mono">06</span><strong>Structurally varied</strong></div>
+        </div>
+      </section>
+
+      <section class="install" aria-labelledby="install-title">
+        <div>
+          <div class="section-index mono">INSTALL / 07</div>
+          <h2 id="install-title">Give the next page a signature.</h2>
+        </div>
+        <div class="install-panel">
+          <button class="install-command light" type="button" data-copy="npx skills add Ryan-yang125/signature-visual">
+            <span class="mono">npx skills add Ryan-yang125/signature-visual</span>
+            <span class="copy-label mono">COPY</span>
+          </button>
+          <div class="install-links">
+            <a href="https://github.com/Ryan-yang125/signature-visual">Read the skill on GitHub ↗</a>
+            <span class="mono">MIT LICENSE · OPEN SOURCE</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand" href="#top">
+        <svg class="brand-mark" viewBox="0 0 36 36" aria-hidden="true">
+          <circle cx="18" cy="18" r="14" />
+          <path d="M7 18h22M18 7v22" />
+          <circle cx="18" cy="18" r="3" />
+        </svg>
+        <span>Signature Visual</span>
+      </a>
+      <span class="mono">CANVAS / THREE.JS / WEBGL / SVG</span>
+      <a href="https://github.com/Ryan-yang125/signature-visual">GitHub ↗</a>
+    </footer>
+
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

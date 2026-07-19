@@ -1,0 +1,263 @@
+:root {
+  color-scheme: light;
+  --paper: #dbe1e9;
+  --ink: #172033;
+  --muted: #778091;
+  --line: #7c8ba5;
+  --cobalt: #4969ee;
+  --coral: #f15f57;
+  --cyan: #2ea9a5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--paper);
+}
+
+body {
+  min-height: 100svh;
+  color: var(--ink);
+  font-family: "Manrope", sans-serif;
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  min-height: 100svh;
+  padding: clamp(22px, 4vw, 52px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.28), transparent 42%),
+    var(--paper);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+header {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordmark {
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+}
+
+.mono {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+header .mono,
+.legend {
+  color: var(--muted);
+}
+
+.copy {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: clamp(22px, 5vw, 72px);
+  max-width: min(480px, 42vw);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: var(--cobalt);
+}
+
+h1 {
+  margin: 0 0 22px;
+  font-size: clamp(46px, 6.8vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -0.075em;
+}
+
+.copy > p:last-child {
+  max-width: 390px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(13px, 1.4vw, 17px);
+}
+
+.diagram-wrap {
+  position: absolute;
+  z-index: 2;
+  top: 6%;
+  right: -2%;
+  width: min(74vw, 1050px);
+  height: 88%;
+}
+
+#diagram {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--line);
+}
+
+.rings {
+  stroke: var(--line);
+  stroke-width: 0.8;
+  opacity: 0.24;
+  stroke-dasharray: 2 8;
+}
+
+.routes {
+  stroke: var(--cobalt);
+  stroke-width: 1.35;
+  opacity: 0.42;
+  vector-effect: non-scaling-stroke;
+}
+
+.signals {
+  fill: var(--coral);
+}
+
+.node {
+  cursor: crosshair;
+  outline: none;
+  transition: opacity 180ms ease;
+}
+
+.node .halo,
+.node .halo-box {
+  fill: none;
+  stroke: var(--cobalt);
+  stroke-width: 1;
+  opacity: 0.3;
+  stroke-dasharray: 2 5;
+}
+
+.node .body,
+.node .body-box {
+  fill: var(--cobalt);
+  opacity: 0.78;
+}
+
+.node .core {
+  fill: white;
+}
+
+.node.process .halo {
+  stroke: var(--coral);
+}
+
+.node.process .body {
+  fill: var(--coral);
+}
+
+.node.output .halo-box {
+  stroke: var(--cyan);
+  stroke-dasharray: none;
+}
+
+.node.output .body-box {
+  fill: var(--cyan);
+}
+
+.node .label,
+.node .code,
+.measurements {
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 1.2px;
+}
+
+.node .label {
+  fill: var(--ink);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.node .code {
+  fill: var(--muted);
+  font-size: 8px;
+}
+
+.measurements {
+  fill: var(--muted);
+  font-size: 8px;
+}
+
+.node.is-active .halo,
+.node:focus-visible .halo,
+.node.is-active .halo-box,
+.node:focus-visible .halo-box {
+  opacity: 1;
+  stroke-width: 2;
+}
+
+.node.is-active .body,
+.node:focus-visible .body,
+.node.is-active .body-box,
+.node:focus-visible .body-box {
+  opacity: 1;
+  filter: url(#glow);
+}
+
+.legend {
+  position: absolute;
+  z-index: 4;
+  right: clamp(22px, 4vw, 52px);
+  bottom: clamp(22px, 4vw, 48px);
+  display: flex;
+  gap: 18px;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+}
+
+.legend i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+}
+
+.source-key { border-radius: 50%; background: var(--cobalt); }
+.process-key { border-radius: 50%; background: var(--coral); }
+.output-key { background: var(--cyan); }
+
+@media (max-width: 700px) {
+  header .mono,
+  .legend {
+    display: none;
+  }
+
+  .copy {
+    top: 18%;
+    max-width: calc(100vw - 44px);
+    transform: none;
+  }
+
+  h1 {
+    font-size: clamp(48px, 15vw, 72px);
+  }
+
+  .diagram-wrap {
+    top: 40%;
+    right: -34%;
+    width: 145vw;
+    height: 61%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signals { opacity: 0.7; }
+}

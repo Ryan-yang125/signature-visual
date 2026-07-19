@@ -1,0 +1,23 @@
+:root {
+  --navy-950: #070b20;
+  --navy-900: #0a0e27;
+  --navy-800: #11183b;
+  --ink: #111735;
+  --paper: #e4e8f1;
+  --paper-bright: #f4f6fb;
+  --paper-deep: #cdd3e0;
+  --muted: #778097;
+  --line: rgba(17, 23, 53, 0.18);
+  --line-dark: rgba(231, 236, 255, 0.18);
+  --cobalt: #5b78ff;
+  --cyan: #74dad3;
+  --coral: #ff7869;
+  --violet: #9b79ff;
+  --white: #f8f9ff;
+  --font-display: "Unbounded", "Arial Black", sans-serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --page-pad: clamp(20px, 4vw, 64px);
+  --content-max: 1480px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
