@@ -1,0 +1,15 @@
+{
+  "name": "Decision Plate 027 — reduced-motion still",
+  "serveRoot": "../../",
+  "url": "/examples/spatial-lineage/",
+  "outputDir": "../../../.visual-qa/decision-plate-reduced",
+  "viewport": { "width": 1280, "height": 800, "deviceScaleFactor": 1 },
+  "captureSelector": ".decision-room",
+  "readySelector": "#diagram",
+  "seed": "decision-plate-v2",
+  "reducedMotion": "reduce",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "authored-still", "progress": 0.84 }
+  ]
+}

@@ -1,45 +1,113 @@
-# WebGL shader fields
+# WebGL Shader Fields
 
-Use raw WebGL when the visual’s subject is a continuous field or material computed per pixel: radiance, liquid distortion, interference, scanning, energy, reaction patterns, or atmospheric depth.
+Use raw WebGL when a continuous material or field evaluated per pixel is the visual subject: light transport, diffusion, pressure, interference, erosion, scanning, reaction patterns, or GPU simulation.
 
-## Visual grammar
+## Treat the shader as a visual function
 
-- Build one dominant field with two supporting frequencies.
-- Use color ramps that come from the project’s palette.
-- Reserve the brightest values for a controlled focal region.
-- Keep pointer influence local and eased.
-- Compose readable still frames at any time value.
-
-## Coordinate system
-
-Normalize fragment coordinates and correct aspect ratio before building the field.
+Design deterministic inputs:
 
 ```glsl
-vec2 uv = (gl_FragCoord.xy * 2.0 - uResolution.xy) / min(uResolution.x, uResolution.y);
+color = visual(
+  normalizedPosition,
+  aspect,
+  time,
+  progress,
+  semanticPointer,
+  seed,
+  projectParameters
+);
 ```
 
-Use the same transform for pointer coordinates so interaction stays aligned across aspect ratios.
+At a fixed input state, the frame must repeat. Keep random texture generation seeded or load stable data.
 
-## Field construction
+## Spatial hierarchy before noise
 
-- Layer value noise or gradient noise at 3–5 octaves.
-- Advect the domain slowly for fluid movement.
-- Use signed distance fields for controlled shapes and masks.
-- Use interference waves for signal and resonance metaphors.
-- Use smoothstep bands for contours, scans, and technical surfaces.
+Construct the frame in this order:
 
-## Color
+1. primary silhouette, boundary, horizon, aperture, or topology mask;
+2. one large-scale field that shapes density and direction;
+3. one supporting frequency that gives material character;
+4. sparse detail or grain at the appropriate scale;
+5. palette roles and tonal hierarchy;
+6. state-driven signal or exception.
 
-Build a palette from 2–4 uniform colors. Mix colors through field values and reserve direct emissive additions for a small region.
+Domain warping is a transformation tool. Give it a boundary and a semantic role. Full-frame multi-octave noise with a bright palette often reads as a shader demo.
 
-## Compatibility
+## Coordinates
 
-- Keep loops statically bounded.
-- Use `highp` when available and preserve a `mediump`-safe path.
-- Check shader compile and link logs.
-- Handle context loss and recreate when the host application requires it.
-- Provide a static or low-frequency frame for reduced motion.
+Keep semantic coordinates aspect-correct:
 
-## Starter
+```glsl
+vec2 uv = (gl_FragCoord.xy * 2.0 - uResolution.xy)
+        / min(uResolution.x, uResolution.y);
+```
 
-Copy and adapt [webgl-shader-field.js](../starters/webgl-shader-field.js). Replace the fragment field and palette mapping while retaining the lifecycle shell.
+Map pointer and project masks through the same transform. Keep a second 0–1 coordinate when screen-fixed texture or UI alignment needs it.
+
+## Field building blocks
+
+- signed distance fields for controlled geometry, masks, and edge distance;
+- value/gradient noise for large-scale variation;
+- fBM with a restrained octave count for material complexity;
+- curl or gradient sampling for directional flow;
+- reaction/diffusion or feedback buffers for evolving structure;
+- interference and phase functions for signal relationships;
+- advection for transport and history;
+- palette ramps tied to material and semantic thresholds.
+
+Combine blocks through the signature rule. Limit general-purpose layers that lack a named contribution.
+
+## Material and color
+
+Simulate the chosen substance through edge, falloff, scattering cue, texture attachment, and decay. Assign uniform colors by roles: ground, body, signal, exception, annotation.
+
+Keep emission scarce. Tone-map or clamp high-energy states so they preserve content contrast. Screen-fixed grain can bind the render to a display or print artifact; material grain should move with the field.
+
+## Interaction
+
+Pass normalized semantic state instead of raw pointer alone:
+
+```text
+probe position + pressure
+source and sink positions
+alignment or fault progress
+reveal aperture and phase
+data field or mask texture
+```
+
+Smooth input outside the shader or with explicit time constants. Define pointer exit and capture it as a recovered state.
+
+## Compatibility and fallback
+
+- check context creation before compiling;
+- report shader compile and link logs during development;
+- keep loops statically bounded and precision-aware;
+- handle `webglcontextlost` and recreate when appropriate;
+- provide a poster, Canvas alternative, or stable CSS/SVG composition on failure;
+- render one authored state for reduced motion.
+
+## Performance
+
+- cap DPR by fill cost, often lower than geometry scenes;
+- minimize texture reads and dependent branches in large surfaces;
+- size feedback targets below display resolution when material permits;
+- use half/byte formats only after capability checks;
+- pause offscreen and avoid running multiple gallery shaders simultaneously;
+- test integrated page cost, especially on mobile GPUs.
+
+## Deterministic controller
+
+Expose `seek({ time, progress })`, semantic pointer/data setters, `render()`, and `dispose()`. Render exactly once after state updates during capture. Feedback simulations require resettable seed buffers or saved checkpoints.
+
+## Failure signatures
+
+- plasma familiarity: add a strong spatial mask and reduce palette movement;
+- rainbow field: assign colors semantic roles and reserve an exception;
+- muddy focus: create one threshold, silhouette, or tonal event;
+- pointer lens demo: map input to the subject's field rule;
+- black failure surface: implement creation/context-loss fallback;
+- reduced-motion dead frame: select a composed phase and keep material detail visible.
+
+## Runtime shell
+
+Use [webgl-shader-field.js](../starters/webgl-shader-field.js) for context setup, uniforms, visibility, and cleanup. Replace the fragment program, spatial hierarchy, palette, material model, and state score.

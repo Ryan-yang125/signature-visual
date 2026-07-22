@@ -1,0 +1,7 @@
+interface:
+  display_name: "Signature Visual"
+  short_description: "Direct and build a memorable computational visual"
+  default_prompt: "Use $signature-visual to direct and build one distinctive visual moment for this page."
+
+policy:
+  allow_implicit_invocation: true

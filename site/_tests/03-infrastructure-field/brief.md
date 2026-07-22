@@ -1,7 +1,7 @@
-# Infrastructure field brief
+# Infrastructure pressure brief
 
-This distributed infrastructure section feels generic. Add one energetic visual that communicates pressure, routing, and continuity at planetary scale. Keep the text readable and let the pointer bend the material locally.
+This distributed-infrastructure section should reveal pressure, interruption, route loss, and recovery. Give the process physical credibility, let a visitor place a bounded probe, and preserve a designed fallback when WebGL is unavailable.
 
-Expected route: hero material → Radiance Field → raw WebGL shader.
+Selected direction: **Signal Weather** — a barometric routing instrument moving through five system states.
 
 Output: [`site/examples/radiance-field/`](../../examples/radiance-field/)

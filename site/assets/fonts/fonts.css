@@ -1,0 +1,33 @@
+/* Self-hosted showcase fonts. Each family is distributed under SIL OFL 1.1;
+   the corresponding license is stored beside these files. */
+
+@font-face { font-family: "Atkinson Hyperlegible"; src: url("./atkinson-hyperlegible-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Atkinson Hyperlegible"; src: url("./atkinson-hyperlegible-latin-700-normal.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Bodoni Moda"; src: url("./bodoni-moda-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+
+@font-face { font-family: "DM Mono"; src: url("./dm-mono-latin-300-normal.woff2") format("woff2"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: "DM Mono"; src: url("./dm-mono-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "DM Mono"; src: url("./dm-mono-latin-500-normal.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
+
+@font-face { font-family: "Azeret Mono"; src: url("./azeret-mono-latin-300-normal.woff2") format("woff2"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: "Azeret Mono"; src: url("./azeret-mono-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Azeret Mono"; src: url("./azeret-mono-latin-500-normal.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: "Gloock"; src: url("./gloock-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("./hanken-grotesk-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("./hanken-grotesk-latin-500-normal.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: "Hanken Grotesk"; src: url("./hanken-grotesk-latin-600-normal.woff2") format("woff2"); font-style: normal; font-weight: 600; font-display: swap; }
+
+@font-face { font-family: "Archivo Narrow"; src: url("./archivo-narrow-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Archivo Narrow"; src: url("./archivo-narrow-latin-500-normal.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: "Archivo Narrow"; src: url("./archivo-narrow-latin-600-normal.woff2") format("woff2"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: "Archivo Narrow"; src: url("./archivo-narrow-latin-700-normal.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("./martian-mono-latin-300-normal.woff2") format("woff2"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("./martian-mono-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("./martian-mono-latin-500-normal.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("./martian-mono-latin-600-normal.woff2") format("woff2"); font-style: normal; font-weight: 600; font-display: swap; }
+
+@font-face { font-family: "Chivo Mono"; src: url("./chivo-mono-latin-300-normal.woff2") format("woff2"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: "Chivo Mono"; src: url("./chivo-mono-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Chivo Mono"; src: url("./chivo-mono-latin-500-normal.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: "Chivo Mono"; src: url("./chivo-mono-latin-600-normal.woff2") format("woff2"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: "League Gothic"; src: url("./league-gothic-latin-400-normal.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }

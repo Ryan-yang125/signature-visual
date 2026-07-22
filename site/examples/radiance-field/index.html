@@ -3,35 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#10091f" />
-    <title>Radiance Field — Signature Visual</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#252621" />
+    <title>Signal Weather — Signature Visual</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="scene">
-      <canvas id="shader" aria-hidden="true"></canvas>
-      <div class="scanlines" aria-hidden="true"></div>
-      <header>
-        <span class="wordmark">RADIANCE</span>
-        <span class="mono">DISTRIBUTED FIELD / ONLINE</span>
+    <main class="bench" data-phase="equilibrium">
+      <header class="bench-note">
+        <a href="/">Signal Weather</a>
+        <span>Field service lab / Routing unit BR–17</span>
       </header>
 
-      <section class="copy">
-        <p class="mono eyebrow">PLANETARY COMPUTE · 04</p>
-        <h1>Energy finds<br />its path.</h1>
-        <p>A responsive field for infrastructure that routes around pressure and keeps moving.</p>
-      </section>
+      <section class="instrument" aria-labelledby="instrument-title">
+        <header class="instrument-id">
+          <div>
+            <p>Pressure topology monitor</p>
+            <h1 id="instrument-title">BAROMETRIC ROUTER</h1>
+          </div>
+          <span>BR–17<br />110—240V</span>
+        </header>
 
-      <div class="reticle" aria-hidden="true"><span></span></div>
-      <aside class="telemetry mono">
-        <span>FIELD <strong>STABLE</strong></span>
-        <span>PHASE <strong id="phase">0.00</strong></span>
-        <span>LENS <strong id="lens">IDLE</strong></span>
-      </aside>
-      <div class="hint mono">MOVE TO BEND THE FIELD</div>
+        <div class="instrument-grid">
+          <div class="crt-shell">
+            <div class="crt">
+              <canvas id="shader" aria-hidden="true"></canvas>
+              <div class="crt-fallback" aria-hidden="true"></div>
+              <div class="scanlines" aria-hidden="true"></div>
+              <div class="screen-data">
+                <span>PRESSURE MAP / LIVE</span>
+                <span id="screen-code">EQ–01</span>
+              </div>
+              <div class="probe" aria-hidden="true"></div>
+            </div>
+            <p>Move within the display to place a routing probe.</p>
+          </div>
+
+          <aside class="controls" aria-label="Instrument readings">
+            <div class="meter">
+              <p>Line pressure</p>
+              <div class="gauge" aria-hidden="true">
+                <span class="needle" id="needle"></span>
+                <i>0</i><i>50</i><i>100</i>
+              </div>
+              <strong><span id="pressure">28</span> kPa</strong>
+            </div>
+
+            <dl class="readings">
+              <div><dt>Weather</dt><dd id="phase">equilibrium</dd></div>
+              <div><dt>Route</dt><dd id="route">primary</dd></div>
+              <div><dt>Probe</dt><dd id="probe-state">parked</dd></div>
+            </dl>
+
+            <div class="control-row" aria-hidden="true">
+              <div class="knob"><i></i></div>
+              <p>Gain<br /><span>1.4</span></p>
+              <div class="lamp"><i></i><span>link</span></div>
+            </div>
+          </aside>
+        </div>
+
+        <ol class="motion-tape" aria-label="Motion score">
+          <li data-score="equilibrium">equilibrium</li>
+          <li data-score="spike">spike</li>
+          <li data-score="outage">outage</li>
+          <li data-score="reroute">reroute</li>
+          <li data-score="cool">cool</li>
+        </ol>
+
+        <footer class="plate-foot">
+          <span>Cal. 7/23</span>
+          <p>Distributed systems reveal stress as weather: pressure gathers, links disappear, and available paths carry the load home.</p>
+          <span>Made in browser</span>
+        </footer>
+        <i class="screw screw-a" aria-hidden="true"></i>
+        <i class="screw screw-b" aria-hidden="true"></i>
+        <i class="screw screw-c" aria-hidden="true"></i>
+        <i class="screw screw-d" aria-hidden="true"></i>
+      </section>
     </main>
     <script type="module" src="script.js"></script>
   </body>

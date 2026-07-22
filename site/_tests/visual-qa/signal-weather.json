@@ -1,0 +1,18 @@
+{
+  "name": "Signal Weather — motion score",
+  "serveRoot": "../../",
+  "url": "/examples/radiance-field/",
+  "outputDir": "../../../.visual-qa/signal-weather",
+  "viewport": { "width": 1400, "height": 900, "deviceScaleFactor": 1 },
+  "captureSelector": ".bench",
+  "readySelector": "#shader",
+  "seed": "signal-weather-v2",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "equilibrium", "progress": 0.08 },
+    { "name": "spike", "progress": 0.34 },
+    { "name": "outage", "progress": 0.5 },
+    { "name": "reroute", "progress": 0.7, "pointer": { "atMs": 0, "x": 0.61, "y": 0.42, "target": ".crt" } },
+    { "name": "cool", "progress": 0.92 }
+  ]
+}

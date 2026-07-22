@@ -1,0 +1,16 @@
+{
+  "name": "Permeable Intelligence — reduced-motion still",
+  "serveRoot": "../../",
+  "url": "/examples/living-orb/",
+  "outputDir": "../../../.visual-qa/permeable-intelligence-reduced",
+  "viewport": { "width": 1280, "height": 800, "deviceScaleFactor": 1 },
+  "captureSelector": ".specimen-sheet",
+  "readySelector": "#three-stage canvas",
+  "seed": "permeable-intelligence-v2",
+  "reducedMotion": "reduce",
+  "timeoutMs": 45000,
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "authored-still", "progress": 0.66 }
+  ]
+}

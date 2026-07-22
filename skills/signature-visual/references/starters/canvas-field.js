@@ -1,24 +1,32 @@
 /**
- * Lifecycle-aware Canvas particle field.
- * Copy into the target project and reshape the field, particle archetype,
- * safe zone, and palette for the project concept.
+ * Neutral Canvas 2D runtime shell.
+ *
+ * Supply options.createProgram(runtime) and return any of:
+ *   reset(state), resize(state), step(state), draw(state), seek(state), dispose().
+ * The shell owns DOM, sizing, time, visibility, input, reduced motion, and cleanup.
  */
+function normalizeSeed(value) {
+  const numeric = typeof value === 'number' ? value : Number(value);
+  if (Number.isFinite(numeric) && String(value).trim() !== '') return numeric >>> 0;
+  let hash = 2166136261;
+  for (const character of String(value)) {
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
 export function createCanvasField(target, options = {}) {
   if (!(target instanceof HTMLElement)) {
     throw new TypeError('createCanvasField requires an HTMLElement target');
   }
 
   const config = {
-    accent: options.accent ?? '#5b78ff',
-    secondary: options.secondary ?? '#73d6cf',
-    density: options.density ?? 0.00042,
-    minParticles: options.minParticles ?? 90,
-    maxParticles: options.maxParticles ?? 520,
-    speed: options.speed ?? 0.78,
-    calm: options.calm ?? 0.62,
-    response: options.response ?? 0.8,
     maxDpr: options.maxDpr ?? 1.75,
-    textSafeSide: options.textSafeSide ?? 'none'
+    seed: options.seed ?? 125,
+    reducedTime: options.reducedTime ?? 2.4,
+    pointerEase: options.pointerEase ?? 0.12,
+    alpha: options.alpha ?? true
   };
 
   const canvas = document.createElement('canvas');
@@ -37,51 +45,62 @@ export function createCanvasField(target, options = {}) {
   if (changedPosition) target.style.position = 'relative';
   target.append(canvas);
 
-  const context = canvas.getContext('2d', { alpha: true });
+  const context = canvas.getContext('2d', { alpha: config.alpha });
   if (!context) throw new Error('Canvas 2D is unavailable');
 
-  const pointer = { x: 0, y: 0, tx: 0, ty: 0, active: 0, targetActive: 0 };
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, active: 0, targetActive: 0 };
   let width = 1;
   let height = 1;
   let dpr = 1;
-  let particles = new Float32Array();
-  let particleCount = 0;
   let frame = 0;
   let visible = true;
   let destroyed = false;
-  let lastTime = performance.now();
+  let captureTime = null;
+  let captureProgress = 0;
+  let seed = normalizeSeed(config.seed);
+  let startTime = performance.now();
+  let previousTime = startTime;
 
-  function hash(index, salt = 0) {
-    const value = Math.sin(index * 127.1 + salt * 311.7) * 43758.5453;
-    return value - Math.floor(value);
+  function randomSource(initialSeed) {
+    let value = initialSeed >>> 0;
+    return () => {
+      value += 0x6d2b79f5;
+      let mixed = value;
+      mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
+      mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
+      return ((mixed ^ (mixed >>> 14)) >>> 0) / 4294967296;
+    };
   }
 
-  function safeZoneRepulsion(x, y) {
-    if (config.textSafeSide === 'none') return [0, 0];
-    const boundary = width * 0.46;
-    const inside = config.textSafeSide === 'left' ? x < boundary : x > width - boundary;
-    if (!inside) return [0, 0];
-    const edge = config.textSafeSide === 'left' ? boundary : width - boundary;
-    const distance = Math.max(24, Math.abs(edge - x));
-    const direction = config.textSafeSide === 'left' ? 1 : -1;
-    return [direction * Math.min(0.8, 22 / distance), (y / height - 0.5) * 0.05];
+  let random = randomSource(seed);
+  const runtime = {
+    canvas,
+    context,
+    target,
+    options,
+    random: () => random(),
+    get seed() { return seed; },
+    get width() { return width; },
+    get height() { return height; },
+    get dpr() { return dpr; }
+  };
+  const program = options.createProgram?.(runtime) ?? {};
+
+  function state(time, delta = 0) {
+    return {
+      ...runtime,
+      time,
+      delta,
+      progress: captureProgress,
+      pointer: { ...pointer },
+      reducedMotion: reducedMotion.matches
+    };
   }
 
-  function resetParticle(index, fromEdge = false) {
-    const offset = index * 5;
-    particles[offset] = fromEdge ? -12 : hash(index, 1) * width;
-    particles[offset + 1] = hash(index, 2) * height;
-    particles[offset + 2] = particles[offset];
-    particles[offset + 3] = particles[offset + 1];
-    particles[offset + 4] = hash(index, 3);
-  }
-
-  function seedParticles() {
-    particleCount = Math.round(width * height * config.density);
-    particleCount = Math.max(config.minParticles, Math.min(config.maxParticles, particleCount));
-    particles = new Float32Array(particleCount * 5);
-    for (let index = 0; index < particleCount; index += 1) resetParticle(index);
+  function resetProgram() {
+    random = randomSource(seed);
+    program.reset?.(state(captureTime ?? 0));
   }
 
   function resize() {
@@ -92,14 +111,14 @@ export function createCanvasField(target, options = {}) {
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
-    seedParticles();
-    draw(performance.now(), true);
+    program.resize?.(state(captureTime ?? 0));
+    renderOnce();
   }
 
   function updatePointer(event) {
     const rect = target.getBoundingClientRect();
-    pointer.tx = event.clientX - rect.left;
-    pointer.ty = event.clientY - rect.top;
+    pointer.tx = Math.max(0, Math.min(1, (event.clientX - rect.left) / Math.max(1, rect.width)));
+    pointer.ty = Math.max(0, Math.min(1, (event.clientY - rect.top) / Math.max(1, rect.height)));
     pointer.targetActive = 1;
   }
 
@@ -107,102 +126,70 @@ export function createCanvasField(target, options = {}) {
     pointer.targetActive = 0;
   }
 
-  function draw(now, singleFrame = false) {
+  function renderFrame(now = performance.now(), singleFrame = false) {
     if (destroyed) return;
-    const elapsed = Math.min(32, now - lastTime) / 16.667;
-    lastTime = now;
-    const time = reducedMotion.matches ? 0.8 : now * 0.00022 * config.speed;
+    const elapsed = Math.min(50, Math.max(0, now - previousTime)) / 1000;
+    previousTime = now;
+    const time = captureTime ?? (reducedMotion.matches ? config.reducedTime : (now - startTime) / 1000);
+    const ease = singleFrame && captureTime !== null ? 1 : config.pointerEase;
+    pointer.x += (pointer.tx - pointer.x) * ease;
+    pointer.y += (pointer.ty - pointer.y) * ease;
+    pointer.active += (pointer.targetActive - pointer.active) * ease;
 
-    pointer.x += (pointer.tx - pointer.x) * 0.085;
-    pointer.y += (pointer.ty - pointer.y) * 0.085;
-    pointer.active += (pointer.targetActive - pointer.active) * 0.08;
+    const current = state(time, elapsed);
+    program.step?.(current);
+    if (program.draw) program.draw(current);
+    else context.clearRect(0, 0, width, height);
 
-    context.globalCompositeOperation = 'destination-out';
-    context.fillStyle = reducedMotion.matches ? 'rgba(0,0,0,1)' : `rgba(0,0,0,${0.13 + config.calm * 0.09})`;
-    context.fillRect(0, 0, width, height);
-    context.globalCompositeOperation = 'source-over';
-    context.lineCap = 'round';
-
-    for (let index = 0; index < particleCount; index += 1) {
-      const offset = index * 5;
-      let x = particles[offset];
-      let y = particles[offset + 1];
-      const previousX = x;
-      const previousY = y;
-      const seed = particles[offset + 4];
-      const nx = x / width - 0.5;
-      const ny = y / height - 0.5;
-
-      const angle =
-        Math.sin(nx * 6.2 + time * 1.15 + seed * 2.1) * 1.32 +
-        Math.cos(ny * 5.4 - time * 0.82 - seed) * 1.08 +
-        Math.sin((nx + ny) * 3.1 + time * 0.36) * 0.42;
-
-      let vx = Math.cos(angle) * (0.44 + seed * 0.7);
-      let vy = Math.sin(angle) * (0.44 + seed * 0.7);
-
-      const dx = x - pointer.x;
-      const dy = y - pointer.y;
-      const distanceSquared = dx * dx + dy * dy;
-      const radius = Math.min(width, height) * 0.22;
-      if (pointer.active > 0.001 && distanceSquared < radius * radius) {
-        const distance = Math.max(1, Math.sqrt(distanceSquared));
-        const influence = (1 - distance / radius) * config.response * pointer.active;
-        vx += (dx / distance) * influence * 2.1;
-        vy += (dy / distance) * influence * 2.1;
-      }
-
-      const [safeX, safeY] = safeZoneRepulsion(x, y);
-      vx += safeX;
-      vy += safeY;
-
-      if (!reducedMotion.matches) {
-        x += vx * elapsed * config.speed;
-        y += vy * elapsed * config.speed;
-      }
-
-      particles[offset] = x;
-      particles[offset + 1] = y;
-      particles[offset + 2] = previousX;
-      particles[offset + 3] = previousY;
-
-      const alpha = 0.16 + seed * 0.46;
-      context.strokeStyle = seed > 0.72 ? config.secondary : config.accent;
-      context.globalAlpha = alpha;
-      context.lineWidth = 0.55 + seed * 1.05;
-      context.beginPath();
-      context.moveTo(previousX, previousY);
-      context.lineTo(x, y);
-      context.stroke();
-
-      if (x < -20 || x > width + 20 || y < -20 || y > height + 20) {
-        resetParticle(index, true);
-      }
+    if (visible && !document.hidden && !reducedMotion.matches && captureTime === null && !singleFrame) {
+      frame = requestAnimationFrame(renderFrame);
     }
-    context.globalAlpha = 1;
+  }
 
-    const shouldAnimate = visible && !document.hidden && !reducedMotion.matches && !singleFrame;
-    if (shouldAnimate) frame = requestAnimationFrame(draw);
+  function renderOnce() {
+    cancelAnimationFrame(frame);
+    renderFrame(performance.now(), true);
   }
 
   function syncAnimation() {
     cancelAnimationFrame(frame);
-    if (visible && !document.hidden && !reducedMotion.matches) {
-      lastTime = performance.now();
-      frame = requestAnimationFrame(draw);
+    if (visible && !document.hidden && !reducedMotion.matches && captureTime === null) {
+      previousTime = performance.now();
+      frame = requestAnimationFrame(renderFrame);
     } else {
-      draw(performance.now(), true);
+      renderOnce();
     }
   }
 
+  function setSeed(nextSeed) {
+    seed = normalizeSeed(nextSeed);
+    resetProgram();
+    renderOnce();
+  }
+
+  function seek(next = {}) {
+    captureTime = Number.isFinite(next.time) ? Number(next.time) : captureTime ?? 0;
+    captureProgress = Number.isFinite(next.progress) ? Math.max(0, Math.min(1, Number(next.progress))) : captureProgress;
+    if (program.seek) program.seek(state(captureTime));
+    else resetProgram();
+    renderOnce();
+  }
+
+  function setPointer(next = {}) {
+    pointer.tx = Math.max(0, Math.min(1, Number(next.x ?? pointer.tx)));
+    pointer.ty = Math.max(0, Math.min(1, Number(next.y ?? pointer.ty)));
+    pointer.targetActive = Math.max(0, Math.min(1, Number(next.active ?? pointer.targetActive)));
+    pointer.x = pointer.tx;
+    pointer.y = pointer.ty;
+    pointer.active = pointer.targetActive;
+    renderOnce();
+  }
+
   const resizeObserver = new ResizeObserver(resize);
-  const intersectionObserver = new IntersectionObserver(
-    entries => {
-      visible = entries[0]?.isIntersecting ?? true;
-      syncAnimation();
-    },
-    { rootMargin: '120px' }
-  );
+  const intersectionObserver = new IntersectionObserver(entries => {
+    visible = entries[0]?.isIntersecting ?? true;
+    syncAnimation();
+  }, { rootMargin: '120px' });
 
   resizeObserver.observe(target);
   intersectionObserver.observe(target);
@@ -210,10 +197,11 @@ export function createCanvasField(target, options = {}) {
   target.addEventListener('pointerleave', leavePointer, { passive: true });
   document.addEventListener('visibilitychange', syncAnimation);
   reducedMotion.addEventListener('change', syncAnimation);
+  resetProgram();
   resize();
   syncAnimation();
 
-  return function disposeCanvasField() {
+  function dispose() {
     if (destroyed) return;
     destroyed = true;
     cancelAnimationFrame(frame);
@@ -223,7 +211,15 @@ export function createCanvasField(target, options = {}) {
     target.removeEventListener('pointerleave', leavePointer);
     document.removeEventListener('visibilitychange', syncAnimation);
     reducedMotion.removeEventListener('change', syncAnimation);
+    program.dispose?.();
     canvas.remove();
     if (changedPosition) target.style.position = previousPosition;
-  };
+  }
+
+  dispose.dispose = dispose;
+  dispose.setSeed = setSeed;
+  dispose.seek = seek;
+  dispose.setPointer = setPointer;
+  dispose.render = renderOnce;
+  return dispose;
 }

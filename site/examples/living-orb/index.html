@@ -3,48 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ece8e5" />
-    <title>Living Orb — Signature Visual</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#e7ebe3" />
+    <title>Permeable Intelligence — Signature Visual</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
     <script type="importmap">
       {
         "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+          "three": "/assets/vendor/three.module.js"
         }
       }
     </script>
   </head>
   <body>
-    <main class="scene">
-      <div id="three-stage" aria-hidden="true">
-        <div class="fallback-orb"></div>
-      </div>
-      <div class="axis axis-x" aria-hidden="true"></div>
-      <div class="axis axis-y" aria-hidden="true"></div>
-
-      <header>
-        <span class="wordmark">SOMA</span>
-        <span class="mono">SYNTHETIC BIOLOGY / SESSION 04</span>
+    <main class="specimen-sheet" data-phase="dormant">
+      <header class="journal-head">
+        <a href="/">Responsive Matter Review</a>
+        <span>Vol. 04 / Plate 07</span>
+        <span>Culture B · 19.6°C</span>
       </header>
 
-      <section class="copy">
-        <p class="mono eyebrow">LIVING INTERFACE</p>
-        <h1>Intelligence,<br />with a pulse.</h1>
-        <p>A responsive membrane for systems that sense, adapt, and grow.</p>
+      <section class="editorial-title">
+        <p>Synthetic specimen / adaptive membrane</p>
+        <h1>Permeable<br /><em>intelligence</em></h1>
       </section>
 
-      <aside class="spec mono" aria-label="Form specification">
-        <span>FORM <strong>MEMBRANE</strong></span>
-        <span>STATE <strong>RECEPTIVE</strong></span>
-        <span>FIELD <strong>0.72</strong></span>
+      <div id="three-stage" aria-hidden="true">
+        <div class="fallback-organism">
+          <i></i><i></i><i></i>
+        </div>
+      </div>
+
+      <aside class="annotations" aria-label="Specimen readings">
+        <div class="reading reading-a">
+          <span>A</span>
+          <p>Membrane<br /><strong id="permeability">sealed</strong></p>
+        </div>
+        <div class="reading reading-b">
+          <span>B</span>
+          <p>Internal response<br /><strong id="response">0.18</strong></p>
+        </div>
+        <div class="reading reading-c">
+          <span>C</span>
+          <p>Cycle<br /><strong id="phase">dormant</strong></p>
+        </div>
       </aside>
 
-      <div class="pointer-note mono">MOVE TO ORIENT / IDLE TO BREATHE</div>
-      <div class="marker marker-a mono" aria-hidden="true">A</div>
-      <div class="marker marker-b mono" aria-hidden="true">B</div>
+      <p class="abstract">A soft body reads its surroundings through pressure. Approach the tissue and its inner culture reorganizes around the disturbance.</p>
+      <p class="gesture">Move near the specimen to alter permeability.</p>
+      <div class="scale" aria-hidden="true"><span></span><span></span><span></span><b>4 μm</b></div>
     </main>
     <script type="module" src="script.js"></script>
   </body>

@@ -1,7 +1,7 @@
 {
   "name": "signature-visual",
-  "version": "1.0.0",
-  "description": "A computational visual design skill for AI coding assistants. Adds memorable Canvas, Three.js, WebGL shader, and SVG moments to websites.",
+  "version": "2.0.0",
+  "description": "A self-contained visual direction skill for distinctive Canvas, Three.js, WebGL, and SVG moments on real websites.",
   "keywords": [
     "claude",
     "claude-code",
@@ -9,6 +9,10 @@
     "codex",
     "skill",
     "design",
+    "design-skill",
+    "visual-direction",
+    "motion-design",
+    "creative-coding",
     "canvas",
     "threejs",
     "webgl",
@@ -19,7 +23,9 @@
   "license": "MIT",
   "type": "module",
   "files": [
-    "skills"
+    "skills",
+    "ACKNOWLEDGEMENTS.md",
+    "CHANGELOG.md"
   ],
   "skill": {
     "entry": "skills/signature-visual/SKILL.md",
@@ -32,7 +38,15 @@
   },
   "scripts": {
     "serve": "python3 -m http.server --directory site 4173",
+    "build:site": "node scripts/build-site.mjs",
+    "deploy:site": "npm run build:site && npx wrangler pages deploy .site-dist --project-name signature-visual",
     "check": "node site/_tests/verify.mjs",
-    "screenshots": "node site/_tests/capture.mjs"
+    "screenshots": "node site/_tests/capture.mjs",
+    "visual-qa": "node skills/signature-visual/scripts/visual-qa.mjs",
+    "visual-qa:cases": "node site/_tests/run-visual-qa.mjs",
+    "test:visual-qa": "node skills/signature-visual/scripts/visual-qa.test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.61.1"
   }
 }

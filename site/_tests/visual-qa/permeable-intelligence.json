@@ -1,0 +1,19 @@
+{
+  "name": "Permeable Intelligence — motion score",
+  "serveRoot": "../../",
+  "url": "/examples/living-orb/",
+  "outputDir": "../../../.visual-qa/permeable-intelligence",
+  "viewport": { "width": 1400, "height": 900, "deviceScaleFactor": 1 },
+  "captureSelector": ".specimen-sheet",
+  "readySelector": "#three-stage canvas",
+  "seed": "permeable-intelligence-v2",
+  "failOnNetworkError": true,
+  "timeoutMs": 45000,
+  "states": [
+    { "name": "dormant", "progress": 0.03 },
+    { "name": "osmosis", "progress": 0.24 },
+    { "name": "permeable", "progress": 0.46, "pointer": { "atMs": 0, "x": 0.58, "y": 0.46 } },
+    { "name": "response", "progress": 0.68, "pointer": { "atMs": 0, "x": 0.64, "y": 0.42 } },
+    { "name": "repair", "progress": 0.9 }
+  ]
+}

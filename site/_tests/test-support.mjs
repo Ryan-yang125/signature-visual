@@ -44,6 +44,7 @@ function contentType(filePath) {
   if (filePath.endsWith('.js') || filePath.endsWith('.mjs')) return 'text/javascript; charset=utf-8';
   if (filePath.endsWith('.svg')) return 'image/svg+xml';
   if (filePath.endsWith('.png')) return 'image/png';
+  if (filePath.endsWith('.woff2')) return 'font/woff2';
   return 'application/octet-stream';
 }
 

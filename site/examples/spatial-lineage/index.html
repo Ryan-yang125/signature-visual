@@ -3,115 +3,154 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#dbe1e9" />
-    <title>Spatial Lineage — Signature Visual</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#2c2a2b" />
+    <title>Decision Plate 027 — Signature Visual</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="scene">
-      <header>
-        <span class="wordmark">LINEAGE</span>
-        <span class="mono">PROVENANCE GRAPH / TRACE 064</span>
-      </header>
+    <main class="decision-room" data-phase="intake">
+      <article class="plate">
+        <header class="plate-head">
+          <a href="/">Lineage archive</a>
+          <h1>Decision <br />Plate <em>027</em></h1>
+          <div>
+            <span>Case AX–4</span>
+            <span>Recorded 14:32</span>
+            <span>Status / resolved</span>
+          </div>
+        </header>
 
-      <section class="copy">
-        <p class="mono eyebrow">EXPLAINABLE SYSTEM · 05</p>
-        <h1>Every output<br />has a path.</h1>
-        <p>Focus a node to follow one decision through evidence, reasoning, and action.</p>
-      </section>
+        <div class="plate-body">
+          <aside class="case-notes" aria-label="Case premise">
+            <p class="section-label">Premise</p>
+            <blockquote>“Release the route when confidence exceeds the verified threshold.”</blockquote>
+            <dl>
+              <div><dt>Threshold</dt><dd>0.82</dd></div>
+              <div><dt>Evidence</dt><dd>6 items</dd></div>
+              <div><dt>Reviewers</dt><dd>2 agents</dd></div>
+            </dl>
+            <p class="folio-note">Trace paths expose where a conclusion gained support, split into alternatives, and returned from review.</p>
+          </aside>
 
-      <div class="diagram-wrap">
-        <svg id="diagram" viewBox="0 0 920 620" role="img" aria-labelledby="diagram-title diagram-description">
-          <title id="diagram-title">Provenance system map</title>
-          <desc id="diagram-description">A network showing evidence flowing through retrieval, reasoning, review, and output nodes.</desc>
-          <defs>
-            <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
-              <feGaussianBlur stdDeviation="5" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-            <pattern id="micro-grid" width="36" height="36" patternUnits="userSpaceOnUse">
-              <path d="M36 0H0V36" fill="none" stroke="currentColor" stroke-width="0.55" opacity="0.16" />
-            </pattern>
-          </defs>
+          <div class="diagram-wrap">
+            <svg id="diagram" viewBox="0 0 680 820" role="group" aria-roledescription="interactive decision provenance diagram" aria-labelledby="diagram-title diagram-description">
+              <title id="diagram-title">Decision provenance plate</title>
+              <desc id="diagram-description">A vertical trace from a request through evidence, framing, alternatives, review, decision, and archive.</desc>
+              <defs>
+                <pattern id="plate-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+                  <path d="M28 0H0V28" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.18" />
+                </pattern>
+                <filter id="signal-bloom" x="-200%" y="-200%" width="500%" height="500%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
+              </defs>
 
-          <rect class="grid" x="40" y="40" width="840" height="540" fill="url(#micro-grid)" />
-          <g class="rings" fill="none">
-            <circle cx="510" cy="315" r="214" />
-            <circle cx="510" cy="315" r="142" />
-            <path d="M510 72V558M267 315H753" />
-          </g>
+              <rect class="grid" x="14" y="14" width="652" height="792" fill="url(#plate-grid)" />
+              <g class="crop-marks" aria-hidden="true">
+                <path d="M14 42V14H42M638 14H666V42M14 778V806H42M638 806H666V778" />
+                <path d="M326 14H354M326 806H354" />
+              </g>
 
-          <g class="routes" fill="none">
-            <path id="route-1" data-route d="M120 215 C205 215 214 132 302 132 C382 132 402 250 486 250" />
-            <path id="route-2" data-route d="M120 396 C225 396 231 484 340 484 C425 484 422 346 486 346" />
-            <path id="route-3" data-route d="M302 132 C405 132 440 176 564 176 C652 176 669 246 760 246" />
-            <path id="route-4" data-route d="M340 484 C447 484 492 456 592 456 C686 456 684 366 760 366" />
-            <path id="route-5" data-route d="M486 250 C540 250 548 315 606 315 C666 315 700 306 760 306" />
-            <path id="route-6" data-route d="M486 346 C540 346 550 315 606 315" />
-          </g>
+              <g class="routes" fill="none">
+                <path id="trace-1" data-route data-phase="0" d="M340 76 C304 104 238 111 210 158" />
+                <path id="trace-2" data-route data-phase="0" d="M340 76 C376 104 442 111 470 158" />
+                <path id="trace-3" data-route data-phase="1" d="M210 158 C210 220 284 222 318 278" />
+                <path id="trace-4" data-route data-phase="1" d="M470 158 C470 220 396 222 362 278" />
+                <path id="trace-5" data-route data-phase="2" d="M340 294 C308 337 246 350 220 415" />
+                <path id="trace-6" data-route data-phase="2" d="M340 294 C372 337 434 350 460 415" />
+                <path id="trace-7" data-route data-phase="3" d="M220 415 C230 490 294 492 324 548" />
+                <path id="trace-8" data-route data-phase="3" d="M460 415 C450 490 386 492 356 548" />
+                <path id="trace-9" data-route data-phase="4" d="M340 566 C340 612 340 630 340 674" />
+                <path id="trace-10" data-route data-phase="5" d="M340 694 C340 726 340 738 340 770" />
+              </g>
 
-          <g class="signals" filter="url(#glow)">
-            <circle data-signal="route-1" r="5" />
-            <circle data-signal="route-2" r="4" />
-            <circle data-signal="route-3" r="4" />
-            <circle data-signal="route-4" r="5" />
-            <circle data-signal="route-5" r="4" />
-          </g>
+              <g class="signals" filter="url(#signal-bloom)" aria-hidden="true">
+                <circle id="signal-a" r="4.5" />
+                <circle id="signal-b" r="4.5" />
+              </g>
 
-          <g class="nodes">
-            <g class="node source" data-node="evidence" tabindex="0" transform="translate(120 215)">
-              <circle class="halo" r="27" /><circle class="body" r="11" /><circle class="core" r="3" />
-              <text class="label" x="-4" y="-40">EVIDENCE</text><text class="code" x="-4" y="39">SRC / A1</text>
-            </g>
-            <g class="node source" data-node="context" tabindex="0" transform="translate(120 396)">
-              <circle class="halo" r="27" /><circle class="body" r="11" /><circle class="core" r="3" />
-              <text class="label" x="-4" y="-40">CONTEXT</text><text class="code" x="-4" y="39">SRC / B4</text>
-            </g>
-            <g class="node relay" data-node="retrieve" tabindex="0" transform="translate(302 132)">
-              <circle class="halo" r="23" /><circle class="body" r="9" /><circle class="core" r="3" />
-              <text class="label" x="18" y="-20">RETRIEVE</text><text class="code" x="18" y="-6">PASS / 01</text>
-            </g>
-            <g class="node relay" data-node="memory" tabindex="0" transform="translate(340 484)">
-              <circle class="halo" r="23" /><circle class="body" r="9" /><circle class="core" r="3" />
-              <text class="label" x="18" y="26">MEMORY</text><text class="code" x="18" y="40">PASS / 02</text>
-            </g>
-            <g class="node process" data-node="reason" tabindex="0" transform="translate(486 250)">
-              <circle class="halo" r="35" /><circle class="body" r="17" /><circle class="core" r="5" />
-              <text class="label" x="-5" y="-49">REASON</text><text class="code" x="-5" y="51">CORE / R8</text>
-            </g>
-            <g class="node process" data-node="review" tabindex="0" transform="translate(486 346)">
-              <circle class="halo" r="28" /><circle class="body" r="13" /><circle class="core" r="4" />
-              <text class="label" x="-5" y="-42">REVIEW</text><text class="code" x="-5" y="44">GATE / V2</text>
-            </g>
-            <g class="node relay" data-node="synthesis" tabindex="0" transform="translate(606 315)">
-              <circle class="halo" r="27" /><circle class="body" r="12" /><circle class="core" r="4" />
-              <text class="label" x="17" y="-20">SYNTHESIS</text><text class="code" x="17" y="-6">MERGE / S1</text>
-            </g>
-            <g class="node output" data-node="output-a" tabindex="0" transform="translate(760 246)">
-              <rect class="halo-box" x="-25" y="-25" width="50" height="50" /><rect class="body-box" x="-10" y="-10" width="20" height="20" />
-              <text class="label" x="18" y="-15">OUTPUT A</text><text class="code" x="18" y="0">TRACE / 064</text>
-            </g>
-            <g class="node output" data-node="output-b" tabindex="0" transform="translate(760 366)">
-              <rect class="halo-box" x="-25" y="-25" width="50" height="50" /><rect class="body-box" x="-10" y="-10" width="20" height="20" />
-              <text class="label" x="18" y="-15">OUTPUT B</text><text class="code" x="18" y="0">TRACE / 065</text>
-            </g>
-          </g>
+              <g class="nodes">
+                <g class="node source" role="button" aria-label="Inspect request: a policy request enters the trace with its target and threshold attached." data-node="request" data-detail="A policy request enters the trace with its target and threshold attached." tabindex="0" transform="translate(340 68)">
+                  <circle class="hit" r="32" /><circle class="outer" r="17" /><circle class="inner" r="5" />
+                  <path class="leader" d="M-20 0H-114" />
+                  <text class="label left" x="-122" y="-5">REQUEST / AX–4</text><text class="code left" x="-122" y="10">threshold attached</text>
+                </g>
+                <g class="node evidence" role="button" aria-label="Inspect evidence: six verified records support the requested release condition." data-node="evidence" data-detail="Six verified records support the requested release condition." tabindex="0" transform="translate(210 158)">
+                  <circle class="hit" r="30" /><rect class="outer box" x="-14" y="-14" width="28" height="28" /><rect class="inner box" x="-4" y="-4" width="8" height="8" />
+                  <path class="leader" d="M-18 0H-102" />
+                  <text class="label left" x="-110" y="-5">EVIDENCE</text><text class="code left" x="-110" y="10">6 / verified</text>
+                </g>
+                <g class="node context" role="button" aria-label="Inspect context: current policy and prior exceptions establish the operative context." data-node="context" data-detail="Current policy and prior exceptions establish the operative context." tabindex="0" transform="translate(470 158)">
+                  <circle class="hit" r="30" /><rect class="outer box" x="-14" y="-14" width="28" height="28" /><rect class="inner box" x="-4" y="-4" width="8" height="8" />
+                  <path class="leader" d="M18 0H102" />
+                  <text class="label" x="110" y="-5">CONTEXT</text><text class="code" x="110" y="10">policy / current</text>
+                </g>
+                <g class="node frame" role="button" aria-label="Inspect frame: evidence and context meet in a shared frame before alternatives are generated." data-node="frame" data-detail="Evidence and context meet in a shared frame before alternatives are generated." tabindex="0" transform="translate(340 286)">
+                  <circle class="hit" r="34" /><circle class="outer" r="19" /><circle class="inner" r="6" />
+                  <path class="leader" d="M22 0H112" />
+                  <text class="label" x="120" y="-5">FRAME</text><text class="code" x="120" y="10">merge / F2</text>
+                </g>
+                <g class="node option" role="button" aria-label="Inspect hold alternative: the branch protects the route while confidence remains below threshold." data-node="hold" data-detail="The hold branch protects the route while confidence remains below threshold." tabindex="0" transform="translate(220 415)">
+                  <circle class="hit" r="30" /><path class="outer diamond" d="M0-16 16 0 0 16-16 0Z" /><circle class="inner" r="4" />
+                  <path class="leader" d="M-20 0H-102" />
+                  <text class="label left" x="-110" y="-5">HOLD</text><text class="code left" x="-110" y="10">alternative / A</text>
+                </g>
+                <g class="node option" role="button" aria-label="Inspect release alternative: the branch carries the verified threshold into formal review." data-node="release" data-detail="The release branch carries the verified threshold into formal review." tabindex="0" transform="translate(460 415)">
+                  <circle class="hit" r="30" /><path class="outer diamond" d="M0-16 16 0 0 16-16 0Z" /><circle class="inner" r="4" />
+                  <path class="leader" d="M20 0H102" />
+                  <text class="label" x="110" y="-5">RELEASE</text><text class="code" x="110" y="10">alternative / B</text>
+                </g>
+                <g class="node review" role="button" aria-label="Inspect review: two reviewers challenge the branch and confirm the confidence record." data-node="review" data-detail="Two reviewers challenge the branch and confirm the confidence record." tabindex="0" transform="translate(340 557)">
+                  <circle class="hit" r="36" /><circle class="outer double" r="21" /><circle class="outer double inner-ring" r="14" /><circle class="inner" r="4" />
+                  <path class="leader" d="M-24 0H-114" />
+                  <text class="label left" x="-122" y="-5">REVIEW</text><text class="code left" x="-122" y="10">2 agents / passed</text>
+                </g>
+                <g class="node decision" role="button" aria-label="Inspect decision: the release branch commits at 0.87 confidence and retains its full path." data-node="decision" data-detail="The release branch commits at 0.87 confidence and retains its full path." tabindex="0" transform="translate(340 684)">
+                  <circle class="hit" r="39" /><rect class="outer final" x="-22" y="-22" width="44" height="44" /><rect class="inner final" x="-7" y="-7" width="14" height="14" />
+                  <path class="leader" d="M26 0H118" />
+                  <text class="label" x="126" y="-5">RELEASE</text><text class="code" x="126" y="10">decision / 0.87</text>
+                </g>
+                <g class="node archive" role="button" aria-label="Inspect archive: the complete decision trace is sealed into the lineage archive." data-node="archive" data-detail="The complete decision trace is sealed into the lineage archive." tabindex="0" transform="translate(340 778)">
+                  <circle class="hit" r="28" /><path class="outer archive-mark" d="M-14-10H14V10H-14ZM-8-16H8" /><circle class="inner" r="3" />
+                  <path class="leader" d="M-18 0H-105" />
+                  <text class="label left" x="-113" y="-5">ARCHIVE</text><text class="code left" x="-113" y="10">trace / sealed</text>
+                </g>
+              </g>
 
-          <g class="measurements">
-            <text x="52" y="64">X / 000</text><text x="810" y="64">X / 840</text>
-            <text x="52" y="562">Y / 540</text><text x="786" y="562">SYSTEM / COHERENT</text>
-          </g>
-        </svg>
-      </div>
+              <g class="coordinates" aria-hidden="true">
+                <text x="24" y="36">Y / 000</text><text x="586" y="36">PLATE 027</text>
+                <text x="24" y="792">Y / 820</text><text x="566" y="792">RESOLVED</text>
+              </g>
+            </svg>
+          </div>
 
-      <aside class="legend mono">
-        <span><i class="source-key"></i>SOURCE</span>
-        <span><i class="process-key"></i>PROCESS</span>
-        <span><i class="output-key"></i>OUTPUT</span>
-      </aside>
+          <aside class="trace-notes" aria-live="polite">
+            <p class="section-label">Live trace</p>
+            <strong id="phase">intake</strong>
+            <p id="detail">A policy request enters the trace with its target and threshold attached.</p>
+            <div class="confidence">
+              <span>Confidence</span>
+              <b><i id="confidence-bar"></i></b>
+              <em id="confidence">0.24</em>
+            </div>
+            <ol aria-label="Trace phases">
+              <li data-score="intake">Intake</li>
+              <li data-score="frame">Frame</li>
+              <li data-score="branch">Branch</li>
+              <li data-score="review">Review</li>
+              <li data-score="commit">Commit</li>
+              <li data-score="archive">Archive</li>
+            </ol>
+          </aside>
+        </div>
+
+        <footer class="plate-foot">
+          <span>Hover or focus any node to inspect its role.</span>
+          <span>SVG / semantic trace</span>
+        </footer>
+      </article>
     </main>
     <script type="module" src="script.js"></script>
   </body>

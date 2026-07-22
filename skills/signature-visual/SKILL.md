@@ -1,175 +1,188 @@
 ---
 name: signature-visual
-description: Add a memorable computational visual to an existing website and integrate it into the project's real layout and stack. Use whenever a user wants a page, hero, background, product section, data surface, or transition to feel more special, alive, immersive, technical, atmospheric, experimental, or visually distinctive. Also use for vague requests such as “the hero feels empty,” “add something interactive,” “make this feel more futuristic,” or “give the site a memorable moment,” plus explicit requests involving particles, generative graphics, 3D forms, shaders, technical diagrams, Canvas, Three.js, WebGL, or SVG. Translate creative intent into a fitting visual recipe, choose the rendering technology internally, implement it, and verify content legibility, responsiveness, performance, accessibility, and cleanup.
+description: Direct and build a distinctive computational visual for a website. Use when a user wants a hero, section, background, transition, data surface, or product moment to feel memorable, alive, spatial, atmospheric, technical, organic, or experimental—even when they never name Canvas, Three.js, WebGL, shaders, or SVG. Also use to study an HTML, screenshot, or URL; redesign an existing effect that feels generic or template-like; or add particles, generative graphics, 3D forms, shader materials, and animated diagrams. Develop a product-specific visual thesis, explore three divergent directions, define composition/material/motion, choose the renderer internally, implement in the existing stack, and validate the result through deterministic visual states, responsive behavior, accessibility, performance, and cleanup.
 ---
 
 # Signature Visual
 
-Create one memorable visual moment that belongs to the website around it. Read the page before choosing an effect. Let the product idea, brand language, layout, and desired emotional response determine the form, motion, interaction, and renderer.
+Act as the visual director and computational design engineer for one high-memory moment. Let the product meaning shape the spatial structure, material, motion, and interaction. Choose the renderer after the visual direction is clear.
 
-## Default behavior
+The skill is self-contained. Use the guidance, pattern cards, runtime shells, and QA scripts in this package. Existing project libraries may be used when they are already present or clearly serve the selected direction. Do not require another skill to complete the work.
 
-Treat an unqualified request as an `add` task:
+## Outcomes
 
-1. Inspect the target project and named page.
-2. Identify one high-leverage placement.
-3. Translate the user's language into a visual brief.
-4. Select a recipe or synthesize a new one from the visual grammar.
-5. Choose Canvas 2D, Three.js, raw WebGL shader, SVG, or a restrained combination.
-6. Implement inside the project's existing conventions.
-7. Verify the result in a real browser at desktop and mobile sizes.
+A successful result has four qualities:
 
-Keep the scope centered on one signature visual system. It may fill a hero, live behind a section, illustrate a product concept, behave like an instrument, or form a transition. Preserve the surrounding information architecture and component ownership.
+1. **Belonging** — the idea could plausibly exist only for this product, story, or dataset.
+2. **Presence** — the visual has a strong resting composition before any interaction.
+3. **Range** — its design system can produce related variations without collapsing into one demo.
+4. **Production integrity** — it works across viewport, input, motion preference, lifecycle, and performance constraints.
 
-## Explicit tasks
+## Tasks
 
-- `study <HTML | screenshot | URL>`: Extract portable visual DNA: role, form, motion, interaction, composition, renderer, variation axes, and production constraints. Read [study.md](references/verbs/study.md).
-- `refine <target>`: Improve an existing computational visual while preserving its concept. Diagnose integration, visual hierarchy, motion, performance, mobile behavior, and lifecycle cleanup.
-- `add <target>`: Run the default workflow and implement a new signature visual.
+Infer the task from natural language:
 
-Infer these tasks from natural language. Explicit command syntax is optional.
+- `direct` — create and implement a new signature visual. This is the default.
+- `study` — inspect HTML, screenshots, video, or a URL and extract portable principles. Read [reference-study.md](references/reference-study.md).
+- `refine` — diagnose and redesign an existing computational visual while retaining the useful concept or implementation.
+- `systemize` — turn several related visual moments into one coherent motion and material language.
 
-## Progressive loading
+Keep the scope centered on one visual system unless the user explicitly requests a broader system.
 
-Load only the references needed for the current job:
+## Mandatory workflow
 
-- Read [routing.md](references/routing.md) for every new visual or when the renderer is unclear.
-- Read [placements.md](references/placements.md) when choosing where and how the visual occupies the page.
-- Read [recipes.md](references/recipes.md) when selecting, varying, or combining a visual recipe.
-- Read [interaction.md](references/interaction.md) when pointer, scroll, click, idle, or data response is involved.
-- Read the relevant renderer guide after routing:
-  - [canvas-fields.md](references/families/canvas-fields.md)
-  - [three-living-forms.md](references/families/three-living-forms.md)
-  - [webgl-shader-fields.md](references/families/webgl-shader-fields.md)
-  - [svg-technical-systems.md](references/families/svg-technical-systems.md)
-- Read [integration.md](references/integration.md) before editing a real project.
-- Read [quality-gates.md](references/quality-gates.md) before handoff.
+For every new direction, complete Stages 0–8 in order. Keep Stages 1–4 concise and internal unless sharing them helps the user decide. A small refinement may reuse a confirmed thesis, yet it still needs a visual fingerprint and capture plan.
 
-## Step 0 — Preflight the project
+### Stage 0 — Read the real surface
 
-Inspect the actual page, framework, styling method, tokens, fonts, content hierarchy, breakpoints, and existing motion. Locate the component that should own the visual and identify the smallest safe file set.
+Inspect the target page, content hierarchy, framework, components, tokens, fonts, breakpoints, imagery, existing motion, and runtime behavior. Locate the owner element and the smallest safe file set.
 
-For an existing project:
-
-- Reuse its framework, build system, component conventions, and tokens.
-- Keep DOM ownership and route boundaries stable.
-- State the files you expect to create or modify before editing.
-- Treat the visual as part of the content composition, with a defined layer, container, and text-safe zone.
-
-For a greenfield prototype, create the smallest runnable surface that demonstrates the intended placement and behavior.
-
-## Step 1 — Write the internal visual brief
-
-Resolve five decisions from the page and prompt:
+Record:
 
 ```text
-ROLE         hero focal / ambient field / section artifact / technical surface / transition
-INTENT       alive / fluid / precise / energetic / spatial / mysterious / playful
-BEHAVIOR     breathe / flow / grow / orbit / scan / connect / reveal / disperse
-RESPONSE     ambient / pointer / scroll / click / data
-CONSTRAINTS  text-safe zone / palette / size / performance / mobile / reduced motion
+PAGE JOB      what this section must help a visitor understand or feel
+CONTENT AXIS  the copy, object, or data that must remain primary
+BRAND SIGNAL  one existing trait worth amplifying
+CONSTRAINTS   text-safe area, viewport, stack, budget, accessibility
+OPPORTUNITY   one place where a computational visual adds meaning
 ```
 
-Prefer inference from the live project. Ask one concise question only when a missing answer would change the creative direction materially.
+For a greenfield prototype, define these from the prompt and build the smallest real surface that can prove the direction.
 
-## Step 2 — Route by experience
+### Stage 1 — Write a visual thesis
 
-Use technology as an implementation choice:
+Complete one sentence:
 
-| Experience requirement | Strong default |
+> The visual makes **[subject]** feel like **[specific physical or spatial phenomenon]**, so the visitor senses **[human response]**.
+
+Then name a **core motion verb** and a **counter-verb**. Examples: gather / shed, inhale / settle, trace / erase, align / rupture. The pair creates an arc and prevents perpetual ambient drift.
+
+Reject a thesis that could be pasted onto three unrelated products unchanged. Read [visual-direction.md](references/visual-direction.md) for metaphor tests and product-to-form translation.
+
+### Stage 2 — Create three divergent Direction Cards
+
+Create three project-specific directions before selecting one. Give them names derived from the subject. Avoid fixed tiers such as safe, bold, and experimental.
+
+Each card contains:
+
+```text
+NAME             a memorable, subject-specific title
+PROMISE          what the visitor will perceive in one sentence
+SPATIAL IDEA     silhouette, scale, crop, depth, density, text relationship
+MATERIAL IDEA    surface, light, color behavior, texture, edge character
+TYPE ROLE        absent / content / annotation / frame / texture / subject
+MOTION SCORE     rest → wake → develop → peak → recover
+INTERACTION      input, mapping, bound, recovery
+RENDER OPTIONS   one or two plausible engines, still provisional
+FINGERPRINT      artifact / archetype / scale / density / material / tempo / response / type role
+RISK             the most likely way this direction becomes cheap or generic
+```
+
+The cards must differ structurally on at least four fingerprint axes. Palette swaps, particle-count changes, and alternate easing curves count as tuning inside one direction.
+
+Use [pattern-language.md](references/pattern-language.md) to expand the search space. Pattern cards supply transformation rules and failure signatures; they do not prescribe finished compositions.
+
+### Stage 3 — Select with evidence
+
+Score each direction from 1–5:
+
+| Criterion | Question |
 | --- | --- |
-| Many lightweight particles, trails, networks, or flow lines | Canvas 2D |
-| Depth, camera, lighting, geometry, or a focal 3D object | Three.js |
-| A custom material, light field, displacement field, or full-surface effect | Raw WebGL shader |
-| Crisp geometry, labels, paths, diagrams, or instrument-like precision | SVG |
+| Product specificity | Does the idea encode the subject, behavior, or data? |
+| Compositional strength | Does the resting frame have hierarchy and tension? |
+| Distinctness | Does its fingerprint differ from familiar portfolio effects? |
+| System fit | Does it extend the page's typography, color, and interaction language? |
+| Feasibility | Can it reach the quality bar inside the runtime budget? |
 
-Combine renderers when each layer has a clear role. Keep a single visual thesis across the layers.
+Select the strongest total with no score below 3. Revise the winner until specificity, composition, and distinctness each reach 4 or higher. Preserve one useful trait from either unselected card when it strengthens the single thesis.
 
-## Step 3 — Compose a recipe
+### Stage 4 — Author the design specification
 
-A recipe is a reusable visual grammar with variable outcomes. Define:
+Define four connected systems:
 
-- **Form:** primitives, silhouette, topology, density, depth.
-- **Composition:** placement, scale, crop, text-safe zone, focal hierarchy.
-- **Motion:** base rhythm, secondary motion, phase offsets, entry and exit.
-- **Interaction:** input, mapping, range, easing, recovery behavior.
-- **Material:** color relationships, opacity, blending, texture, light response.
-- **Variation axes:** parameters that make the result project-specific.
-- **Fallback:** reduced-motion and low-capability presentation.
+- **Composition:** frame, anchor, crop, depth layers, negative space, text-safe relationship, mobile re-composition. Read [composition.md](references/composition.md).
+- **Material:** palette roles, light model, edge behavior, texture scale, opacity/blend rules, background relationship. Read [material-language.md](references/material-language.md).
+- **Motion:** named phases, duration or tempo, energy curve, secondary motion, synchronization, recovery. Read [motion-direction.md](references/motion-direction.md).
+- **Interaction:** semantic input mapping, bounds, latency, exit/recovery, keyboard/touch/data behavior. Read [interaction.md](references/interaction.md).
 
-Start from [recipes.md](references/recipes.md) when it fits. Create a new recipe when the subject suggests a stronger metaphor. Blend two recipes by naming the contribution of each, then simplify until the visual reads as one idea.
+Declare one `signature rule` that must survive every breakpoint and motion preference. Example: “Every route converges on the same quiet aperture.”
 
-## Step 4 — Implement the visual system
+### Stage 5 — Route to an engine
 
-Use the starters in `references/starters/` as lifecycle-aware foundations:
+Choose technology by the selected experience. Read [routing.md](references/routing.md), then the relevant family guide:
 
-- `canvas-field.js` — Canvas particle fields and pointer forces.
-- `three-living-form.js` — Three.js focal objects with shader deformation.
-- `webgl-shader-field.js` — Raw WebGL fullscreen shader fields.
-- `svg-technical-system.js` — Programmatic SVG diagrams and instruments.
+- [Canvas fields](references/families/canvas-fields.md) for high-count marks, trails, deposition, and field simulation.
+- [Three.js forms](references/families/three-living-forms.md) for depth, camera, geometry, light, and spatial objects.
+- [WebGL shader fields](references/families/webgl-shader-fields.md) for continuous materials, displacement, light fields, and GPU simulation.
+- [SVG systems](references/families/svg-technical-systems.md) for crisp paths, topology, type, diagrams, and instrument precision.
 
-Copy the relevant starter into the target project and adapt it. Keep public options semantic: `energy`, `density`, `calm`, `accent`, `response`, and `textSafeSide` communicate design intent more clearly than exposing every implementation constant.
+Combine engines only when each owns a clear layer and the same visual thesis governs both. Renderer novelty never compensates for an unresolved direction.
+
+### Stage 6 — Implement from a neutral runtime shell
+
+Read [integration.md](references/integration.md). Use the neutral [Canvas](references/starters/canvas-field.js), [Three.js](references/starters/three-living-form.js), [WebGL](references/starters/webgl-shader-field.js), or [SVG](references/starters/svg-technical-system.js) runtime shell for lifecycle and resource-management patterns. Carry over ownership, sizing, pause/resume, reduced motion, deterministic hooks, and teardown. Replace the visual program—geometry, equations, composition, material, timing, and semantics—with the authored specification.
+
+Public options should express design intent such as `energy`, `tension`, `porosity`, `cohesion`, `tempo`, and `response`. Keep raw implementation constants private or group them into the chosen material/motion system.
 
 Every implementation needs:
 
-- an explicit owner element;
-- responsive sizing through `ResizeObserver` or equivalent;
-- a capped device-pixel ratio;
-- animation pause when hidden or outside the viewport;
-- a reduced-motion presentation;
-- teardown for animation frames, observers, listeners, geometries, materials, textures, buffers, and contexts;
-- a static or simplified mobile fallback when the full effect exceeds the budget.
+- an explicit owner element and stable layout bounds;
+- responsive sizing and an authored mobile composition;
+- capped device-pixel ratio and density tied to visible area;
+- pause while hidden or outside the viewport;
+- a meaningful reduced-motion state;
+- deterministic time, seed, and interaction hooks for visual QA;
+- teardown for frames, observers, listeners, GPU resources, and contexts.
 
-## Step 5 — Integrate with the page
+### Stage 7 — Capture the designed states
 
-Treat integration as design work:
+Choose a capture protocol from [visual-qa.md](references/visual-qa.md):
 
-- Preserve a deliberate text-safe zone.
-- Derive colors from existing tokens and verify contrast in every visual state.
-- Match the page's corner, border, type, spacing, and motion language.
-- Give interaction a bounded range and a calm recovery state.
-- Keep decorative layers out of pointer and accessibility flow.
-- Expose meaningful diagrams to assistive technology with a title, description, and stable labels.
-- Let the visual communicate a product idea whenever the brief supports one.
+- timeline or scroll: `0 / 25 / 50 / 75 / 100%`;
+- ambient system: fixed seed at five meaningful times;
+- pointer system: rest / approach / engaged / released / recovered;
+- data system: empty / typical / peak / edge;
+- every system: desktop / mobile / reduced motion.
 
-Read [integration.md](references/integration.md) for framework and lifecycle details.
+Use the scripts in `scripts/` when the project permits browser automation. A contact sheet exposes weak composition, dead phases, accidental flashes, and repetitive states faster than watching the loop repeatedly.
 
-## Step 6 — Verify in a browser
+### Stage 8 — Critique, revise, verify
 
-Open the implemented page and test:
+Review the contact sheet and live interaction using [failure-signatures.md](references/failure-signatures.md). Score 1–5:
 
-1. Desktop at the project's primary width.
-2. Mobile at 390 × 844.
-3. Pointer movement and pointer exit.
-4. Scroll entry, exit, and back-navigation.
-5. Reduced motion.
-6. Resize and device rotation.
-7. Route unmount or component teardown.
-8. Console and page errors.
+```text
+THESIS       the phenomenon communicates the intended idea
+FRAME        each key state has hierarchy, balance, and readable content
+MATERIAL     surface, color, light, texture, and edges feel authored
+MOTION       phases create anticipation, change, peak, and recovery
+RESPONSE     input mapping feels semantic, bounded, and calm after exit
+ORIGINALITY  the result has its own fingerprint and avoids source mimicry
+RESILIENCE   mobile, reduced motion, performance, and teardown hold up
+```
 
-Complete the visual review in [quality-gates.md](references/quality-gates.md), then use the target project's normal lint, typecheck, build, and browser-test commands.
+Revise any category below 4. Run project lint, typecheck, tests, and build. Verify desktop, 390 × 844 mobile, pointer exit, resize/rotation, reduced motion, route unmount, and console errors in a real browser.
 
-## Quality floor
+## Originality contract
 
-Revise before handoff when any answer is weak:
+When studying a reference, separate underlying principles from surface identity. Preserve insights such as “density collapses toward a semantic node” or “the quiet frame carries most of the tension.” Re-author the combined composition, palette, typography, material, motion, and interaction for the target project.
 
-- Does the visual express something specific about this product?
-- Does the page retain a clear reading order?
-- Is there one dominant visual thesis?
-- Does the interaction feel intentional at rest, during input, and after input?
-- Does the result differ structurally from the starter and source references?
-- Does mobile feel composed?
-- Does reduced motion preserve the idea?
-- Does teardown release every owned resource?
+Before handoff, compare the result with every direct source and packaged example:
+
+- change at least three fingerprint axes;
+- avoid carrying the same dominant silhouette, palette relationship, and motion arc together;
+- ensure the static frame still feels project-specific;
+- ensure a second variation can be described without replacing only colors or counts.
+
+If the output still reads like a known demo, return to Stage 2 and branch structurally.
 
 ## Handoff
 
 Return:
 
-- the one-sentence visual concept;
-- the selected recipe and renderer with a short reason;
-- the files changed;
-- the browser sizes and interaction states verified;
-- any remaining production dependency or performance caveat.
+- the one-sentence visual thesis;
+- the selected direction and signature rule;
+- the renderer and files changed;
+- the contact-sheet states and viewport/motion modes verified;
+- any remaining production caveat.
 
-Keep the explanation compact. The working visual is the primary artifact.
+Keep the explanation compact. The working visual and its verified states are the primary artifacts.

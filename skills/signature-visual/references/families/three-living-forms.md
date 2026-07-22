@@ -1,52 +1,103 @@
-# Three.js living forms
+# Three.js Spatial Forms
 
-Use Three.js for focal objects that need depth, geometry, camera behavior, lighting, or spatial assembly.
+Use Three.js when depth, occlusion, camera, geometry, light, or spatial assembly carries the direction.
 
-## Visual grammar
+## Build from silhouette outward
 
-- Start from one legible silhouette.
-- Deform geometry at multiple frequencies: a slow global breath and a finer surface current.
-- Let material and lighting reveal the form’s topology.
-- Keep camera response calmer than surface motion.
-- Use secondary points, wireframes, or annotations as support layers with lower contrast.
+Choose a recognizable spatial subject before selecting geometry classes:
 
-## Geometry choices
+- membrane, shell, folded sheet, organ, root, or colony;
+- exploded assembly, stack, voxel body, or modular instrument;
+- terrain, cross-section, corridor, aperture, or nested volume;
+- routed tube, braid, orbit, or connected scaffold;
+- actual product or data-derived geometry.
 
-- `IcosahedronGeometry`: even topology for organic deformation.
-- Instanced boxes or points: voxel bloom and assembly effects.
-- Tube or line geometry: tendrils, paths, and signal routes.
-- Custom `BufferGeometry`: project-specific silhouettes and data forms.
+Test the object as a flat black silhouette at desktop and mobile crops. Shader detail cannot rescue an anonymous outline.
 
-## Shader deformation
+## Geometry systems
 
-Offset each vertex along its normal. Combine object-space position with time and a low-frequency breathing term.
+- custom `BufferGeometry` for project-specific contours and data forms;
+- instanced geometry for modules, cells, particles, or repeated marks;
+- tube/curve geometry for causal routes, growth, and braids;
+- displaced planes for terrain, tissue, cloth, or thresholds;
+- signed-distance/raymarched material when the surface itself is the subject;
+- primitive geometry only when the primitive has semantic meaning or is transformed structurally.
 
-```glsl
-float breath = sin(uTime * 0.85) * 0.5 + 0.5;
-float field =
-  sin(position.x * 2.7 + uTime) *
-  sin(position.y * 2.2 - uTime * 0.7) *
-  sin(position.z * 3.1 + uTime * 0.45);
-vec3 transformed = position + normal * (field * uEnergy + breath * 0.045);
+Deformation needs spatial logic: boundary pressure, resource field, attachment points, local signal propagation, or data. Combine a large-scale structural mode with restrained surface detail.
+
+## Material model
+
+Define surface, illumination, and finish separately:
+
+```text
+SURFACE       roughness, transmission, thickness, metalness, opacity, micro-normal
+ILLUMINATION  key direction, fill level, rim purpose, environment, shadow
+FINISH        color grade, grain, depth cue, bloom, vignette
 ```
 
-Vary frequency, directional bias, and material response. Preserve enough stable topology for the visitor to recognize the object.
+Material archetypes:
 
-## Material choices
+- **tissue:** transmission/subsurface cue, local thickness, soft roughness, internal pulse;
+- **mineral:** high roughness variation, crystalline facets, grazing light;
+- **ceramic:** controlled specular, smooth body, micro-imperfections, clear silhouette;
+- **film:** thin transmission, iridescence tied to view angle, restrained edge response;
+- **machined:** precise bevels, coherent environment reflection, limited wear;
+- **emissive body:** dark support material with emission reserved for semantic state.
 
-- Fresnel response communicates a membrane or energetic shell.
-- Matcap-like gradients create readable volume without a lighting rig.
-- Wireframe overlays communicate topology and computation.
-- Additive shells create aura; keep their opacity low.
+Use one primary material and one structural counterpoint. Generic Fresnel emission and wireframe shells quickly dominate identity.
+
+## Lighting
+
+Use light to reveal the selected silhouette:
+
+- key establishes form and dominant edge;
+- fill preserves readable shadow structure;
+- rim separates one critical boundary;
+- environment contributes material context;
+- embedded or emissive light communicates state.
+
+Rotate the object or light only when the motion score calls for a phase change. A permanently orbiting camera often weakens the resting composition.
+
+## Motion and interaction
+
+Animate semantic controls: pressure, permeability, assembly, adhesion, growth, fold, signal, or exposure. Let local response propagate through geometry or material over time.
+
+Keep camera response slower and smaller than object response. Set strict parallax bounds and recover with critical or material-appropriate damping.
+
+## Post-processing budget
+
+Choose one primary finish and optionally one subtle support:
+
+- selective bloom for a rare emissive state;
+- depth of field for a specimen or macro scale with a stable focal subject;
+- fine grain to bind layers to a photographic or printed material;
+- restrained color grade for tonal unity.
+
+Chromatic aberration, glitch, bloom, vignette, and heavy grain together produce a familiar demo finish. Spend processing budget on the effect that advances the material thesis.
 
 ## Performance
 
-- Cap DPR at 1.5–2.
-- Use the lowest subdivision that preserves the silhouette.
-- Use instancing for repeated geometry.
-- Dispose geometry, material, textures, targets, and renderer.
-- Replace complex post-processing with a restrained material on mobile.
+- use the lowest subdivision that preserves silhouette and deformation;
+- instance repeated geometry and batch materials;
+- cap DPR according to shader and post cost;
+- minimize transparent overdraw;
+- avoid per-frame allocations and unnecessary matrix updates;
+- pause offscreen and dispose every owned resource;
+- simplify passes, geometry, and transparency on mobile before changing the concept.
 
-## Starter
+## Deterministic controller
 
-Copy and adapt [three-living-form.js](../starters/three-living-form.js). It expects the host project to provide the `three` package or an import map for the `three` specifier.
+Derive uniforms, animation mixers, camera, and object state from one time/progress source. Expose `seek`, semantic pointer state, `render`, and `dispose`. Update matrices and render once after seeking.
+
+## Failure signatures
+
+- blob familiarity: replace primitive silhouette and uniform noise with a product-specific boundary condition;
+- material lottery: return to one substance and one counterpoint;
+- unreadable depth: strengthen overlap, lighting, and scale hierarchy;
+- camera sickness: reduce amplitude, remove continuous orbit, author a stable rest;
+- mobile thumbnail: recompose camera, crop, and layer count for the narrow frame;
+- expensive polish: remove passes that do not alter the chosen material or hierarchy.
+
+## Runtime shell
+
+Use [three-living-form.js](../starters/three-living-form.js) for renderer ownership, sizing, pause, and disposal. Replace its geometry, shader/material, lighting, camera composition, and phase behavior.

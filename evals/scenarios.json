@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "skill": "signature-visual",
+  "scenarios": [
+    {
+      "id": "agent-review-history",
+      "task": "direct",
+      "prompt": "Our collaborative review product has a competent editorial landing page, yet the hero has no memorable visual. The product preserves decisions, revisions, and evidence across people and AI agents. Add one calm visual system that makes this history feel valuable. Keep the headline primary and support reduced motion.",
+      "assertions": [
+        "The thesis encodes review history or evidence through an observable phenomenon.",
+        "Three directions differ on at least four fingerprint axes and have different silhouettes.",
+        "The selected direction defines a five-phase motion score and a persistent or recoverable state.",
+        "Renderer selection follows the chosen direction.",
+        "The capture plan includes deterministic desktop, mobile, and reduced-motion states."
+      ]
+    },
+    {
+      "id": "climate-evidence-section",
+      "task": "direct",
+      "prompt": "This climate intelligence page needs a visual for the evidence section. Visitors should understand how thousands of local observations become a defensible regional conclusion. The brand uses warm paper, dark green type, and restrained red annotations. Make the section feel researched and alive.",
+      "assertions": [
+        "The direction extends the paper, green, and annotation language without default deep-tech styling.",
+        "At least one direction uses a document, instrument, or archive stance.",
+        "Data states cover empty, typical, peak, and edge inputs.",
+        "Material and edge behavior belong to one authored substance model.",
+        "The visual meaning survives in a static frame."
+      ]
+    },
+    {
+      "id": "modular-audio-tool",
+      "task": "direct",
+      "prompt": "The hero for a modular audio tool feels like a normal SaaS page. Give it one tactile, responsive moment that communicates patches combining into a sound. Existing UI is black, cream, and safety orange. Pointer and touch should feel like operating an instrument.",
+      "assertions": [
+        "Interaction is mapped to an instrument control with bounds, latency, and recovery.",
+        "The three directions do not share the same copy/effect split.",
+        "Audio structure appears through routing, assembly, trace, or another native behavior.",
+        "Mobile interaction has an authored touch state.",
+        "Decorative HUD labels and generic waveform styling are actively avoided."
+      ]
+    },
+    {
+      "id": "biotech-template-refine",
+      "task": "refine",
+      "prompt": "This biotechnology hero currently has a glowing purple Three.js sphere with noise displacement and slow rotation. It works technically and looks familiar. Redesign it so the form expresses selective permeability: an external signal crosses the membrane, changes the interior, then the organism heals.",
+      "assertions": [
+        "The new fingerprint changes at least three axes from the purple rotating sphere.",
+        "Permeability drives geometry, material, motion, and interaction.",
+        "The resting silhouette remains strong without animation.",
+        "Peak and recovery show a structural or material consequence.",
+        "Three.js lifecycle and resource cleanup remain complete."
+      ]
+    },
+    {
+      "id": "reference-transformation",
+      "task": "study",
+      "prompt": "Study the supplied generative HTML reference, explain why its tiny central specimen and huge blank paper field feel special, then create a fresh direction for an archival search product. Preserve the emotional precision while giving the target its own visual identity.",
+      "assertions": [
+        "The study separates evidence, portable rules, and recognizable surface traits.",
+        "A source fingerprint and target transformation matrix are produced.",
+        "The target changes at least three fingerprint axes.",
+        "The result remains precise through scale and negative space without copying the specimen.",
+        "License and asset boundaries are acknowledged."
+      ]
+    },
+    {
+      "id": "provenance-mobile",
+      "task": "refine",
+      "prompt": "Our SVG provenance diagram is readable on desktop, crowded on mobile, and every route animates continuously. Redesign the behavior around one decision trace from evidence to signed output. It must work with keyboard focus, touch selection, reduced motion, and a 390px viewport.",
+      "assertions": [
+        "The trace follows a causal sequence with one dominant route.",
+        "Mobile receives a distinct topology and label strategy.",
+        "Hover, focus, and touch reach equivalent semantic states.",
+        "Reduced motion retains the complete decision trace.",
+        "Capture states reveal hierarchy, selection, consequence, and resolution."
+      ]
+    }
+  ]
+}

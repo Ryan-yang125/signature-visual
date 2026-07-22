@@ -1,0 +1,15 @@
+{
+  "name": "Permeable Intelligence — mobile peak",
+  "serveRoot": "../../",
+  "url": "/examples/living-orb/",
+  "outputDir": "../../../.visual-qa/permeable-intelligence-mobile",
+  "viewport": { "width": 390, "height": 844, "deviceScaleFactor": 2 },
+  "captureSelector": ".specimen-sheet",
+  "readySelector": "#three-stage canvas",
+  "seed": "permeable-intelligence-v2",
+  "timeoutMs": 45000,
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "response-mobile", "progress": 0.68, "pointer": { "atMs": 0, "x": 0.64, "y": 0.42 } }
+  ]
+}

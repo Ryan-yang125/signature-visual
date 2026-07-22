@@ -1,7 +1,7 @@
-# Agent field brief
+# Coordination history brief
 
-Our multi-agent product hero feels empty. Add one visual that communicates many autonomous processes moving as a coherent system. It should react to the pointer, preserve a large text-safe zone, and remain calm enough for a landing page.
+Our collaborative product should make shared work feel cumulative. Questions, decisions, and revisions need to remain distinct while gradually forming one coherent history. Add a memorable visual that reacts locally to attention, keeps the page readable, and retains its meaning in reduced motion.
 
-Expected route: ambient hero field → Particle Current → Canvas 2D.
+Selected direction: **Memory Loom** — shared work as fibres that gather, cross, knot, and release.
 
 Output: [`site/examples/particle-current/`](../../examples/particle-current/)

@@ -1,7 +1,7 @@
 # Provenance map brief
 
-Explain how evidence becomes an output through retrieval, reasoning, review, and synthesis. Give the section the feeling of a precision instrument. Pointer and keyboard focus should reveal one part of the lineage.
+Explain how a request moves through evidence, framing, alternatives, review, commitment, and archive. The visual needs one dominant causal trace, readable labels, keyboard and touch parity, and a vertical 390px composition.
 
-Expected route: technical surface → Spatial Lineage → semantic SVG.
+Selected direction: **Decision Plate 027** — a graphite and pink technical record of one resolved decision.
 
 Output: [`site/examples/spatial-lineage/`](../../examples/spatial-lineage/)

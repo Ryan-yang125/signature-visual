@@ -1,0 +1,15 @@
+{
+  "name": "Signal Weather — reduced-motion still",
+  "serveRoot": "../../",
+  "url": "/examples/radiance-field/",
+  "outputDir": "../../../.visual-qa/signal-weather-reduced",
+  "viewport": { "width": 1280, "height": 800, "deviceScaleFactor": 1 },
+  "captureSelector": ".bench",
+  "readySelector": "#shader",
+  "seed": "signal-weather-v2",
+  "reducedMotion": "reduce",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "authored-still", "progress": 0.72 }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Memory Loom — motion score",
+  "serveRoot": "../../",
+  "url": "/examples/particle-current/",
+  "outputDir": "../../../.visual-qa/memory-loom",
+  "viewport": { "width": 1400, "height": 900, "deviceScaleFactor": 1 },
+  "captureSelector": ".loom",
+  "readySelector": "#field",
+  "seed": "memory-loom-v2",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "slack", "progress": 0.03 },
+    { "name": "gather", "progress": 0.25 },
+    { "name": "cross", "progress": 0.47 },
+    { "name": "knot", "progress": 0.68, "pointer": { "atMs": 0, "x": 0.72, "y": 0.52 } },
+    { "name": "release", "progress": 0.9 }
+  ]
+}

@@ -7,7 +7,7 @@
     <script type="importmap">
       {
         "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"
+          "three": "/site/assets/vendor/three.module.js"
         }
       }
     </script>
@@ -33,13 +33,43 @@
       import { createShaderField } from '/skills/signature-visual/references/starters/webgl-shader-field.js';
       import { createTechnicalSystem } from '/skills/signature-visual/references/starters/svg-technical-system.js';
 
+      const observations = {
+        canvas: { seed: null, pointer: null },
+        three: { seed: null, pointer: null },
+        webgl: { seed: null, pointer: null },
+        svg: { seed: null, pointer: null }
+      };
+
       const disposers = [
-        createCanvasField(document.querySelector('#canvas'), { accent: '#5b78ff', secondary: '#74dad3' }),
-        createLivingForm(document.querySelector('#three'), { accent: '#786cff', secondary: '#ff6e62', detail: 4 }),
-        createShaderField(document.querySelector('#webgl'), { accentA: [0.18, 0.36, 0.96], accentB: [1, 0.3, 0.38] }),
-        createTechnicalSystem(document.querySelector('#svg'), { decorative: false, ink: '#172033' })
+        createCanvasField(document.querySelector('#canvas'), {
+          createProgram: () => ({
+            reset: state => { observations.canvas.seed = state.seed; },
+            step: state => { observations.canvas.pointer = state.pointer; }
+          })
+        }),
+        createLivingForm(document.querySelector('#three'), {
+          createProgram: () => ({
+            setSeed: seed => { observations.three.seed = seed; },
+            setPointer: pointer => { observations.three.pointer = pointer; }
+          })
+        }),
+        createShaderField(document.querySelector('#webgl'), {
+          beforeRender: state => {
+            observations.webgl.seed = state.seed;
+            observations.webgl.pointer = state.pointer;
+          }
+        }),
+        createTechnicalSystem(document.querySelector('#svg'), {
+          decorative: false,
+          createProgram: () => ({
+            setSeed: seed => { observations.svg.seed = seed; },
+            setPointer: pointer => { observations.svg.pointer = pointer; }
+          })
+        })
       ];
 
+      window.__starters = disposers;
+      window.__starterObservations = observations;
       window.__starterReady = true;
       window.__disposeAll = () => disposers.forEach(dispose => dispose());
     </script>

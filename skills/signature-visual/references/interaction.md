@@ -1,66 +1,112 @@
-# Interaction grammar
+# Interaction
 
-Interaction should reveal the system’s character. Give every input a bounded mapping, a recovery state, and a reason to exist.
+Interaction reveals the governing rule of the visual. Design input, mapping, bounds, latency, and recovery as one behavioral system.
 
-## Ambient motion
+## Interaction contract
 
-- Establish a complete resting composition.
-- Use one slow primary rhythm and one subtler secondary rhythm.
-- Randomize phase and amplitude within controlled ranges.
-- Pause outside the viewport and when the document is hidden.
+Write:
 
-## Pointer attraction and repulsion
+```text
+INPUT       pointer position / proximity / velocity / scroll / click / touch / keyboard / data
+MEANING     what this input represents inside the metaphor
+TARGET      field rule / pressure / focus / layer / route / phase / camera
+RANGE       minimum, maximum, dead zone, and saturation point
+LATENCY     immediate / damped / propagated / sampled / accumulated
+RECOVERY    duration, curve, residue, and final state
+FALLBACK    touch, keyboard, reduced motion, and unavailable input
+```
 
-- Map pointer coordinates into the visual’s local coordinate system.
-- Ease the input before applying it.
-- Limit the radius and maximum force.
-- Restore equilibrium gradually after pointer exit.
-- Reinterpret the effect for touch as a tap pulse or ambient motion.
+Example:
 
-## Pointer parallax
+```text
+Pointer proximity represents a probe approaching tissue.
+It increases local permeability within a 14% radius.
+The effect propagates outward over 420 ms, saturates at 0.65,
+and heals over 1.8 s with a faint persistent scar.
+```
 
-- Separate object response from camera response.
-- Keep translation and rotation ranges small enough to preserve composition.
-- Ease toward the pointer and ease back to rest.
-- Respect the text-safe zone throughout the range.
+## Semantic mappings
 
-## Scroll progress
+Prefer mappings that share behavior with the thesis:
 
-- Use scroll when the visual has meaningful ordered states.
-- Calculate progress from the owning section.
-- Make endpoints stable and reversible.
-- Clamp all derived values.
-- Keep normal document scrolling and history behavior intact.
+- pointer proximity changes pressure, focus, heat, or attraction;
+- pointer velocity changes turbulence or shedding;
+- scroll progress changes age, assembly, depth, or causal phase;
+- click commits, seeds, samples, pins, cuts, or releases;
+- data changes density, topology, scale, rhythm, or anomaly location;
+- keyboard focus selects the same semantic object as pointer focus;
+- device orientation shifts a light source or calibrated plane within a small bound.
 
-## Click or tap pulse
+Avoid unrestricted camera orbit and direct cursor-following when they add no meaning.
 
-- Use a brief pulse for local acknowledgement, signal emission, bloom, or aggregation.
-- Let repeated input accumulate only within a safe ceiling.
-- Make the visual recover without requiring another input.
+## Response hierarchy
+
+Use three levels:
+
+1. **Acknowledgment:** a local change within roughly 50–120 ms confirms input.
+2. **Consequence:** the system responds according to its material or topology.
+3. **Recovery:** energy dissipates and the signature composition returns.
+
+The acknowledgment can be subtle. The consequence carries meaning. Recovery prevents the user from leaving the visual in a broken composition.
+
+## Bounds
+
+Cap input before smoothing it:
+
+- camera parallax usually stays within a few degrees;
+- repulsion/attraction stops before marks leave the designed field permanently;
+- deformation preserves recognizable silhouette except during an authored peak;
+- scroll endpoints each form a complete frame;
+- brightness and bloom retain text contrast in the maximum state;
+- touch targets remain outside decorative pointer interception.
+
+Clamp velocity or acceleration when fast input can destabilize the system.
+
+## Pointer lifecycle
+
+Handle:
+
+- first entry without a jump from an uninitialized coordinate;
+- coalesced or high-frequency movement;
+- exit at any edge and while a button is held;
+- viewport exit and document visibility change;
+- touch cancellation;
+- route unmount during active response.
+
+Normalize pointer coordinates in the owner element, account for device-pixel ratio only at the renderer boundary, and keep the semantic coordinate system independent of resolution.
+
+## Scroll orchestration
+
+Use one normalized progress value as the source of truth. Derive visual state from progress so resizing, back-navigation, and deterministic capture produce the same frame.
+
+Separate:
+
+- page entry/exit visibility;
+- narrative progress;
+- ambient micro-motion allowed within a state.
+
+If the project already has a timeline library, connect its playhead to the normalized progress. A small visual can map progress directly without adding a dependency.
 
 ## Data response
 
-- Map real data to a small set of perceptually distinct variables.
-- Preserve a readable baseline when data is missing.
-- Use labels or a legend when the mapping carries meaning.
-- Avoid decorative precision that implies unavailable measurements.
+Define the data domain and missing states. Use perceptually distinct channels:
 
-## Motion budget
+- position/topology for category or relation;
+- area or count for magnitude;
+- material/light for confidence, state, or recency;
+- tempo for rate;
+- anomaly treatment for exceptions.
 
-Use a hierarchy:
+Test empty, typical, peak, and malformed/edge data. Keep a stable composition when values cluster or disappear.
 
-1. Primary motion communicates the concept.
-2. Secondary motion adds life.
-3. Input response acknowledges the visitor.
-4. Entry and exit support page rhythm.
+## Interaction QA
 
-Remove lower-priority motion when the result becomes noisy or expensive.
+Capture rest, approach, engaged, released, and recovered. Check that:
 
-## Reduced motion
-
-Preserve the concept with one of these treatments:
-
-- a stable rendered frame;
-- a very slow low-amplitude loop;
-- direct state changes with fades under 150 ms;
-- an SVG or image fallback carrying the same composition.
+- rest is already complete;
+- approach indicates affordance;
+- engaged reveals the core rule;
+- release contains no flash, jump, or stranded geometry;
+- recovered matches the signature composition;
+- touch and keyboard users can access meaningful states;
+- decorative visuals remain outside accessibility and pointer flow.

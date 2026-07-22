@@ -1,0 +1,19 @@
+{
+  "name": "Decision Plate 027 — motion score",
+  "serveRoot": "../../",
+  "url": "/examples/spatial-lineage/",
+  "outputDir": "../../../.visual-qa/decision-plate",
+  "viewport": { "width": 1400, "height": 900, "deviceScaleFactor": 1 },
+  "captureSelector": ".decision-room",
+  "readySelector": "#diagram",
+  "seed": "decision-plate-v2",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "intake", "progress": 0.06 },
+    { "name": "frame", "progress": 0.25 },
+    { "name": "branch", "progress": 0.43 },
+    { "name": "review", "progress": 0.62, "pointer": { "atMs": 0, "x": 0.58, "y": 0.6, "target": "#diagram" } },
+    { "name": "commit", "progress": 0.8 },
+    { "name": "archive", "progress": 0.94 }
+  ]
+}

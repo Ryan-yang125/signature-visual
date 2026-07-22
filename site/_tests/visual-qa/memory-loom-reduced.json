@@ -1,0 +1,15 @@
+{
+  "name": "Memory Loom — reduced-motion still",
+  "serveRoot": "../../",
+  "url": "/examples/particle-current/",
+  "outputDir": "../../../.visual-qa/memory-loom-reduced",
+  "viewport": { "width": 1280, "height": 800, "deviceScaleFactor": 1 },
+  "captureSelector": ".loom",
+  "readySelector": "#field",
+  "seed": "memory-loom-v2",
+  "reducedMotion": "reduce",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "authored-still", "progress": 0.68 }
+  ]
+}

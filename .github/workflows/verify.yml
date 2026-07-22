@@ -1,0 +1,32 @@
+name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  skill-and-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci
+      - name: Install Chromium for visual verification
+        run: npx playwright install --with-deps chromium
+      - name: Build production site
+        run: npm run build:site && test ! -e .site-dist/_tests
+      - name: Test deterministic visual QA
+        run: npm run test:visual-qa
+      - name: Verify skill, runtime shells, site, and live cases
+        run: npm run check
+      - name: Capture all production motion scores
+        run: npm run visual-qa:cases

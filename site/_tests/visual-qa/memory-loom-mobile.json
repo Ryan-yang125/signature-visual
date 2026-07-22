@@ -1,0 +1,14 @@
+{
+  "name": "Memory Loom — mobile peak",
+  "serveRoot": "../../",
+  "url": "/examples/particle-current/",
+  "outputDir": "../../../.visual-qa/memory-loom-mobile",
+  "viewport": { "width": 390, "height": 844, "deviceScaleFactor": 2 },
+  "captureSelector": ".loom",
+  "readySelector": "#field",
+  "seed": "memory-loom-v2",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "knot-mobile", "progress": 0.68, "pointer": { "atMs": 0, "x": 0.72, "y": 0.52 } }
+  ]
+}

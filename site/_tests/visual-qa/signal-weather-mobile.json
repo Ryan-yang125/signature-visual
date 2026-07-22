@@ -1,0 +1,14 @@
+{
+  "name": "Signal Weather — mobile peak",
+  "serveRoot": "../../",
+  "url": "/examples/radiance-field/",
+  "outputDir": "../../../.visual-qa/signal-weather-mobile",
+  "viewport": { "width": 390, "height": 844, "deviceScaleFactor": 2 },
+  "captureSelector": ".bench",
+  "readySelector": "#shader",
+  "seed": "signal-weather-v2",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "reroute-mobile", "progress": 0.7, "pointer": { "atMs": 0, "x": 0.61, "y": 0.42, "target": ".crt" } }
+  ]
+}

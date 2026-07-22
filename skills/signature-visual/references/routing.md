@@ -1,61 +1,95 @@
-# Visual routing
+# Renderer Routing
 
-Use this reference to translate user language into a visual family. Start with the desired experience and page role. Choose the renderer after those decisions.
+Route after selecting a Direction Card and authoring its composition, material, motion, and interaction. The engine must preserve the signature rule with the smallest justified complexity.
 
-## Routing sequence
+## Evidence table
 
-1. Identify the page role.
-2. Name the emotional and semantic intent.
-3. Choose a dominant behavior.
-4. Decide how input affects the behavior.
-5. Select the simplest renderer that carries the idea with enough fidelity.
+| Required property | Canvas 2D | Three.js | Raw WebGL | SVG |
+| --- | ---: | ---: | ---: | ---: |
+| Thousands of independent marks | excellent | strong with points/instancing | strong with GPU state | limited |
+| Trails and persistent deposition | excellent | possible with targets | excellent | limited |
+| Camera, occlusion, real depth | limited | excellent | custom | simulated |
+| Custom continuous material | limited | excellent | excellent | limited |
+| Crisp paths, type, labels | adequate | weak | weak | excellent |
+| Accessible semantic geometry | weak | weak | weak | excellent |
+| Small embedded artifact | excellent | often excessive | possible | excellent |
+| Full-surface field | strong | possible | excellent | limited |
+| Existing DOM coordination | strong | adequate | adequate | excellent |
+| Static fallback from same source | strong | capture/export | render once | native |
 
-## Natural-language signals
+## Route by visual program
 
-| User language | Likely role | Likely grammar | Renderer candidates |
-| --- | --- | --- | --- |
-| “The hero feels empty” | Hero focal or ambient | One bold object, field, or diagram | Three.js, Canvas, WebGL |
-| “Make it feel alive” | Hero focal or section artifact | Breathing, growth, flocking, deformation | Three.js, Canvas |
-| “Add atmosphere” | Ambient field | Drift, flow, haze, parallax, restrained response | Canvas, WebGL |
-| “More futuristic” | Depends on product | Energy field, instrument, spatial object | WebGL, SVG, Three.js |
-| “Scientific / precise” | Technical surface | Grid, labels, topology, measurement, scan | SVG, Canvas |
-| “Show connection / collaboration” | Section artifact | Network, lineage, orbit, signal transfer | Canvas, SVG |
-| “React to the cursor” | Any | Attraction, parallax, reveal, lens, wave | Any |
-| “Come alive on scroll” | Transition or section artifact | Emergence, assembly, phase change | SVG, Three.js, WebGL |
+### Choose Canvas 2D when
 
-## Family selection
+- state belongs to many lightweight agents or marks;
+- history, trails, diffusion, or deposition is central;
+- the composition is primarily planar;
+- fast custom drawing matters more than scene-graph semantics.
 
-### Canvas fields
+### Choose Three.js when
 
-Choose Canvas when the visual contains many similar lightweight marks whose positions change every frame. It excels at particles, trails, vector fields, spring networks, cellular systems, and generative paint.
+- camera, occlusion, spatial assembly, lighting, or a 3D silhouette carries meaning;
+- the direction needs geometry and material to respond together;
+- repeated objects can use instancing;
+- the project can justify the dependency and GPU lifecycle.
 
-### Three.js living forms
+### Choose raw WebGL when
 
-Choose Three.js when the visual needs a camera, depth, lighting, geometry, post-processing, or a hero object that can be understood spatially.
+- the visual is a continuous material or field evaluated across the surface;
+- a custom fragment or simulation equation creates the central behavior;
+- a scene graph adds little value;
+- shader compilation and fallbacks can be owned safely.
 
-### WebGL shader fields
+### Choose SVG when
 
-Choose raw WebGL when the visual idea is a continuous field or material computed per pixel: radiance, liquid distortion, reaction-diffusion, scanning, interference, volumetric-looking haze, or energy.
-
-### SVG technical systems
-
-Choose SVG when crisp paths, readable labels, precise geometry, topology, and accessibility matter. It excels at technical drawings, diagrams, instruments, maps, and schematic motion.
+- paths, labels, topology, type, and precision are primary;
+- elements need focus, semantics, or direct DOM styling;
+- the visual behaves like a document, diagram, map, score, or instrument;
+- responsive re-composition benefits from explicit geometry.
 
 ## Combination rules
 
-- Canvas + SVG: use Canvas for a living field and SVG for semantic labels or crisp overlays.
-- Three.js + SVG: use Three.js for the spatial artifact and SVG/HTML for annotations.
-- WebGL + HTML: use WebGL as a material layer and keep content in normal document flow.
-- WebGL + SVG: use WebGL for atmosphere and SVG for instrumentation.
+Assign one lead engine and one narrow support role:
 
-Assign one renderer as the visual lead. Give supporting layers narrower responsibilities.
+- Canvas lead + SVG annotation for a living field with stable semantic anchors.
+- WebGL lead + HTML/SVG instrument for a continuous material seen through calibrated controls.
+- Three.js lead + HTML/SVG annotation for a spatial specimen with accessible labels.
+- SVG lead + Canvas residue for a topology whose routes deposit history.
+
+Write ownership before coding:
+
+```text
+LEAD       owns silhouette, primary motion, and signature rule
+SUPPORT    owns labels, texture, history, or controls only
+CLOCK      one source of normalized time/progress
+INPUT      one normalized semantic state shared by both
+FALLBACK   one composition that retains the thesis without the lead engine
+```
+
+Avoid layering engines solely to increase spectacle.
 
 ## Tie-breakers
 
-When two renderers can carry the idea:
+When several engines can deliver the direction:
 
-1. Prefer the renderer already present in the project.
-2. Prefer the option with a graceful static fallback.
-3. Prefer the option that keeps meaningful text and controls in the DOM.
-4. Prefer Canvas or SVG for small embedded visuals.
-5. Reserve a new 3D dependency for a spatial concept strong enough to justify it.
+1. prefer the engine already healthy in the project;
+2. prefer the one that directly expresses the primary material or state model;
+3. keep meaningful text and controls in accessible DOM/SVG;
+4. prefer Canvas or SVG for small inline placements;
+5. justify Three.js or a new GPU layer through spatial or material necessity;
+6. choose the path with deterministic capture and a credible fallback.
+
+## Capability budget
+
+Record a budget before implementation:
+
+```text
+VIEWPORTS     desktop and mobile owner dimensions
+DPR CAP       target and mobile cap
+STATE COUNT   particles, instances, paths, textures, passes
+FRAME TARGET  60 / 30 / event-driven / static
+MEMORY        major buffers, textures, render targets
+FALLBACK      low capability and context-loss presentation
+```
+
+Complexity should purchase an observable part of the selected direction.

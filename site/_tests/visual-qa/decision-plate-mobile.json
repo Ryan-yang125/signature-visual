@@ -1,0 +1,14 @@
+{
+  "name": "Decision Plate 027 — mobile peak",
+  "serveRoot": "../../",
+  "url": "/examples/spatial-lineage/",
+  "outputDir": "../../../.visual-qa/decision-plate-mobile",
+  "viewport": { "width": 390, "height": 844, "deviceScaleFactor": 2 },
+  "captureSelector": ".decision-room",
+  "readySelector": "#diagram",
+  "seed": "decision-plate-v2",
+  "failOnNetworkError": true,
+  "states": [
+    { "name": "review-mobile", "progress": 0.62, "pointer": { "atMs": 0, "x": 0.58, "y": 0.6, "target": "#diagram" } }
+  ]
+}

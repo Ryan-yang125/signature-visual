@@ -1,51 +1,98 @@
-# SVG technical systems
+# SVG Systems
 
-Use SVG for technical drawings, connection maps, instruments, topology, precise geometry, and semantic diagrams.
+Use SVG when paths, topology, type, labels, semantic nodes, and precise geometry carry the direction. It is strong for documents, instruments, maps, scores, lineage, and responsive technical artifacts.
 
-## Visual grammar
+## Author an information hierarchy
 
-- Let line weight encode hierarchy.
-- Use a small family of node archetypes with consistent meaning.
-- Route paths with enough separation to remain readable.
-- Use labels as information, with stable alignment and clear ownership.
-- Combine one dominant system shape with sparse measurement marks.
-
-## Structure
-
-Group SVG content into layers:
+Define the meaning of every visual class:
 
 ```text
-defs          gradients, markers, masks, filters
-scaffold      grid, axes, measurement ticks
-connections   routes and signal paths
-nodes         entities, ports, anchors
-signals       animated pulses or highlights
-labels        titles, values, annotations
+GROUND       page, plate, or instrument surface
+SCAFFOLD     axes, grid, bounds, calibration, grouping
+ROUTES       primary and secondary relationships
+NODES        entities, ports, samples, decisions
+SIGNALS      current activity, focus, anomaly, completion
+LABELS       names, values, evidence, annotations
+HISTORY      previous routes, strata, residues
 ```
 
-Keep meaningful labels as SVG text or accompanying HTML. Give meaningful diagrams a title and description.
+Line weight, color, dash, opacity, and spacing should encode this hierarchy. A grid or coordinate label needs an informational or artifact role.
 
-## Motion
+## Spatial grammars
 
-- Reveal routes with `stroke-dasharray` and `stroke-dashoffset`.
-- Move signals along paths with `getPointAtLength` or CSS motion paths.
-- Use phase offsets to create system rhythm.
-- Animate one relationship at a time when the diagram teaches a sequence.
+- route topology with one dominant causal path;
+- technical plate with multiple comparable views;
+- calibrated instrument around one measured phenomenon;
+- exploded assembly with numbered relations;
+- lineage or decision trace with persistent evidence;
+- typographic contour where text is the geometry;
+- map or field with meaningful annotation anchors.
 
-## Interaction
+Use a stable `viewBox`. Recompose groups and labels for mobile through alternate transforms, paths, or markup when the desktop topology will not fit.
 
-- Highlight one lineage on hover or focus.
-- Expand node detail inside a stable layout.
-- Map scroll to meaningful stages.
-- Keep keyboard behavior equivalent to pointer behavior for interactive diagrams.
+## Path orchestration
 
-## Responsive behavior
+Useful native mechanisms:
 
-- Use a stable viewBox and responsive rendered size.
-- Recompose dense labels at narrow widths.
-- Replace tiny labels with a summary or focus interaction on mobile.
-- Keep stroke widths legible with vector effects when appropriate.
+- `stroke-dasharray`/`stroke-dashoffset` for route acquisition;
+- `getTotalLength()` and `getPointAtLength()` for deterministic signals;
+- path interpolation when source and target share compatible point topology;
+- motion paths for elements that genuinely travel along a route;
+- masks and clip paths for reveals and cross-sections;
+- transforms for assembly, calibration, and focus.
 
-## Starter
+Coordinate all paths through one phase/progress model. Revealing every line at once usually hides hierarchy.
 
-Copy and adapt [svg-technical-system.js](../starters/svg-technical-system.js). Replace its topology, vocabulary, and visual hierarchy with concepts from the target product.
+## Morphing
+
+Morph when a change in shape communicates a change in state or classification. Normalize path direction, start point, closure, and point count before interpolation. For unrelated shapes, design intermediate topology or crossfade/assemble through meaningful parts.
+
+Keep important labels stable through deformation, or move them through explicitly authored anchor positions.
+
+## Instrument behavior
+
+An instrument needs a measurable model:
+
+- define input domain and units;
+- map values to geometry consistently;
+- separate acquisition, lock, warning, and result states;
+- ensure ticks and labels agree with the model;
+- give controls real effects with bounded ranges;
+- use display texture and latency consistently.
+
+## Interaction and accessibility
+
+- use focusable semantic groups for meaningful nodes;
+- provide `<title>` and `<desc>` plus accessible names for controls;
+- mirror hover with focus and touch selection;
+- keep labels legible and avoid collisions at every authored state;
+- use DOM order that follows the reading or causal order;
+- provide a textual summary when the diagram carries essential information.
+
+Pure decoration can be `aria-hidden="true"` and excluded from focus.
+
+## Performance
+
+- limit complex filters across large areas;
+- reuse definitions and symbols for repeated structures;
+- avoid updating large numbers of attributes when a group transform suffices;
+- cache path lengths and coordinate samples;
+- prefer CSS variables and classes for coordinated state changes;
+- pause JS-driven signals offscreen.
+
+## Deterministic controller
+
+Drive every animated property from normalized progress or explicit phase state. Expose `seek`, focus/data setters, `render`, and `dispose`. A capture at any progress value must contain a valid hierarchy.
+
+## Failure signatures
+
+- generic node graph: derive routes and groupings from the subject;
+- decorative HUD: remove labels and ticks that do not encode state;
+- line-drawing demo: reveal relations in causal order;
+- label collision: provide explicit anchors and mobile layout;
+- moving-dot network: make signal timing change another visible state;
+- inaccessible diagram: add semantic order, focus parity, description, and summary.
+
+## Runtime shell
+
+Use [svg-technical-system.js](../starters/svg-technical-system.js) for path sampling, state orchestration, observers, and disposal. Replace its topology, vocabulary, geometry, labels, artifact stance, and phase score.

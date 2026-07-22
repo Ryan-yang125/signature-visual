@@ -1,23 +1,43 @@
 import * as THREE from 'three';
 
-/** Lifecycle-aware Three.js living form. */
+/**
+ * Neutral Three.js runtime shell.
+ *
+ * Supply options.createProgram({ THREE, scene, camera, renderer, target, options }).
+ * The returned program may implement resize(state), update(state), seek(state),
+ * setSeed(seed), setPointer(pointer), and dispose().
+ */
+function normalizeSeed(value) {
+  const numeric = typeof value === 'number' ? value : Number(value);
+  if (Number.isFinite(numeric) && String(value).trim() !== '') return numeric >>> 0;
+  let hash = 2166136261;
+  for (const character of String(value)) {
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
 export function createLivingForm(target, options = {}) {
   if (!(target instanceof HTMLElement)) {
     throw new TypeError('createLivingForm requires an HTMLElement target');
   }
 
   const config = {
-    accent: options.accent ?? '#7388ff',
-    secondary: options.secondary ?? '#ff7869',
-    energy: options.energy ?? 0.72,
-    calm: options.calm ?? 0.62,
-    response: options.response ?? 0.72,
     maxDpr: options.maxDpr ?? 1.75,
-    detail: options.detail ?? 5
+    seed: options.seed ?? 125,
+    reducedTime: options.reducedTime ?? 2.4,
+    pointerEase: options.pointerEase ?? 0.1,
+    fov: options.fov ?? 35,
+    cameraZ: options.cameraZ ?? 5
   };
 
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
-  renderer.setClearColor(0x000000, 0);
+  const renderer = new THREE.WebGLRenderer({
+    alpha: options.alpha ?? true,
+    antialias: options.antialias ?? true,
+    powerPreference: 'high-performance'
+  });
+  renderer.setClearColor(options.clearColor ?? 0x000000, options.clearAlpha ?? 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.domElement.setAttribute('aria-hidden', 'true');
   Object.assign(renderer.domElement.style, {
@@ -35,100 +55,60 @@ export function createLivingForm(target, options = {}) {
   target.append(renderer.domElement);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-  camera.position.set(0, 0, 5.4);
-
-  const uniforms = {
-    uTime: { value: 0 },
-    uEnergy: { value: config.energy },
-    uAccent: { value: new THREE.Color(config.accent) },
-    uSecondary: { value: new THREE.Color(config.secondary) }
-  };
-
-  const geometry = new THREE.IcosahedronGeometry(1.28, Math.min(6, Math.max(2, config.detail)));
-  const material = new THREE.ShaderMaterial({
-    uniforms,
-    transparent: true,
-    depthWrite: true,
-    vertexShader: `
-      uniform float uTime;
-      uniform float uEnergy;
-      varying vec3 vNormal;
-      varying vec3 vPosition;
-      varying float vField;
-
-      void main() {
-        float breath = sin(uTime * 0.82) * 0.5 + 0.5;
-        float field =
-          sin(position.x * 2.75 + uTime * 0.92) *
-          sin(position.y * 2.25 - uTime * 0.63) *
-          sin(position.z * 3.15 + uTime * 0.41);
-        float ridge = sin((position.x + position.z) * 4.1 - uTime * 0.34) * 0.5;
-        float displacement = field * (0.08 + uEnergy * 0.12) + ridge * 0.035 + breath * 0.035;
-        vec3 transformed = position + normal * displacement;
-        vNormal = normalize(normalMatrix * normal);
-        vPosition = (modelViewMatrix * vec4(transformed, 1.0)).xyz;
-        vField = field * 0.5 + 0.5;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
-      }
-    `,
-    fragmentShader: `
-      precision highp float;
-      uniform vec3 uAccent;
-      uniform vec3 uSecondary;
-      varying vec3 vNormal;
-      varying vec3 vPosition;
-      varying float vField;
-
-      void main() {
-        vec3 viewDirection = normalize(-vPosition);
-        float fresnel = pow(1.0 - max(0.0, dot(normalize(vNormal), viewDirection)), 2.35);
-        float light = dot(normalize(vNormal), normalize(vec3(-0.45, 0.7, 0.55))) * 0.5 + 0.5;
-        vec3 color = mix(uAccent * 0.34, uAccent, light);
-        color = mix(color, uSecondary, smoothstep(0.68, 0.96, vField) * 0.42);
-        color += fresnel * mix(uAccent, uSecondary, 0.34) * 1.15;
-        gl_FragColor = vec4(color, 0.92 + fresnel * 0.08);
-      }
-    `
-  });
-
-  const shellMaterial = new THREE.MeshBasicMaterial({
-    color: config.accent,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.075,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending
-  });
-
-  const group = new THREE.Group();
-  const form = new THREE.Mesh(geometry, material);
-  const shell = new THREE.Mesh(geometry, shellMaterial);
-  shell.scale.setScalar(1.055);
-  group.add(form, shell);
-  scene.add(group);
-
+  const camera = new THREE.PerspectiveCamera(config.fov, 1, 0.1, 100);
+  camera.position.set(0, 0, config.cameraZ);
+  const program = options.createProgram?.({ THREE, scene, camera, renderer, target, options }) ?? {};
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const pointer = { x: 0, y: 0, tx: 0, ty: 0, active: 0, targetActive: 0 };
+  let width = 1;
+  let height = 1;
+  let dpr = 1;
   let frame = 0;
   let visible = true;
   let destroyed = false;
   let startTime = performance.now();
+  let previousTime = startTime;
+  let captureTime = null;
+  let captureProgress = 0;
+  let seed = normalizeSeed(config.seed);
+
+  function state(time, delta = 0) {
+    return {
+      THREE,
+      scene,
+      camera,
+      renderer,
+      target,
+      options,
+      width,
+      height,
+      dpr,
+      time,
+      delta,
+      progress: captureProgress,
+      seed,
+      pointer: { ...pointer },
+      reducedMotion: reducedMotion.matches
+    };
+  }
 
   function resize() {
     const rect = target.getBoundingClientRect();
-    const width = Math.max(1, rect.width);
-    const height = Math.max(1, rect.height);
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, config.maxDpr));
+    width = Math.max(1, rect.width);
+    height = Math.max(1, rect.height);
+    dpr = Math.min(devicePixelRatio || 1, config.maxDpr);
+    renderer.setPixelRatio(dpr);
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    program.resize?.(state(captureTime ?? 0));
+    renderOnce();
   }
 
   function updatePointer(event) {
     const rect = target.getBoundingClientRect();
-    pointer.tx = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    pointer.ty = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+    pointer.tx = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1));
+    pointer.ty = Math.max(-1, Math.min(1, -(((event.clientY - rect.top) / Math.max(1, rect.height)) * 2 - 1)));
     pointer.targetActive = 1;
   }
 
@@ -136,34 +116,63 @@ export function createLivingForm(target, options = {}) {
     pointer.targetActive = 0;
   }
 
-  function render(now = performance.now(), singleFrame = false) {
+  function renderFrame(now = performance.now(), singleFrame = false) {
     if (destroyed) return;
-    const elapsed = reducedMotion.matches ? 2.4 : (now - startTime) * 0.001 * (1.1 - config.calm * 0.45);
-    pointer.x += (pointer.tx - pointer.x) * 0.055;
-    pointer.y += (pointer.ty - pointer.y) * 0.055;
-    pointer.active += (pointer.targetActive - pointer.active) * 0.06;
+    const delta = Math.min(0.05, Math.max(0, (now - previousTime) / 1000));
+    previousTime = now;
+    const time = captureTime ?? (reducedMotion.matches ? config.reducedTime : (now - startTime) / 1000);
+    const ease = singleFrame && captureTime !== null ? 1 : config.pointerEase;
+    pointer.x += (pointer.tx - pointer.x) * ease;
+    pointer.y += (pointer.ty - pointer.y) * ease;
+    pointer.active += (pointer.targetActive - pointer.active) * ease;
 
-    uniforms.uTime.value = elapsed;
-    group.rotation.x = -0.12 + pointer.y * 0.13 * config.response * pointer.active + Math.sin(elapsed * 0.23) * 0.035;
-    group.rotation.y = elapsed * 0.075 + pointer.x * 0.2 * config.response * pointer.active;
-    group.rotation.z = Math.sin(elapsed * 0.16) * 0.07;
-    const scale = 1 + Math.sin(elapsed * 0.82) * 0.012;
-    group.scale.setScalar(scale);
-
+    program.update?.(state(time, delta));
     renderer.render(scene, camera);
-    if (visible && !document.hidden && !reducedMotion.matches && !singleFrame) {
-      frame = requestAnimationFrame(render);
+
+    if (visible && !document.hidden && !reducedMotion.matches && captureTime === null && !singleFrame) {
+      frame = requestAnimationFrame(renderFrame);
     }
+  }
+
+  function renderOnce() {
+    cancelAnimationFrame(frame);
+    renderFrame(performance.now(), true);
   }
 
   function syncAnimation() {
     cancelAnimationFrame(frame);
-    if (visible && !document.hidden && !reducedMotion.matches) {
-      startTime = performance.now() - uniforms.uTime.value * 1000;
-      frame = requestAnimationFrame(render);
+    if (visible && !document.hidden && !reducedMotion.matches && captureTime === null) {
+      previousTime = performance.now();
+      frame = requestAnimationFrame(renderFrame);
     } else {
-      render(startTime + 2400, true);
+      renderOnce();
     }
+  }
+
+  function setSeed(nextSeed) {
+    seed = normalizeSeed(nextSeed);
+    program.setSeed?.(seed);
+    renderOnce();
+  }
+
+  function seek(next = {}) {
+    captureTime = Number.isFinite(next.time) ? Number(next.time) : captureTime ?? 0;
+    captureProgress = Number.isFinite(next.progress) ? Math.max(0, Math.min(1, Number(next.progress))) : captureProgress;
+    program.seek?.(state(captureTime));
+    renderOnce();
+  }
+
+  function setPointer(next = {}) {
+    const ratioX = Math.max(0, Math.min(1, Number(next.x ?? (pointer.tx + 1) / 2)));
+    const ratioY = Math.max(0, Math.min(1, Number(next.y ?? (1 - pointer.ty) / 2)));
+    pointer.tx = ratioX * 2 - 1;
+    pointer.ty = 1 - ratioY * 2;
+    pointer.targetActive = Math.max(0, Math.min(1, Number(next.active ?? pointer.targetActive)));
+    pointer.x = pointer.tx;
+    pointer.y = pointer.ty;
+    pointer.active = pointer.targetActive;
+    program.setPointer?.({ ...pointer });
+    renderOnce();
   }
 
   const resizeObserver = new ResizeObserver(resize);
@@ -178,10 +187,11 @@ export function createLivingForm(target, options = {}) {
   target.addEventListener('pointerleave', leavePointer, { passive: true });
   document.addEventListener('visibilitychange', syncAnimation);
   reducedMotion.addEventListener('change', syncAnimation);
+  program.setSeed?.(seed);
   resize();
   syncAnimation();
 
-  return function disposeLivingForm() {
+  function dispose() {
     if (destroyed) return;
     destroyed = true;
     cancelAnimationFrame(frame);
@@ -191,12 +201,17 @@ export function createLivingForm(target, options = {}) {
     target.removeEventListener('pointerleave', leavePointer);
     document.removeEventListener('visibilitychange', syncAnimation);
     reducedMotion.removeEventListener('change', syncAnimation);
-    geometry.dispose();
-    material.dispose();
-    shellMaterial.dispose();
+    program.dispose?.();
     renderer.dispose();
     renderer.forceContextLoss();
     renderer.domElement.remove();
     if (changedPosition) target.style.position = previousPosition;
-  };
+  }
+
+  dispose.dispose = dispose;
+  dispose.setSeed = setSeed;
+  dispose.seek = seek;
+  dispose.setPointer = setPointer;
+  dispose.render = renderOnce;
+  return dispose;
 }
