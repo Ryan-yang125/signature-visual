@@ -41,7 +41,7 @@ Useful native mechanisms:
 - masks and clip paths for reveals and cross-sections;
 - transforms for assembly, calibration, and focus.
 
-Coordinate all paths through one phase/progress model. Revealing every line at once usually hides hierarchy.
+Coordinate all paths through one semantic state model. This can be continuous progress, accumulated history, a branch, a held inspection state, or discrete transitions. Revealing every line at once usually hides hierarchy.
 
 ## Morphing
 
@@ -82,7 +82,7 @@ Pure decoration can be `aria-hidden="true"` and excluded from focus.
 
 ## Deterministic controller
 
-Drive every animated property from normalized progress or explicit phase state. Expose `seek`, focus/data setters, `render`, and `dispose`. A capture at any progress value must contain a valid hierarchy.
+Drive every animated property from explicit semantic state. Use normalized progress only when the chosen temporal archetype calls for it. Expose `seek`, focus/data setters, `render`, and `dispose`. Every captured state must contain a valid hierarchy.
 
 ## Failure signatures
 
@@ -95,4 +95,4 @@ Drive every animated property from normalized progress or explicit phase state. 
 
 ## Runtime shell
 
-Use [svg-technical-system.js](../starters/svg-technical-system.js) for path sampling, state orchestration, observers, and disposal. Replace its topology, vocabulary, geometry, labels, artifact stance, and phase score.
+Use [svg-technical-system.js](../starters/svg-technical-system.js) for path sampling, state orchestration, observers, and disposal. Replace its topology, vocabulary, geometry, labels, artifact stance, and temporal structure.

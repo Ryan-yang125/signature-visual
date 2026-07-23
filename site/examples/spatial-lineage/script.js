@@ -1,3 +1,5 @@
+import { createRuntimeState } from '../runtime-state.js';
+
 const diagram = document.querySelector('#diagram');
 const room = document.querySelector('.decision-room');
 const phaseLabel = document.querySelector('#phase');
@@ -9,6 +11,7 @@ const routes = [...diagram.querySelectorAll('[data-route]')];
 const nodes = [...diagram.querySelectorAll('[data-node]')];
 const signals = [document.querySelector('#signal-a'), document.querySelector('#signal-b')];
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const runtime = createRuntimeState({ reducedMotion });
 
 const CYCLE = 15000;
 const phaseNames = ['intake', 'frame', 'branch', 'review', 'commit', 'archive'];
@@ -31,10 +34,9 @@ const defaultDetails = [
 ];
 
 let frame = 0;
-let visible = true;
-let pageVisible = true;
 let start = performance.now();
 let focusedNode = null;
+let qaLocked = false;
 
 function phaseFor(progress) {
   for (let index = 0; index < phaseNames.length; index += 1) {
@@ -63,8 +65,8 @@ function placeSignal(signal, path, progress) {
   }
   const length = path.getTotalLength();
   const point = path.getPointAtLength(Math.max(0, Math.min(1, progress)) * length);
-  signal.setAttribute('cx', point.x);
-  signal.setAttribute('cy', point.y);
+  signal.setAttribute('x', Math.round(point.x) - 4);
+  signal.setAttribute('y', Math.round(point.y) - 4);
   signal.style.opacity = '1';
 }
 
@@ -93,26 +95,67 @@ function renderAt(timeMs = 0) {
   for (const item of scoreItems) item.classList.toggle('is-active', item.dataset.score === phaseNames[phase]);
 }
 
-function focusNode(node) {
+function focusNode(node, source = null, record = false) {
   focusedNode = node;
   if (node) detailLabel.textContent = node.dataset.detail;
+  if (node && record) runtime.recordAction(node.dataset.node, source);
   renderAt(reducedMotion.matches ? CYCLE * 0.84 : performance.now() - start);
 }
 
+function resize() {
+  const rect = room.getBoundingClientRect();
+  const explicitlyZero = room.style.width === '0px' || room.style.height === '0px';
+  const zeroSize = explicitlyZero || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  sync();
+}
+
+function refreshSizePause() {
+  const rect = room.getBoundingClientRect();
+  const zeroSize = room.style.width === '0px' || room.style.height === '0px' || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  if (zeroSize) {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    runtime.setRafScheduled(false);
+  } else if (!runtime.state.disposed && !runtime.state.paused && !runtime.state.resources.raf) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
+}
+
 function animate(now) {
-  renderAt(now - start);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
+  if (!qaLocked) renderAt(now - start);
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
 }
 
 function sync() {
   cancelAnimationFrame(frame);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
-  else renderAt(CYCLE * 0.84);
+  frame = 0;
+  runtime.setRafScheduled(false);
+  runtime.setPauseReason('document-hidden', document.hidden);
+  runtime.setReducedMotion(reducedMotion.matches);
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    renderAt(qaLocked ? qaState.timeMs : performance.now() - start);
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  } else if (!runtime.state.disposed && !runtime.describe().pauseReasons.includes('zero-size')) {
+    renderAt(CYCLE * 0.84);
+  }
+}
+
+function clearPointer(event = 'pointerleave') {
+  runtime.clearPointer(event);
+  focusNode(null);
 }
 
 const qaState = { seed: 125, timeMs: 0, progress: 0 };
 
 function seekQa(next = {}) {
+  qaLocked = true;
   if (Number.isFinite(next.progress)) {
     qaState.progress = Math.max(0, Math.min(1, Number(next.progress)));
     qaState.timeMs = qaState.progress * CYCLE;
@@ -138,7 +181,7 @@ const qa = {
   },
   setPointer(next) {
     if (next.active === false) {
-      focusNode(null);
+      clearPointer('hook');
       return;
     }
     const x = Math.max(0, Math.min(1, Number(next.x ?? 0.5))) * 680;
@@ -154,50 +197,107 @@ const qa = {
         closestDistance = distance;
       }
     }
+    runtime.setPointer({ x: next.x, y: next.y, active: true, event: 'hook' });
     focusNode(closestDistance < 18000 ? closest : null);
   },
   render() {
     renderAt(qaState.timeMs);
   },
   describe() {
-    return { phase: phaseLabel.textContent, seed: qaState.seed, time: qaState.timeMs / 1000, progress: qaState.progress };
+    refreshSizePause();
+    return runtime.describe({
+      phase: phaseLabel.textContent,
+      seed: qaState.seed,
+      time: qaState.timeMs / 1000,
+      progress: qaState.progress,
+      renderer: 'semantic-svg',
+      focusedNode: focusedNode?.dataset.node ?? null
+    });
   },
   flush() {
+    qaLocked = true;
     seekQa({ timeMs: reducedMotion.matches ? CYCLE * 0.84 : performance.now() - start });
+  },
+  dispose,
+  remount() {
+    if (!runtime.state.disposed) dispose();
+    start = performance.now();
+    qaLocked = false;
+    mount();
+    return qa.describe();
   }
 };
 
 window.__signatureVisual = qa;
 window.__signatureVisualQA = qa;
 
-for (const node of nodes) {
-  node.addEventListener('pointerenter', () => focusNode(node));
-  node.addEventListener('pointerleave', () => focusNode(null));
-  node.addEventListener('focus', () => focusNode(node));
-  node.addEventListener('blur', () => focusNode(null));
-  node.addEventListener('keydown', event => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      focusNode(node);
-    }
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      node.blur();
-    }
-  });
+function dispose() {
+  if (!runtime.disposeManaged()) return qa.describe();
+  cancelAnimationFrame(frame);
+  frame = 0;
+  focusedNode = null;
+  runtime.clearPointer('dispose');
+  return qa.describe();
 }
-new IntersectionObserver(entries => {
-  visible = entries[0]?.isIntersecting ?? true;
-  sync();
-}).observe(room);
-document.addEventListener('visibilitychange', sync);
-reducedMotion.addEventListener('change', sync);
-window.addEventListener('message', event => {
-  if (event.origin !== location.origin) return;
-  if (event.data?.type === 'signature-visual-visibility') {
-    pageVisible = Boolean(event.data.visible);
-    sync();
-  }
-});
 
-sync();
+function mount() {
+  runtime.beginMount();
+  runtime.setFallback(false);
+  runtime.setPauseReason('window-blur', false);
+  runtime.setPauseReason('host-hidden', false);
+  for (const node of nodes) {
+    runtime.addListener(node, 'pointerenter', event => {
+      const rect = diagram.getBoundingClientRect();
+      runtime.setPointer({
+        x: rect.width ? (event.clientX - rect.left) / rect.width : 0.5,
+        y: rect.height ? (event.clientY - rect.top) / rect.height : 0.5,
+        active: true,
+        event: 'pointerenter'
+      });
+      focusNode(node, 'pointer', true);
+    });
+    runtime.addListener(node, 'pointerleave', () => clearPointer('pointerleave'));
+    runtime.addListener(node, 'focus', () => focusNode(node));
+    runtime.addListener(node, 'blur', () => focusNode(null));
+    runtime.addListener(node, 'keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        focusNode(node, 'keyboard', true);
+      }
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        node.blur();
+      }
+    });
+  }
+  for (const type of ['pointercancel', 'lostpointercapture']) {
+    runtime.addListener(diagram, type, () => clearPointer(type));
+  }
+  runtime.addObserver(new ResizeObserver(resize), room);
+  runtime.addObserver(new IntersectionObserver(entries => {
+    runtime.setPauseReason('outside-viewport', !(entries[0]?.isIntersecting ?? true));
+    sync();
+  }), room);
+  runtime.addListener(document, 'visibilitychange', sync);
+  runtime.addListener(reducedMotion, 'change', sync);
+  runtime.addListener(window, 'blur', () => {
+    clearPointer('window-blur');
+    runtime.setPauseReason('window-blur', true);
+    sync();
+  });
+  runtime.addListener(window, 'focus', () => {
+    runtime.setPauseReason('window-blur', false);
+    sync();
+  });
+  runtime.addListener(window, 'message', event => {
+    if (event.origin !== location.origin || event.data?.type !== 'signature-visual-visibility') return;
+    runtime.setPauseReason('host-hidden', !event.data.visible);
+    sync();
+  });
+  runtime.addListener(window, 'pagehide', dispose, { once: true });
+  resize();
+  runtime.finishMount();
+  sync();
+}
+
+mount();

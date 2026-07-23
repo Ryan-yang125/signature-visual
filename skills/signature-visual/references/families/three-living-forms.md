@@ -56,7 +56,7 @@ Use light to reveal the selected silhouette:
 - environment contributes material context;
 - embedded or emissive light communicates state.
 
-Rotate the object or light only when the motion score calls for a phase change. A permanently orbiting camera often weakens the resting composition.
+Rotate the object or light only when the temporal structure calls for a meaningful state change. A permanently orbiting camera often weakens the resting composition.
 
 ## Motion and interaction
 
@@ -100,4 +100,4 @@ Derive uniforms, animation mixers, camera, and object state from one time/progre
 
 ## Runtime shell
 
-Use [three-living-form.js](../starters/three-living-form.js) for renderer ownership, sizing, pause, and disposal. Replace its geometry, shader/material, lighting, camera composition, and phase behavior.
+Use [three-living-form.js](../starters/three-living-form.js) for renderer ownership, sizing, pause, and disposal. Replace its geometry, shader/material, lighting, camera composition, and temporal behavior.

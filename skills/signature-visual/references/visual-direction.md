@@ -1,89 +1,100 @@
 # Visual Direction
 
-Use this guide before choosing a renderer. It turns product meaning into a visual proposition with enough specificity to direct composition, material, and time.
+Use this guide before creative search and before choosing a renderer. A direction begins with target evidence and ends with an observable visual rule. Metaphor is one possible route; literal mapping, spatial logic, event, and material behavior are equally valid.
 
-## Find the subject's native tension
+## Find the evidence kernel
 
-Look for a real opposition inside the product:
+Read the real surface and identify the smallest combination that can generate form:
 
-| Product signal | Possible tension |
-| --- | --- |
-| Coordination | autonomy ↔ alignment |
-| Trust or provenance | opacity ↔ traceability |
-| Biology | growth ↔ containment |
-| Infrastructure | distance ↔ immediacy |
-| Intelligence | uncertainty ↔ resolution |
-| Climate | immense scale ↔ local evidence |
-| Craft | repetition ↔ human deviation |
-| Finance | volatility ↔ control |
+- a subject, relation, action, or dataset from the target;
+- the judgment or feeling the page must enable;
+- a brand substance, production trace, or typographic behavior worth amplifying;
+- a constraint that can become composition, material, time, or interaction;
+- a visible change that would clarify the product's meaning.
 
-Turn the tension into paired verbs. The first verb develops energy; the second restores a designed state.
+Use concrete evidence. Product-category lookup tables and familiar design vocabulary can prime an answer before the page has spoken.
 
-## Build the thesis from evidence
+## Write a thesis in the form the idea needs
 
-Use at least two inputs from the actual surface:
+Keep the thesis concise and testable. Choose a form that matches the direction:
 
-- a noun or action in the product copy;
-- the geometry of existing UI or data;
-- a material or production reference already present in the brand;
-- a human response the section needs to create;
-- a constraint that can become a compositional device.
+- **Behavior:** describe how the subject acts under a rule.
+- **Mapping:** state which real variable controls which visible property.
+- **Event:** name the consequential change the visitor witnesses.
+- **Composition:** explain how scale, crop, void, or hierarchy carries meaning.
+- **Material:** describe the cause behind accumulation, erosion, reflection, fracture, staining, or another surface behavior.
+- **Metaphor:** connect the subject to a specific observable phenomenon.
 
-Example:
+No sentence template is required. A useful thesis tells an implementer what must remain true and gives a reviewer something visible to challenge.
+
+Examples of thesis shape:
 
 ```text
-Evidence: a distributed review product + editorial serif + visible revision history
-Thesis: The review network behaves like wet marginalia gathering into a legible edition,
-        so collaboration feels human, cumulative, and accountable.
-Verbs: annotate / resolve
+Each revision deposits a readable edge, so agreement can grow without erasing dissent.
+
+Confidence narrows the visible band while disagreement remains as a separate trace.
+
+The hero begins as independent modules; one user action reveals the useful gap that makes them a system.
 ```
 
-This thesis points toward marks, absorption, layered traces, and convergence. It leaves Canvas, SVG, and WebGL open until the spatial and material direction is selected.
+## Define the governing rule
 
-## Test metaphor quality
+The signature rule links the strongest still, changing states, responsive composition, and reduced-motion form. Make it observable:
 
-Score each statement:
+- state what persists;
+- state what may transform;
+- state which target evidence causes the transformation;
+- state what a visitor can inspect or infer afterward.
 
-1. **Native:** does the phenomenon share behavior with the product?
-2. **Visible:** can the idea be understood through form and change?
-3. **Generative:** does it suggest several compositions and states?
-4. **Bounded:** can it remain legible and performant on a web page?
-5. **Ownable:** would the exact idea feel less plausible for an unrelated brand?
+Examples are prompts; treating them as presets would narrow the search:
 
-Develop metaphors scoring 20 or higher. Replace broad words such as energy, future, network, organic, and intelligence with observable phenomena: capillary pull, magnetic alignment, parallax occlusion, scar tissue, sediment layers, orbital decay, relay timing, or contour erosion.
+- completed routes retain their origin;
+- illumination occurs only at a measured intersection;
+- a removed layer leaves a readable boundary;
+- labels remain stable while the mapped quantity changes beneath them.
 
-## Choose an artifact stance
+Mood labels such as `premium`, `alive`, or `futuristic` cannot serve as governing rules.
 
-The same phenomenon changes character through presentation:
+## Author a resting frame
 
-- **Environment:** the visitor enters a field or atmosphere.
-- **Specimen:** one entity is observed at high attention.
-- **Instrument:** the visual appears measurable and responsive.
-- **Document:** the visual behaves like a plate, chart, map, or score.
-- **Event:** the page stages a transformation with a beginning and recovery.
-- **Material sample:** surface behavior carries the main idea.
+Describe the dominant silhouette, scale, crop, density event, negative space, and relationship to page content before detailing motion. A held or static direction is valid when time adds no meaning.
 
-Use one primary stance. A secondary stance may add tension, such as a living specimen presented through a clinical instrument.
+Check the frame at thumbnail scale and in blur:
 
-## Define the signature rule
+- the main mass, void, rhythm, or topology remains legible;
+- the content hierarchy still leads;
+- one density event or spatial relation carries attention;
+- the crop feels deliberate;
+- labels and polish are not carrying the entire idea.
 
-A signature rule links every state. It is observable and testable:
+## Fingerprint the direction
 
-- all particles join one contour before dispersing;
-- light appears only where two fields intersect;
-- labels remain fixed while the topology deforms beneath them;
-- pointer pressure reveals the hidden historical layer;
-- every growth event leaves one permanent scar.
+Record the structural fingerprint from [creative-search.md](creative-search.md): artifact, silhouette, spatial grammar, density event, material causality, temporal archetype, interaction meaning, and type role.
 
-Avoid rules that describe mood alone. “Feels premium” cannot guide implementation.
+Treat the fingerprint as a description of causes. `Warm palette`, `more particles`, `faster easing`, and `Three.js` describe tuning or implementation and rarely establish a separate direction.
 
-## Direction warning signs
+## Test product specificity
 
-Return to the thesis when:
+Ask:
 
-- the idea begins with the renderer or library;
-- the product name can be swapped with no design change;
-- glow, particles, noise, or 3D depth carry the whole concept;
-- interaction exists only to prove interactivity;
-- the resting frame relies on motion to feel complete;
-- three proposed directions share the same silhouette and layout.
+1. Which target evidence generates the dominant structure?
+2. What becomes understandable in the still frame or semantic state sequence?
+3. Which constraint has become an authored feature?
+4. What would need to change if the product name and data were swapped?
+5. Can the governing rule produce a second variation without relying on color or count?
+
+A direction needs revision when the product can be swapped with only label changes, when the renderer supplies the subject, or when explanation carries more meaning than the frame.
+
+## Warning signs
+
+Return to the evidence kernel when:
+
+- a library, renderer, artifact category, or packaged pattern appears before target behavior;
+- every candidate shares one copy/effect layout or dominant silhouette;
+- visual novelty comes from glow, noise, particles, depth, or post-processing alone;
+- interaction exists to demonstrate interactivity;
+- motion supplies all compositional interest;
+- the direction resembles recent output despite source-specific styling;
+- a thesis reads well while offering no falsifiable visual rule.
+
+Continue with [creative-search.md](creative-search.md). Keep Pattern Language closed until the direction is frozen.

@@ -41,10 +41,6 @@
                 <pattern id="plate-grid" width="28" height="28" patternUnits="userSpaceOnUse">
                   <path d="M28 0H0V28" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.18" />
                 </pattern>
-                <filter id="signal-bloom" x="-200%" y="-200%" width="500%" height="500%">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
-                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                </filter>
               </defs>
 
               <rect class="grid" x="14" y="14" width="652" height="792" fill="url(#plate-grid)" />
@@ -66,9 +62,9 @@
                 <path id="trace-10" data-route data-phase="5" d="M340 694 C340 726 340 738 340 770" />
               </g>
 
-              <g class="signals" filter="url(#signal-bloom)" aria-hidden="true">
-                <circle id="signal-a" r="4.5" />
-                <circle id="signal-b" r="4.5" />
+              <g class="signals" aria-hidden="true">
+                <rect id="signal-a" width="8" height="8" />
+                <rect id="signal-b" width="8" height="8" />
               </g>
 
               <g class="nodes">

@@ -44,7 +44,7 @@ try {
     if (capture.progress !== undefined) {
       await page.waitForFunction(() => window.__signatureVisual?.ready === true, null, { timeout: 45000 });
       await page.evaluate(progress => {
-        window.__signatureVisual.setSeed('site-screenshot-v2');
+        window.__signatureVisual.setSeed('site-screenshot-v3');
         window.__signatureVisual.seek({ progress });
         window.__signatureVisual.render();
       }, capture.progress);

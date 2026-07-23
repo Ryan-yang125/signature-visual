@@ -24,9 +24,15 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Build production site
         run: npm run build:site && test ! -e .site-dist/_tests
+      - name: Validate V3 benchmark and design contracts
+        run: npm run test:creative-offset && npm run test:design-record && npm run test:evals && npm run test:schemas
       - name: Test deterministic visual QA
         run: npm run test:visual-qa
       - name: Verify skill, runtime shells, site, and live cases
         run: npm run check
       - name: Capture all production motion scores
         run: npm run visual-qa:cases
+      - name: Validate generated QA results against JSON Schema
+        run: npm run test:schemas -- --results-root .visual-qa --require-results 12
+      - name: Verify the published skill package
+        run: npm pack --dry-run

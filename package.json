@@ -1,7 +1,7 @@
 {
   "name": "signature-visual",
-  "version": "2.0.0",
-  "description": "A self-contained visual direction skill for distinctive Canvas, Three.js, WebGL, and SVG moments on real websites.",
+  "version": "3.0.0",
+  "description": "A self-contained creative search and visual direction skill for distinctive computational moments on real websites.",
   "keywords": [
     "claude",
     "claude-code",
@@ -24,6 +24,10 @@
   "type": "module",
   "files": [
     "skills",
+    "docs",
+    "evals",
+    "scripts",
+    "site",
     "ACKNOWLEDGEMENTS.md",
     "CHANGELOG.md"
   ],
@@ -39,14 +43,21 @@
   "scripts": {
     "serve": "python3 -m http.server --directory site 4173",
     "build:site": "node scripts/build-site.mjs",
-    "deploy:site": "npm run build:site && npx wrangler pages deploy .site-dist --project-name signature-visual",
+    "deploy:site": "npm run build:site && npx --yes wrangler@4.113.0 pages deploy .site-dist --project-name signature-visual",
     "check": "node site/_tests/verify.mjs",
     "screenshots": "node site/_tests/capture.mjs",
     "visual-qa": "node skills/signature-visual/scripts/visual-qa.mjs",
     "visual-qa:cases": "node site/_tests/run-visual-qa.mjs",
-    "test:visual-qa": "node skills/signature-visual/scripts/visual-qa.test.mjs"
+    "creative-offset": "node skills/signature-visual/scripts/creative-offset.mjs",
+    "test:evals": "node evals/validate.mjs",
+    "test:schemas": "node scripts/validate-schemas.mjs",
+    "test:creative-offset": "node skills/signature-visual/scripts/creative-offset.test.mjs",
+    "test:design-record": "node skills/signature-visual/scripts/validate-design-record.test.mjs",
+    "test:visual-qa": "node skills/signature-visual/scripts/visual-qa.test.mjs",
+    "test": "npm run test:creative-offset && npm run test:design-record && npm run test:evals && npm run test:schemas && npm run test:visual-qa && npm run check"
   },
   "devDependencies": {
+    "ajv": "8.20.0",
     "playwright": "1.61.1"
   }
 }

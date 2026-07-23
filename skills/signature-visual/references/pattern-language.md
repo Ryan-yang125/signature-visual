@@ -1,243 +1,119 @@
 # Pattern Language
 
-Pattern cards are generative design spaces. Select one for its behavior, combine a second only when it supplies a missing layer, then author the final composition from the project thesis. A card never determines palette, layout, typography, or renderer by itself.
+**Open this file only after the candidate set and selected direction are frozen.** Generate landmark, section, and refinement directions from the real surface with [creative-search.md](creative-search.md). Early access to named patterns narrows the search and creates family resemblance across otherwise unrelated work.
 
-## How to use the cards
+These cards are post-freeze operators. Use them to vary a chosen rule, diagnose weak implementation, or describe system range. They supply no target, artifact, palette, temporal script, interaction model, or finished composition.
 
-1. Match the product tension and core verb pair to one or two cards.
-2. Choose an artifact stance from [visual-direction.md](visual-direction.md).
-3. Build three Direction Cards using different spatial archetypes or pattern cards.
-4. Set at least six variation axes explicitly for the selected direction.
-5. Check the cheap signals and source-distance rule before implementation.
+Use zero, one, or several operators as the selected direction requires. The governing rule decides whether a combination belongs.
 
-## 01 — Coherent Field
+## 01 — Align around a discontinuity
 
-**Visual thesis:** many local decisions reveal a larger invisible rule.
+**Transformation operator:** Apply a coherent local rule across a field, then introduce one target-derived seam, obstacle, aperture, attractor, or counter-current that reveals the rule through deviation.
 
-**Semantic fit:** coordination, search, logistics, attention, collective intelligence, traffic, ecology.
+**Variation axes:** field equation; emitter placement; density gradient; discontinuity topology; coherence radius; history length; edge treatment; mark orientation; spatial crop; response propagation.
 
-**Spatial grammar:** a directional or rotational field with one designed discontinuity: aperture, obstacle, attractor, seam, or counter-current. Density follows meaning rather than covering the frame uniformly.
+**Cheap signals:** evenly distributed dots; default constellation links; uniform velocity; cursor repulsion as the whole event; decorative vector noise.
 
-**Material language:** ink filaments, dust, fibers, spores, plotted marks, or light traces. Trails show history; their decay model establishes the substance.
+**Failure signatures:** the discontinuity has no target meaning; every area carries equal density; changing the field equation leaves the same visible story; individual marks chase input without changing the larger rule.
 
-**Motion score:** quiet drift → local alignment → field-wide coherence → rupture or convergence → residual flow.
+## 02 — Deform a boundary
 
-**Interaction mapping:** pointer, scroll, or data changes the field rule or boundary. Individual marks do not simply chase input.
+**Transformation operator:** Make an interior/exterior relation visible by changing thickness, permeability, continuity, porosity, attachment, or topology under a named pressure.
 
-**Variation axes:** field equation; emitter geometry; mark shape; trail persistence; density gradient; attractor topology; obstacle shape; coherence radius; history length; edge treatment; phase transition; spatial crop.
+**Variation axes:** boundary topology; porosity; thickness; attachment points; anisotropy; deformation wavelength; interior density; pressure location; scar persistence; edge hierarchy.
 
-**Capture checkpoints:** empty rule; first alignment; dominant flow; discontinuity at peak; recovered field with residue.
+**Cheap signals:** default wireframe sphere; noise displacement everywhere; constant auto-rotation; Fresnel edge used as the full depth model; filler dust.
 
-**Cheap signals:** evenly distributed dots, default constellation lines, rainbow additive blending, cursor repulsion as the only event, uniform speed, random noise with no large-scale structure.
+**Failure signatures:** deformation lacks a cause; the interior never responds; the silhouette becomes arbitrary; every input produces the same elastic wobble; the boundary heals without evidence when history matters.
 
-**Source-distance rule:** change the emitter, dominant density event, mark material, and field topology from any studied source.
+## 03 — Accumulate history
 
-## 02 — Living Boundary
+**Transformation operator:** Let earlier states remain spatially legible through deposition, compression, staining, erosion, revision, or removal.
 
-**Visual thesis:** identity emerges through a boundary that breathes, protects, filters, or adapts.
+**Variation axes:** deposition rule; layer orientation; permanence; age encoding; compression; erosion; edge bleed; reveal aperture; temporal scale; archive density; occlusion order.
 
-**Semantic fit:** biology, security, communities, personalization, health, adaptive systems, trust boundaries.
+**Cheap signals:** generic contour lines; pasted paper noise; endless accumulation; random scratches; history represented only by lower opacity.
 
-**Spatial grammar:** a membrane, colony edge, nested enclosure, porous shell, or deformable contour. The boundary and its relationship to interior/exterior are the subject.
+**Failure signatures:** layers cannot be tied to distinct events or values; recent and old states read identically; accumulation destroys the resting frame; erasure leaves no meaningful evidence.
 
-**Material language:** tissue, gel, ceramic glaze, inflated film, foam, skin, woven fiber, or translucent mineral. Use internal structure to support the chosen substance.
+## 04 — Calibrate a hidden state
 
-**Motion score:** stable silhouette → subtle internal pressure → localized response → topology or permeability change → damped re-formation.
+**Transformation operator:** Expose an otherwise invisible variable through consistent measurement geometry, sampling, comparison, or thresholding.
 
-**Interaction mapping:** input changes pressure, permeability, adhesion, or local growth. It has a visible propagation speed and recovery model.
+**Variation axes:** measured domain; scale mapping; sampling cadence; readout hierarchy; tolerance; threshold geometry; error state; persistence; calibration marks; uncertainty encoding.
 
-**Variation axes:** topology; porosity; thickness; interior density; deformation wavelength; anisotropy; surface roughness; light direction; opacity; attachment points; scar persistence; camera relationship.
+**Cheap signals:** arbitrary HUD corners; decorative coordinates; fake numbers; scan lines on every layer; excessive micro-labels; neon cockpit styling.
 
-**Capture checkpoints:** complete rest; pressure begins; boundary yields; maximum transformation; recovered silhouette with evidence.
+**Failure signatures:** marks disagree with the declared model; labels imply unavailable precision; controls change decoration instead of the measured state; the housing becomes more prominent than the phenomenon.
 
-**Cheap signals:** default wireframe sphere, constant auto-rotation, Fresnel glow carrying all depth, simplex-noise displacement everywhere, floating dust added only to fill space.
+## 05 — Reveal at an intersection
 
-**Source-distance rule:** avoid carrying sphere silhouette, violet/blue emission, noise deformation, and slow rotation together. Replace at least three of those traits.
+**Transformation operator:** Make a state visible only where named fields, surfaces, categories, or moments meet.
 
-## 03 — Sediment Archive
+**Variation axes:** boundary geometry; contributor count; overlap rule; falloff; occlusion; edge sharpness; medium density; aftereffect; focal location; alignment tolerance.
 
-**Visual thesis:** time becomes visible through deposits, stains, strata, scars, and erased traces.
+**Cheap signals:** full-surface aurora; unconstrained domain warp; permanent bloom; rainbow interference; pointer lens with no semantic cause.
 
-**Semantic fit:** provenance, version history, memory, climate, learning, craft, archives, cumulative work.
+**Failure signatures:** brightness or contrast has no named cause; the whole frame becomes equally active; the intersection remains visible when contributors separate; the reveal conveys no new relation.
 
-**Spatial grammar:** layered contours, deposited bands, palimpsest surfaces, growing cross-sections, or a field with persistent history. Earlier states remain spatially legible.
+## 06 — Grow under constraint
 
-**Material language:** paper, watercolor, graphite, mineral layers, oxidized metal, dust, wax, photographic exposure.
+**Transformation operator:** Apply local generation rules while a target-derived resource, obstacle, boundary, competition, or pruning rule shapes the resulting structure.
 
-**Motion score:** clean or faint ground → first marks → accumulation → compression or reveal → stable archive.
+**Variation axes:** seed placement; generation grammar; resource field; branching relation; collision response; maturity limit; mutation range; pruning rule; symmetry; environmental pressure.
 
-**Interaction mapping:** input exposes, scrubs, deposits, or compares layers. Release leaves a deliberate trace or returns to a composed archival frame.
+**Cheap signals:** repeated radial flower; uniform scale-up; random tendrils; perfect symmetry; growth driven by noise alone.
 
-**Variation axes:** deposition rule; layer orientation; age encoding; pigment diffusion; erosion; edge bleed; annotation density; reveal aperture; permanence; layer spacing; paper/surface texture; temporal scale.
+**Failure signatures:** the mature structure ignores its environment; local rules cannot explain the global form; growth adds complexity without hierarchy; pruning changes count while preserving the same silhouette.
 
-**Capture checkpoints:** ground; early deposit; readable sequence; densest archive; resolved history.
+## 07 — Trace causality
 
-**Cheap signals:** generic contour map, noise lines with no temporal meaning, texture overlay detached from marks, endless accumulation without a resolved frame.
+**Transformation operator:** Arrange routes, dependencies, revisions, or lineage so one cause and its downstream consequence remain readable inside controlled secondary complexity.
 
-**Source-distance rule:** connect every persistent layer to a distinct state, event, or semantic variable.
+**Variation axes:** graph grammar; route geometry; node hierarchy; grouping; crossing policy; direction encoding; state persistence; reveal order; error topology; retained context.
 
-## 04 — Signal Instrument
+**Cheap signals:** evenly spaced circles and lines; every route active together; generic traveling dots; decorative grid; labels detached from hierarchy.
 
-**Visual thesis:** an invisible process becomes credible when it can be observed through a purpose-built instrument.
+**Failure signatures:** topology comes from layout convenience; the primary route disappears at thumbnail scale; signal travel changes no downstream state; selected and unselected paths retain equal authority.
 
-**Semantic fit:** infrastructure, audio, diagnostics, observability, climate, research, precision tools, real-time systems.
+## 08 — Reclassify language
 
-**Spatial grammar:** an inset device, calibrated viewport, reticle, oscilloscope, plotter, dial, or sectional apparatus. The housing, scale, and readout establish physical authority.
+**Transformation operator:** Use real target language, labels, symbols, or indices as the material that sorts, measures, groups, or reshapes the visual field.
 
-**Material language:** powder-coated metal, glass, phosphor, thermal paper, etched acrylic, CRT bloom, machined polymer, printed calibration.
+**Variation axes:** token source; sorting rule; semantic weighting; repetition grammar; orientation; line spacing; variable-type axes; grouping; mask geometry; legibility boundary.
 
-**Motion score:** idle reading → acquisition → lock or scan → decisive measurement → held result or calibrated return.
+**Cheap signals:** lorem ipsum texture; random letter rain; oversized type over an unrelated effect; continuous illegible distortion; arbitrary character substitution.
 
-**Interaction mapping:** input adjusts a meaningful control, probe position, focus, range, or sample. Feedback follows instrument latency rather than immediate decorative motion.
+**Failure signatures:** text carries no target meaning; hierarchy conflicts with reading order; classification changes only position; every state sacrifices legibility; typography acts as decoration around another subject.
 
-**Variation axes:** housing silhouette; display technology; calibration system; sampling cadence; input control; readout hierarchy; trace type; persistence; physical wear; scale; annotation vernacular; error state.
+## 09 — Assemble relations
 
-**Capture checkpoints:** powered idle; acquisition; partial lock; measured peak; stable result.
+**Transformation operator:** Reveal system identity through the way independent parts align, nest, collide, connect, fold, or preserve a useful gap.
 
-**Cheap signals:** arbitrary HUD corners, decorative coordinates, scan lines over every surface, fake numbers with no state relationship, excessive micro-labels, neon cockpit styling.
+**Variation axes:** module geometry; connection rule; assembly axis; gap size; scale hierarchy; collision; incompleteness; ordering; constraint plane; exploded distance.
 
-**Source-distance rule:** define what the instrument measures and let every mark, label, and control follow that model.
+**Cheap signals:** floating cubes; perpetual orbit; random parallax layers; glossy material on every part; explosion without connection logic.
 
-## 05 — Luminous Threshold
+**Failure signatures:** modules do not derive from product parts or data; assembly order carries no consequence; a finished object hides the relationship; separation and completion share one silhouette.
 
-**Visual thesis:** change becomes visible where fields, surfaces, or states meet.
+## 10 — Expose an anomaly
 
-**Semantic fit:** transitions, connectivity, energy, infrastructure, boundaries, discovery, activation, transformation.
+**Transformation operator:** Establish a legible normal rule, introduce one meaningful deviation, and show its propagation, containment, documentation, or consequence.
 
-**Spatial grammar:** seam, horizon, aperture, caustic intersection, shadow boundary, interference band, or moving reveal plane. Most of the frame remains controlled so the threshold carries attention.
+**Variation axes:** base order; anomaly cause; deviation scale; propagation; containment; diagnostic overlay; repair rule; evidence persistence; location logic; regularity.
 
-**Material language:** transmitted light, fog, diffracted film, subsurface glow, heat, projection, eclipse, photographic burn.
+**Cheap signals:** random glitch; red warning dot as the whole concept; arbitrary noise burst; full-frame destabilization; endless error state.
 
-**Motion score:** low field → approaching conditions → first contact → narrow luminous event → dissipating afterimage.
+**Failure signatures:** the normal rule is unclear; the anomaly has no cause; the whole system changes at once; intervention leaves no evidence; the deviation is only a color swap.
 
-**Interaction mapping:** input moves one contributing field or changes alignment. Brightness is a consequence of intersection.
+## Post-freeze use
 
-**Variation axes:** boundary geometry; field count; light falloff; color separation; medium density; reveal direction; afterimage; turbulence; edge sharpness; occluder; temporal asymmetry; focal location.
+For the selected direction:
 
-**Capture checkpoints:** separated fields; approach; contact; peak threshold; afterimage.
+1. Name the operator only when it clarifies implementation.
+2. Choose variation axes that preserve the signature rule and produce meaningful range.
+3. Check cheap signals before polish.
+4. Use failure signatures to revise the governing rule or implementation layer.
+5. Re-run source and output-distance checks when an operator makes the result resemble a packaged example or recent output.
 
-**Cheap signals:** full-screen aurora, unconstrained domain warp, cosine rainbow palette, permanent bloom, pointer lens with no semantic effect, equal brightness everywhere.
-
-**Source-distance rule:** light needs a named cause, one focal boundary, and at least 60% quiet tonal area in a key frame.
-
-## 06 — Morphogenetic Growth
-
-**Visual thesis:** simple local rules create a surprising living structure.
-
-**Semantic fit:** ecosystems, learning, networks, creativity, communities, evolution, generative products.
-
-**Spatial grammar:** branching, phyllotaxis, cell division, lichen expansion, crystallization, root systems, or constrained colonization. Growth follows resources and boundaries.
-
-**Material language:** botanical tissue, mycelium, crystal, coral, plotter ink, cut paper, wire, or pixel colony.
-
-**Motion score:** dormant seeds → local sprouting → competition and branching → mature structure → shedding, pruning, or dormancy.
-
-**Interaction mapping:** input changes nutrient, light, obstacle, pruning, mutation rate, or selection pressure. Response propagates through the system.
-
-**Variation axes:** seed arrangement; growth grammar; resource field; branching angle; collision response; maturity limit; symmetry; pruning rule; phenotype; material; season; mutation range.
-
-**Capture checkpoints:** seed state; first topology; branching logic; mature silhouette; pruned or dormant form.
-
-**Cheap signals:** radial flower built from repeated sine waves, symmetry with no interruption, growth as uniform scale-up, random tendrils with no resource model, constant rainbow hue cycling.
-
-**Source-distance rule:** define one environmental pressure and show its consequence in the mature silhouette.
-
-## 07 — Trace Topology
-
-**Visual thesis:** relationships become understandable through routes, constraints, and signals moving across a designed topology.
-
-**Semantic fit:** provenance, systems, workflows, dependencies, logistics, lineage, collaboration, security.
-
-**Spatial grammar:** route network, circuit, lineage tree, braided paths, exploded assembly, or layered graph. Topology has a readable primary route and controlled secondary complexity.
-
-**Material language:** technical ink, etched copper, embroidery, transit print, blueprint, wire, embossed paper, laser trace.
-
-**Motion score:** dormant map → route acquisition → branching or rerouting → system-wide consequence → resolved path with retained context.
-
-**Interaction mapping:** focus reveals upstream/downstream impact, reroutes a constraint, or compares states. Signals travel with causal timing.
-
-**Variation axes:** graph grammar; route geometry; node hierarchy; direction encoding; signal cadence; line material; annotation level; grouping; crossings; state persistence; reveal order; error topology.
-
-**Capture checkpoints:** readable topology; selected route; branching cause; system response; resolved lineage.
-
-**Cheap signals:** evenly spaced circles and lines, every route animated together, generic moving dots, labels detached from hierarchy, decorative grid, diagram used as a background texture.
-
-**Source-distance rule:** build topology from the subject's actual relationships or a clearly declared model; make one route visually dominant.
-
-## 08 — Kinetic Index
-
-**Visual thesis:** language, labels, or symbols become the material that measures space, change, or identity.
-
-**Semantic fit:** publishing, search, mapping, language products, catalogs, cultural archives, data-rich tools.
-
-**Spatial grammar:** typographic terrain, repeated index, coordinate field, animated concordance, plotter text, semantic cloud, or variable-type silhouette.
-
-**Material language:** ink, thermal print, mechanical type, LED matrix, stamped label, editorial paper, plotted characters.
-
-**Motion score:** legible index → local disturbance → reclassification or contour formation → semantic reveal → restored reading order.
-
-**Interaction mapping:** input changes ranking, focus, scale, language, grouping, or spatial query. Typography remains content-bearing.
-
-**Variation axes:** token source; repetition grammar; type family; axis changes; orientation; line spacing; semantic weighting; mask geometry; sorting logic; reveal; density; color role.
-
-**Capture checkpoints:** base index; first reordering; contour or cluster; semantic peak; readable resolved state.
-
-**Cheap signals:** lorem ipsum as texture, random letter rain, oversized type over an unrelated effect, character substitution with no content model, illegible continuous distortion.
-
-**Source-distance rule:** use real project language or data, and keep at least one state fully readable.
-
-## 09 — Spatial Assemblage
-
-**Visual thesis:** a system's identity is revealed by how independent parts align, collide, nest, or unfold.
-
-**Semantic fit:** modular products, construction, platforms, logistics, collaboration, manufacturing, creative tools.
-
-**Spatial grammar:** exploded object, voxel body, nested modules, constrained stack, folded plane, or orbiting components. Negative space and assembly order reveal hierarchy.
-
-**Material language:** machined parts, paper modules, ceramic tiles, glass blocks, wire frames, packaging, magnetic fragments.
-
-**Motion score:** separated inventory → attraction and alignment → partial assembly → coherent object or useful gap → controlled release.
-
-**Interaction mapping:** input changes alignment plane, attraction, exploded distance, assembly step, or component focus.
-
-**Variation axes:** module shape; connection rule; assembly axis; scale hierarchy; material contrast; gap size; camera; collision; order; incompleteness; exploded view; resting orientation.
-
-**Capture checkpoints:** inventory; first relation; readable assembly rule; coherent peak; stable partial/open state.
-
-**Cheap signals:** floating cubes, perpetual orbit, random parallax layers, glossy materials on every part, explosion with no assembly logic.
-
-**Source-distance rule:** derive module geometry or connection logic from the actual product architecture.
-
-## 10 — Anomalous System
-
-**Visual thesis:** one meaningful deviation reveals the rules governing an otherwise ordered world.
-
-**Semantic fit:** risk, security, quality, discovery, monitoring, research, personalization, exceptions.
-
-**Spatial grammar:** repeated grid, calibrated field, regular series, or stable process with one evolving anomaly. The order is visually satisfying before disruption.
-
-**Material language:** specimen plate, print registration, machine array, woven structure, data matrix, tiled surface.
-
-**Motion score:** establish order → subtle deviation → propagation or containment → diagnostic peak → repaired order or preserved evidence.
-
-**Interaction mapping:** input inspects, contains, amplifies, or traces the anomaly's cause. The regular system responds locally first.
-
-**Variation axes:** base order; anomaly type; propagation; containment; regularity; unit shape; material; diagnostic overlay; repair rule; evidence persistence; scale; location logic.
-
-**Capture checkpoints:** perfect order; detectable fault; propagation; intervention; repaired or documented state.
-
-**Cheap signals:** random glitch, red warning dot as the full concept, arbitrary noise burst, entire frame destabilizing at once, endless error state.
-
-**Source-distance rule:** specify the normal rule, the anomaly cause, and the visible consequence before coding.
-
-## Combining cards
-
-Combine at most two cards. Write the relationship as a sentence:
-
-```text
-PRIMARY: Sediment Archive supplies persistent history.
-SECONDARY: Trace Topology supplies causal routes.
-UNIFYING RULE: every completed route deposits one permanent stratum.
-```
-
-Remove any element that cannot be explained by the unifying rule. Renderer layers, typography, UI chrome, and post-processing all follow the same rule.
+The direction keeps its original name and evidence-derived identity. Pattern names stay internal unless they help the handoff.

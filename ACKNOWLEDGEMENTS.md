@@ -1,6 +1,6 @@
 # Acknowledgements and Research Boundaries
 
-Signature Visual V2 was developed through original implementation and structured study of public creative-coding, animation, and Skill resources.
+Signature Visual V3 was developed through original implementation and structured study of public creative-coding, animation, and Skill resources.
 
 ## Architecture
 

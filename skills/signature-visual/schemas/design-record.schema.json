@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://signature-visual.pages.dev/schemas/design-record.schema.json",
+  "title": "Signature Visual Design Record",
+  "description": "A flexible evidence record for visual-direction decisions. Creative fields intentionally accept open strings, arrays, and additional properties.",
+  "type": "object",
+  "required": ["schemaVersion", "tier", "surface", "thesis", "directions", "distanceMatrix", "selection", "signatureRule", "renderer", "states", "runtimeCapabilities", "revision"],
+  "additionalProperties": true,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 3 },
+    "tier": { "enum": ["landmark", "section", "refine"] },
+    "surface": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "object", "additionalProperties": true }
+      ]
+    },
+    "thesis": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        { "type": "object", "additionalProperties": true }
+      ]
+    },
+    "directions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string", "minLength": 1 },
+          "spatialStructure": { "type": ["string", "array", "object"] },
+          "material": { "type": ["string", "array", "object"] },
+          "motion": { "type": ["string", "array", "object"] },
+          "interaction": { "type": ["string", "array", "object"] },
+          "risk": { "type": ["string", "array"] }
+        }
+      }
+    },
+    "distanceMatrix": {
+      "description": "Open comparison records across artifact, archetype, scale, density, material, tempo, response, typography, or project-specific axes.",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          { "type": "array" },
+          { "type": "object", "additionalProperties": true }
+        ]
+      }
+    },
+    "sourceDistance": {
+      "description": "Evidence of how far the selected direction moves from its sources, references, or starting templates.",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": ["string", "number", "object"] } },
+        { "type": "object", "additionalProperties": true }
+      ]
+    },
+    "outputDistance": {
+      "description": "Evidence of meaningful separation among generated directions or final outputs.",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": ["string", "number", "object"] } },
+        { "type": "object", "additionalProperties": true }
+      ]
+    },
+    "selection": {
+      "type": "object",
+      "required": ["selectedDirection", "evidence", "counterEvidence", "sourceDistance", "outputDistance"],
+      "additionalProperties": true,
+      "properties": {
+        "selectedDirection": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "array", "items": { "type": ["string", "object"] } },
+        "counterEvidence": { "type": "array", "minItems": 1, "items": { "type": ["string", "object"] } },
+        "sourceDistance": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "object", "additionalProperties": true }
+          ]
+        },
+        "outputDistance": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "object", "additionalProperties": true }
+          ]
+        },
+        "convergenceForecast": {
+          "description": "A pre-candidate prediction of the cluster another independent landmark run is likely to produce.",
+          "type": "object",
+          "required": ["artifact", "renderer", "materialCausality", "temporalArchetype", "interactionMeaning"],
+          "additionalProperties": true,
+          "properties": {
+            "artifact": { "type": "string", "minLength": 1 },
+            "renderer": { "type": "string", "minLength": 1 },
+            "materialCausality": { "type": "string", "minLength": 1 },
+            "temporalArchetype": { "type": "string", "minLength": 1 },
+            "interactionMeaning": { "type": "string", "minLength": 1 }
+          }
+        },
+        "clusterBreakAxes": {
+          "description": "Causal axes on which the selected landmark visibly leaves the forecast cluster.",
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["materialCausality", "temporalArchetype", "interactionMeaning"]
+          }
+        },
+        "forecastDisposition": {
+          "enum": ["outside-forecast-cluster", "rebranched-outside-forecast-cluster"]
+        },
+        "rebranchEvidence": { "type": "string", "minLength": 1 },
+        "noveltyGuard": {
+          "type": "object",
+          "required": ["obviousAttractors", "shadowBaseline", "creativeOffset", "winnerChallenge"],
+          "additionalProperties": true,
+          "properties": {
+            "obviousAttractors": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "shadowBaseline": {
+              "oneOf": [
+                { "type": "string", "minLength": 1 },
+                { "type": "object", "additionalProperties": true }
+              ]
+            },
+            "creativeOffset": {
+              "type": "object",
+              "required": ["schemaVersion", "seed", "quarantine", "routeId", "causalRoute", "substancePressure", "temporalPressure", "interactionPressure", "representationId", "representationPressure", "representationQuarantine", "evidenceMove", "spatialPressure", "counterfactual", "selectionChallenge"],
+              "additionalProperties": true,
+              "properties": {
+                "schemaVersion": { "const": 3 },
+                "seed": { "type": "string", "minLength": 1 },
+                "quarantine": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": { "type": "string", "minLength": 1 }
+                },
+                "routeId": { "type": "string", "minLength": 1 },
+                "causalRoute": { "type": "string", "minLength": 1 },
+                "substancePressure": { "type": "string", "minLength": 1 },
+                "temporalPressure": { "type": "string", "minLength": 1 },
+                "interactionPressure": { "type": "string", "minLength": 1 },
+                "representationId": {
+                  "enum": ["active-negative-space", "typographic-topology", "unequal-fragments", "migrating-boundary", "layered-strata", "scalar-density-field", "volumetric-occlusion", "page-frame-reallocation", "topological-cut", "serial-composition", "isolated-specimen", "single-event-trace"]
+                },
+                "representationPressure": { "type": "string", "minLength": 1 },
+                "representationQuarantine": { "type": "string", "minLength": 1 },
+                "evidenceMove": { "type": "string", "minLength": 1 },
+                "spatialPressure": { "type": "string", "minLength": 1 },
+                "counterfactual": { "type": "string", "minLength": 1 },
+                "selectionChallenge": { "type": "string", "minLength": 1 }
+              }
+            },
+            "cohort": {
+              "description": "Optional zero-based roster coordinates for a coordinated independent alternative or benchmark run.",
+              "type": "object",
+              "required": ["baseSeed", "index", "size"],
+              "additionalProperties": false,
+              "properties": {
+                "baseSeed": { "type": "string", "minLength": 1 },
+                "index": { "type": "integer", "minimum": 0, "maximum": 11 },
+                "size": { "type": "integer", "minimum": 1, "maximum": 12 }
+              }
+            },
+            "winnerChallenge": {
+              "type": "object",
+              "required": ["selectionChallengeEvidence", "breakEvidence"],
+              "additionalProperties": true,
+              "properties": {
+                "selectionChallengeEvidence": { "type": "string", "minLength": 1 },
+                "breakEvidence": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "object",
+                    "required": ["axis", "forecast", "winner", "visibleEvidence"],
+                    "additionalProperties": true,
+                    "properties": {
+                      "axis": { "enum": ["materialCausality", "temporalArchetype", "interactionMeaning"] },
+                      "forecast": { "type": "string", "minLength": 1 },
+                      "winner": { "type": "string", "minLength": 1 },
+                      "visibleEvidence": { "type": "string", "minLength": 1 }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "confidence": { "type": ["number", "string"] }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "forecastDisposition": { "const": "rebranched-outside-forecast-cluster" } },
+            "required": ["forecastDisposition"]
+          },
+          "then": {
+            "type": "object",
+            "required": ["rebranchEvidence"],
+            "properties": { "rebranchEvidence": true }
+          }
+        }
+      ]
+    },
+    "signatureRule": { "type": ["string", "array", "object"] },
+    "renderer": { "type": ["string", "array", "object"] },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          { "type": "object", "additionalProperties": true }
+        ]
+      }
+    },
+    "runtimeCapabilities": {
+      "type": "object",
+      "required": ["responsive", "reducedMotion", "deterministic", "visibilityPause", "teardown"],
+      "properties": {
+        "responsive": { "$ref": "#/$defs/runtimeCapability" },
+        "reducedMotion": { "$ref": "#/$defs/runtimeCapability" },
+        "deterministic": { "$ref": "#/$defs/runtimeCapability" },
+        "visibilityPause": { "$ref": "#/$defs/runtimeCapability" },
+        "teardown": { "$ref": "#/$defs/runtimeCapability" }
+      },
+      "additionalProperties": { "$ref": "#/$defs/runtimeCapability" }
+    },
+    "evaluation": {
+      "description": "Optional independently reviewed evidence for one or more scores of five.",
+      "oneOf": [
+        { "$ref": "#/$defs/evaluationItem" },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/evaluationItem" }
+        }
+      ]
+    },
+    "revision": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": ["string", "object"] } },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "observation": { "type": ["string", "array"] },
+            "cause": { "type": ["string", "array"] },
+            "change": { "type": ["string", "array"] },
+            "evidence": { "type": "array", "items": { "type": ["string", "object"] } },
+            "counterEvidence": { "type": "array", "items": { "type": ["string", "object"] } }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "tier": { "const": "landmark" } },
+        "required": ["tier"]
+      },
+      "then": {
+        "properties": {
+          "selection": {
+            "type": "object",
+            "required": ["convergenceForecast", "clusterBreakAxes", "forecastDisposition", "noveltyGuard"],
+            "properties": {
+              "convergenceForecast": true,
+              "clusterBreakAxes": true,
+              "forecastDisposition": true,
+              "noveltyGuard": true
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "runtimeCapability": {
+      "oneOf": [
+        { "type": "boolean" },
+        { "type": "string" },
+        { "type": "object", "additionalProperties": true }
+      ]
+    },
+    "evaluationItem": {
+      "type": "object",
+      "required": ["criterion", "score", "artifactEvidence", "strongestCounterEvidence", "independentReview"],
+      "additionalProperties": true,
+      "properties": {
+        "criterion": { "type": "string", "minLength": 1 },
+        "score": { "const": 5 },
+        "artifactEvidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": ["string", "object"] }
+        },
+        "strongestCounterEvidence": { "type": "string", "minLength": 1 },
+        "independentReview": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "object", "additionalProperties": true }
+          ]
+        }
+      }
+    }
+  }
+}

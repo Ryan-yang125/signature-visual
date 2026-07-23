@@ -1,150 +1,247 @@
 # Visual QA
 
-Visual QA turns a moving, interactive system into comparable evidence. Capture deterministic states, review them together, make one targeted revision, and repeat until every category reaches the quality floor.
+Visual QA turns a moving system into comparable evidence. Author representative states, run declared behavior scenarios, review several visual reductions, make one targeted revision, and capture again.
 
-## 1. Choose the state protocol
+## Contents
 
-Select the protocol that reveals the visual's real behavior.
+1. [Author the state protocol](#1-author-the-state-protocol)
+2. [Use the V3 manifest contract](#2-use-the-v3-manifest-contract)
+3. [Expose a deterministic bridge](#3-expose-a-deterministic-bridge)
+4. [Write runtime scenarios](#4-write-runtime-scenarios)
+5. [Read the output as evidence](#5-read-the-output-as-evidence)
+6. [Score with evidence](#6-score-with-evidence)
+7. [Run a targeted revision loop](#7-run-a-targeted-revision-loop)
+8. [Run the verifier](#8-run-the-verifier)
 
-### Timeline or scroll
+## 1. Author the state protocol
 
-Capture progress `0 / 0.25 / 0.5 / 0.75 / 1`.
+Choose states that expose the visual's governing rule and selected temporal archetype.
 
-Name each state by its motion score, such as rest / acquire / route / lock / resolve. Every progress value needs a composed frame, including endpoints.
+- **Held/static:** capture the authored desktop, mobile, reduced-motion, and meaningful data or content variants.
+- **Continuous timeline or scroll:** capture `0 / 0.25 / 0.5 / 0.75 / 1` when continuous progress is truly the state model. Give every point a semantic name.
+- **Ambient or simulated:** fix the seed and capture times that show materially different structures. Record the integration step when history affects state.
+- **Accumulation or irreversible event:** capture the initial condition, event evidence, committed aftermath, and any meaningful later history.
+- **Bifurcation or state machine:** capture every stable branch or state plus the decisive transition evidence.
+- **Pointer or tool:** capture the held frame, acknowledgment, consequence, cancellation, and authored aftermath. Include recovery only when the system returns by design.
+- **Data-driven:** capture empty, typical, extreme, malformed, and selected/focused states.
 
-### Ambient or simulated system
+Every state must hold as a deliberate still frame. Include the highest-risk semantic state on desktop and mobile, the reduced-motion direction, and an authored fallback when the renderer can fail.
 
-Fix the seed and capture five authored times. Pick times that show materially different system states. Record the fixed integration step when simulation state depends on previous frames.
+## 2. Use the V3 manifest contract
 
-### Pointer or tool interaction
+The runner accepts legacy capture manifests and emits V3 results. New work should declare `schemaVersion: 3` and use:
 
-Capture:
+- [`../schemas/visual-qa-manifest-v3.schema.json`](../schemas/visual-qa-manifest-v3.schema.json)
+- [`../schemas/visual-qa-results-v3.schema.json`](../schemas/visual-qa-results-v3.schema.json)
+- [`../schemas/design-record.schema.json`](../schemas/design-record.schema.json) for direction and revision evidence
 
-1. rest;
-2. approach or first acknowledgment;
-3. engaged consequence;
-4. immediate release;
-5. fully recovered state.
+Tiers define the required runtime declarations:
 
-Record normalized pointer positions and wait/recovery durations.
+| Tier | Required capability declarations |
+| --- | --- |
+| `capture` | capture states only; declared capabilities still require scenarios |
+| `interaction` | pointer, keyboard, and primary action |
+| `production` | all nine runtime capabilities |
 
-### Data-driven system
+Declare each applicable capability as `true` or `{ "supported": true }`. Declare a conditional exclusion as `{ "supported": false, "reason": "..." }`. Every supported capability needs at least one runtime scenario that names it in `requires`.
 
-Capture empty, typical, peak, and edge/malformed states. Add a selected/focused state when interaction reveals detail.
+The capability vocabulary is fixed:
 
-## 2. Capture modes
+| Capability | Evidence expected |
+| --- | --- |
+| `resize` | renderer and semantic coordinates update after owner/viewport resize |
+| `zeroSize` | zero-width or zero-height pauses work and later recovers |
+| `pointer` | enter/move plus leave, cancel, and lost capture clear active input |
+| `windowFocus` | blur pauses or neutralizes response; focus resumes safely |
+| `keyboard` | meaningful states are reachable through keyboard input |
+| `reducedMotion` | a preference change during the session updates presentation |
+| `lifecycle` | dispose is idempotent and remount creates one clean instance |
+| `gpu` | creation failure/context loss shows an authored fallback and can recover |
+| `primaryAction` | pointer and keyboard trigger the same semantic action |
 
-Every new system needs:
+Minimal production excerpt:
 
-- primary desktop viewport;
-- mobile at 390 × 844;
-- reduced-motion presentation;
-- at least one maximum-energy state at both desktop and mobile;
-- a fallback/poster when GPU or capability failure is relevant.
+```json
+{
+  "$schema": "./skills/signature-visual/schemas/visual-qa-manifest-v3.schema.json",
+  "schemaVersion": 3,
+  "tier": "production",
+  "serveRoot": "./public",
+  "url": "/hero/",
+  "captureSelector": "[data-signature-visual]",
+  "seed": "route-field-a",
+  "derivedImages": { "thumbnailWidth": 160, "blurRadius": 14, "silhouette": true },
+  "states": [
+    { "name": "unassigned", "progress": 0 },
+    { "name": "split-proposed", "progress": 0.5 },
+    { "name": "policy-committed", "progress": 1 }
+  ],
+  "capabilities": {
+    "resize": true,
+    "zeroSize": true,
+    "pointer": { "supported": false, "reason": "This held SVG direction has no pointer response." },
+    "windowFocus": { "supported": false, "reason": "This held SVG direction has no animation loop or transient input." },
+    "keyboard": { "supported": false, "reason": "The visual is explanatory and has no visual control." },
+    "reducedMotion": { "supported": false, "reason": "The authored presentation is already still." },
+    "lifecycle": true,
+    "gpu": { "supported": false, "reason": "This SVG direction has no GPU surface." },
+    "primaryAction": { "supported": false, "reason": "The page has no action that changes visual state." }
+  },
+  "runtimeScenarios": [
+    {
+      "name": "zero-size pause and recovery",
+      "requires": ["resize", "zeroSize"],
+      "steps": [
+        { "action": "setOwnerSize", "width": 0, "height": 0 },
+        { "action": "assertHook", "path": "pauseReasons", "includes": "zero-size" },
+        { "action": "setOwnerSize", "width": 720, "height": 420 },
+        { "action": "assertHook", "path": "paused", "equals": false }
+      ]
+    },
+    {
+      "name": "idempotent dispose and clean remount",
+      "requires": ["lifecycle"],
+      "steps": [
+        { "action": "dispose" },
+        { "action": "assertHook", "path": "disposed", "equals": true },
+        { "action": "dispose" },
+        { "action": "assertHook", "path": "disposed", "equals": true },
+        { "action": "remount" },
+        { "action": "assertHook", "path": "disposed", "equals": false },
+        { "action": "assertHook", "path": "ready", "equals": true }
+      ]
+    }
+  ]
+}
+```
 
-Keep viewport, DPR, seed, time/progress, pointer, data fixture, color scheme, and motion preference in the capture manifest.
+This excerpt is intentionally still and non-interactive, so its inapplicable capabilities carry specific reasons. A direction that supports pointer, keyboard, reduced motion, focus pause, GPU recovery, or a state-changing primary action declares each one supported and adds a scenario that names it in `requires`.
 
-## 3. Development contract
+## 3. Expose a deterministic bridge
 
-Prefer a page bridge:
+The runner looks for `window.__signatureVisual` by default:
 
 ```js
 window.__signatureVisual = {
   ready: true,
   setSeed(seed) {},
-  seek({ time, progress }) {},
+  seek({ time, timeMs, progress }) {},
   setPointer({ x, y, active }) {},
   render() {},
-  describe() { return { phase, seed, time, progress }; }
+  describe() {
+    return {
+      ready: true,
+      disposed: false,
+      paused: false,
+      pauseReasons: [],
+      renderer: 'svg',
+      fallback: false,
+      progress: 0,
+      pointer: { x: 0.5, y: 0.5, active: false, strength: 0 }
+    };
+  },
+  dispose() {},
+  remount() {}
 };
 ```
 
-The capture runner waits for readiness, applies state, calls render, then captures without relying on arbitrary animation timing. It also records console errors, page errors, and failed network requests.
+`ready` may be a boolean, promise, or function. `seek()` must commit an exact frame. `describe()` supplies machine-readable evidence for runtime assertions. GPU systems may also expose `loseContext()` and `restoreContext()`.
 
-When a target cannot expose a bridge, freeze time through a query parameter or test-specific controller and document the limitation.
+## 4. Write runtime scenarios
 
-## 4. Contact sheet layout
+Each scenario runs in a fresh browser context. It must declare one or more supported capabilities and include at least one assertion. After the final step, the runner seeks to the exact elapsed virtual time, then calls `render()` and `describe()` in one browser turn so the stored semantic description has a deterministic commit boundary; step-level assertions retain the observed state at each tested moment.
 
-Place states in chronological or causal order. Label each tile with:
+Available steps:
 
-```text
-phase · progress/time · viewport · seed · pointer/data state
+- **Environment:** `wait`, `setViewport`, `setOwnerSize`, `setReducedMotion`
+- **Input:** `pointerEvent`, `windowBlur`, `windowFocus`, `keyboard`, `activate`
+- **Lifecycle/GPU:** `dispose`, `remount`, `gpuContext`, `callHook`
+- **Assertions:** `assertHook`, `assertSelector`, `assertFocus`, `assertNoErrors`
+
+Use `assertHook` against stable semantic fields from `describe()`. Prefer `pauseReasons` over inferred frame counts, `fallback` over pixel color checks, and an action counter/state identifier over DOM event implementation details.
+
+Full cancellation sequence:
+
+```json
+{
+  "name": "pointer cancellation",
+  "requires": ["pointer", "windowFocus"],
+  "steps": [
+    { "action": "pointerEvent", "event": "pointermove", "x": 0.3, "y": 0.4 },
+    { "action": "assertHook", "path": "pointer.active", "equals": true },
+    { "action": "pointerEvent", "event": "pointercancel" },
+    { "action": "assertHook", "path": "pointer.active", "equals": false },
+    { "action": "pointerEvent", "event": "lostpointercapture" },
+    { "action": "windowBlur" },
+    { "action": "assertHook", "path": "pauseReasons", "includes": "window-blur" },
+    { "action": "windowFocus" },
+    { "action": "assertHook", "path": "pauseReasons", "equals": [] }
+  ]
+}
 ```
 
-Use the same crop and display scale across one row. Add mobile and reduced-motion as separate rows. Keep a previous revision beside the candidate when evaluating a targeted change.
+`pointer.active` is the immediate semantic boolean used by runtime assertions. A visual that eases response intensity exposes the numeric 0–1 value separately as `pointer.strength`.
 
-PNG hashes identify individual artifacts and quickly flag changed captures. GPU rasterization and compositor filters can introduce byte-level differences between visually equivalent frames, so approve those changes through the contact sheet, the named-state description, and a direct visual comparison.
+## 5. Read the output as evidence
 
-## 5. Review passes
+The runner writes:
 
-### Pass A — thumbnail and blur
+```text
+captures/*.png                 authored full-size states
+derived/thumbnails/*.png       160px composition checks
+derived/blur/*.png             12–16px blur hierarchy checks
+derived/silhouette/*.png       black/white mass and negative-space checks
+contact-sheet.png              side-by-side thumbnail strip
+contact-sheet.html             full and derived comparison interface
+results.json                   states, capabilities, runtime assertions, diagnostics, hashes
+```
 
-- does each state retain a dominant silhouette or density event?
-- does attention follow the page's content axis?
-- do phases look meaningfully different at small size?
-- does any frame collapse into uniform texture?
+Each successful run stages the complete managed artifact set and promotes its managed paths through a rollback transaction. A dedicated output directory receives a `.signature-visual-qa` ownership marker; a pre-existing directory without that marker is accepted only when it contains managed artifacts from an earlier runner. Retired states cannot leave stale captures or derived images behind, while reviewer notes in an owned directory stay untouched. A failed run restores the last successful evidence set. An incomplete rollback retains its recovery directory and reports the exact path. The CLI resolves symbolic links before rejecting filesystem roots, the home directory, the working directory, the manifest directory, and unrelated unowned directories as output targets.
 
-### Pass B — full frame
+SHA-256 hashes answer one question: did deterministic output change? They do not grade beauty or visual correctness. GPU rasterization and compositor filters can create byte changes across machines, so approve through named-state evidence and direct comparison.
 
-- are edges, texture scales, opacity, and color roles coherent?
-- does text contrast survive the highest-energy state?
-- do labels collide, clip, or lose hierarchy?
-- do mobile crops feel authored?
+For automated same-host replay, require exact hashes from CPU-rendered cases. GPU cases may use a documented, narrow pixel tolerance after state names, semantic descriptions, runtime results, viewport, seed, and clock all match; the repository case runner limits mean channel difference, changed-channel ratio, and maximum channel difference independently.
 
-### Pass C — sequence
+Review in four passes:
 
-- can the core verb pair be inferred from the states?
-- does change build toward one peak?
-- is recovery visible and materially plausible?
-- does the loop seam or scroll endpoint create a flash or jump?
-
-### Pass D — source distance
-
-- does the fingerprint differ on at least three axes?
-- has the result inherited a recognizable combination of silhouette, palette, and motion?
-- can a second structural variation be described without changing only color or counts?
+1. **Thumbnail:** dominant event, hierarchy, density, and semantic-state distance.
+2. **Blur:** mass, contrast path, copy safety, and focal competition.
+3. **Silhouette:** project-specific structure, negative space, and mobile crop.
+4. **Full sequence:** material coherence, causality, branch or history logic, authored aftermath, and seams.
 
 ## 6. Score with evidence
 
-Score 1–5 and attach one observation to each:
+Use the six canonical criteria in [evaluation.md](evaluation.md): tier/target truth, creative search/distance, composition/material, temporal/interaction fit, originality, and production integrity. Attach visible evidence and counterevidence to every score. A score of 5 uses the design record's optional `evaluation` packet with `artifactEvidence`, `strongestCounterEvidence`, and `independentReview`.
 
-| Category | 4 means |
-| --- | --- |
-| Thesis | the subject and phenomenon are visible without a long explanation |
-| Frame | every key state has hierarchy, negative space, and readable content |
-| Material | surface, light, edge, texture, and decay obey one model |
-| Motion | phases create anticipation, consequence, peak, and recovery |
-| Response | input is semantic, bounded, and stable after release |
-| Originality | fingerprint is project-specific and structurally distant from sources |
-| Resilience | mobile, reduced motion, fallback, performance, and lifecycle hold |
+Record two distinct distances:
 
-Revise every score below 4. Avoid averaging away a weak category.
+- `selection.sourceDistance`: separation from references, source templates, and inherited fingerprints;
+- `selection.outputDistance`: structural separation among the proposed directions and final variants.
 
-## 7. Targeted revision loop
+Treat uncertain observations explicitly. A useful record contains the claim, screenshot/state, confidence, competing explanation, and next discriminating check.
 
-Choose the lowest category and make the smallest structural change that can raise it:
+Revise every category below 4. For a score of 4 or 5, preserve the strongest counter-evidence so later iterations cannot hide a regression.
+
+## 7. Run a targeted revision loop
+
+Change the smallest structural cause that can raise the weakest category:
 
 ```text
-OBSERVATION   “25%, 50%, and 75% share the same silhouette.”
-CAUSE         Motion changes color and turbulence while topology stays fixed.
-REVISION      At develop, split the primary route; at peak, join it at the decision node.
-EVIDENCE      New five-state sheet shows three distinct silhouettes and stable text.
+OBSERVATION       Proposed and committed states share one silhouette.
+CAUSE             Color and turbulence change while topology stays fixed.
+REVISION          Split the route at proposal; lock its chosen branch at commitment.
+EVIDENCE          New state sheet shows distinct decision silhouettes with stable copy contrast.
+COUNTER-EVIDENCE  The committed mobile branch still crowds the heading safe area.
+NEXT CHECK        Recompose the mobile crop and recapture proposal, cancellation, and commitment.
 ```
 
-Capture again after the revision. Keep both sheets until the new result clearly improves the identified category.
+Keep the previous and candidate sheets together until the identified category clearly improves.
 
-## 8. Runtime verification
+## 8. Run the verifier
 
-After visual approval, verify:
+```bash
+node skills/signature-visual/scripts/visual-qa.mjs path/to/manifest.json
+node skills/signature-visual/scripts/visual-qa.test.mjs
+```
 
-- resize, rotation, and zero-size recovery;
-- pointer enter/exit, touch cancel, keyboard focus, and rapid input;
-- forward/back navigation and route unmount;
-- document hidden and offscreen pause;
-- reduced-motion changes during the session;
-- WebGL/context failure and poster path when applicable;
-- console, page, and network errors;
-- cleanup under repeated mount/dispose;
-- project lint, typecheck, tests, and production build.
-
-Use the package scripts in `scripts/` to automate deterministic capture and contact sheets where the environment supports browser automation.
+The self-test exercises validation, deterministic states, runtime capability scenarios, lifecycle, generated evidence images, contact sheets, and legacy capture compatibility.

@@ -1,43 +1,30 @@
-# Signature Visual Evaluation Rubric
+# Signature Visual V3 Benchmark Rubric
 
-Use these checks for independent forward tests. Evaluate the agent's artifacts and design reasoning without supplying the intended renderer or pattern.
+The canonical scoring anchors and evidence contract live in [`skills/signature-visual/references/evaluation.md`](../skills/signature-visual/references/evaluation.md). Read that file completely before grading a scenario. Keep it as the single source of truth for 1–5 meanings, pass thresholds, score-5 counterevidence, and independent review.
 
-## Gate A — Direction
+## Benchmark procedure
 
-- The visual thesis combines target evidence, an observable phenomenon, and a human response.
-- Three Direction Cards carry different spatial structures, materials, temporal characters, and interaction models.
-- Direction names are specific to the subject.
-- Selection cites product specificity, composition, distinctness, system fit, and feasibility.
+1. Read the scenario prompt, expected tier, global assertions, and scenario assertions.
+2. Inspect the produced page, code, semantic captures, `signature-visual.design.json`, and reported project checks.
+3. Apply all six canonical criteria from the Skill reference.
+4. Cite artifact evidence for every rating.
+5. Enforce the score-5 evidence package; cap unsupported 5s at 4.
+6. Report failed scenario assertions separately from anchored quality scores.
+7. For release evaluation, run repeated outputs for the same brief and compare structural-axis convergence.
+8. Report runtime automated pass rate separately and require at least 95% for the formal release gate.
 
-## Gate B — Designed system
+## V3 assertions shared by forward tests
 
-- The chosen direction declares composition, material, motion, and interaction as connected systems.
-- One signature rule survives every phase, breakpoint, and motion preference.
-- The resting frame works as a poster.
-- The peak changes topology, density, relation, or material state in a meaningful way.
-- Recovery returns to a composed frame through the declared material model.
+- Candidate generation happens before Pattern Language or renderer routing.
+- Landmark work quarantines the obvious-attractor baseline and records the bundled per-run creative offset.
+- Landmark work includes a taxonomy-external direction and pairwise candidate matrix.
+- Every landmark pair retained for selection clears the four-axis structural-distance admission rule.
+- Section work begins with one direction and branches on a named distance or fit failure.
+- Refinement reuses the confirmed thesis and compares current/proposed fingerprints.
+- Temporal structure follows the selected archetype and can remain held/static.
+- Source and output distance name nearest known neighbors or record unavailable history honestly.
+- The design record validates against `skills/signature-visual/schemas/design-record.schema.json`.
+- Production checks cover the capabilities the implementation owns.
+- Same-brief repeated outputs do not converge simultaneously on three structural fingerprint axes.
 
-## Gate C — Originality
-
-- The result changes at least three fingerprint axes from direct references and packaged examples.
-- A familiar renderer demo does not supply the dominant silhouette and finish.
-- A second structural variation can be described without relying on color/count changes.
-- Typography, labels, and UI chrome come from the target surface or chosen artifact.
-
-## Gate D — Production
-
-- Renderer choice follows the design direction and existing stack.
-- Ownership, sizing, DPR, visibility pause, reduced motion, deterministic controls, and cleanup are implemented.
-- Mobile uses an authored composition.
-- Interaction is semantic, bounded, and recoverable.
-- Essential meaning remains accessible outside pixel-only rendering.
-
-## Gate E — Evidence
-
-- Deterministic capture covers the correct state protocol.
-- Desktop, 390 × 844 mobile, and reduced motion are present.
-- Contact-sheet critique names visible evidence.
-- Every score below four triggers a targeted revision and second capture.
-- Console/page/network errors and production tests are reported.
-
-Rate each gate 1–5. A passing result has no gate below 4. A world-class candidate has at least two gates at 5 and a clearly project-specific visual fingerprint.
+Use the canonical evaluation report shape. Distinguish single-artifact world-class candidates from the cross-benchmark Skill release gate. End with benchmark assertion failures, within-brief convergence, runtime pass rate, the lowest anchored criterion, and the smallest structural revision likely to improve them.

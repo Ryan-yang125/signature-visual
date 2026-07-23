@@ -1,188 +1,199 @@
 ---
 name: signature-visual
-description: Direct and build a distinctive computational visual for a website. Use when a user wants a hero, section, background, transition, data surface, or product moment to feel memorable, alive, spatial, atmospheric, technical, organic, or experimental—even when they never name Canvas, Three.js, WebGL, shaders, or SVG. Also use to study an HTML, screenshot, or URL; redesign an existing effect that feels generic or template-like; or add particles, generative graphics, 3D forms, shader materials, and animated diagrams. Develop a product-specific visual thesis, explore three divergent directions, define composition/material/motion, choose the renderer internally, implement in the existing stack, and validate the result through deterministic visual states, responsive behavior, accessibility, performance, and cleanup.
+description: Direct, refine, and build a distinctive computational visual for a real website. Use whenever a hero, section, background, transition, data surface, or product moment should feel memorable, alive, spatial, atmospheric, technical, organic, or experimental—even when the user never names Canvas, Three.js, WebGL, shaders, or SVG. Also use to study a visual reference, redesign an effect that feels generic or template-like, or systemize related visual moments. Scale creative search to landmark, section, or refinement scope; keep direction evidence-led and renderer-late; then validate responsive behavior, accessibility, performance, lifecycle, and output distance.
 ---
 
 # Signature Visual
 
-Act as the visual director and computational design engineer for one high-memory moment. Let the product meaning shape the spatial structure, material, motion, and interaction. Choose the renderer after the visual direction is clear.
+Act as the visual director and computational design engineer for one high-memory moment. Let target evidence generate the spatial rule, material behavior, temporal structure, and interaction meaning. Choose the renderer after the direction freezes.
 
-The skill is self-contained. Use the guidance, pattern cards, runtime shells, and QA scripts in this package. Existing project libraries may be used when they are already present or clearly serve the selected direction. Do not require another skill to complete the work.
+The skill is self-contained. Use its references, neutral runtime shells, and QA script. Existing project libraries may be used when they are already healthy or directly serve the selected direction.
 
-## Outcomes
+## What success means
 
-A successful result has four qualities:
+1. **Belonging** — the visual encodes this product, story, behavior, or dataset.
+2. **Presence** — a held frame has hierarchy, tension, and a memorable silhouette before polish.
+3. **Range** — the governing rule can produce meaningful variations without becoming one repeated demo.
+4. **Distance** — the result is structurally distinct from direct sources, packaged examples, and recent accessible outputs.
+5. **Production integrity** — viewport, input, motion preference, deterministic review, performance, accessibility, and teardown hold up.
 
-1. **Belonging** — the idea could plausibly exist only for this product, story, or dataset.
-2. **Presence** — the visual has a strong resting composition before any interaction.
-3. **Range** — its design system can produce related variations without collapsing into one demo.
-4. **Production integrity** — it works across viewport, input, motion preference, lifecycle, and performance constraints.
+## Separate hard requirements from adaptive search
 
-## Tasks
+Production integrity and evidence are hard requirements. Candidate count, metaphor, artifact stance, motion shape, interaction, and renderer remain adaptive. Search effort follows the visual's scope and actual uncertainty.
 
-Infer the task from natural language:
+## Classify the scope
 
-- `direct` — create and implement a new signature visual. This is the default.
-- `study` — inspect HTML, screenshots, video, or a URL and extract portable principles. Read [reference-study.md](references/reference-study.md).
-- `refine` — diagnose and redesign an existing computational visual while retaining the useful concept or implementation.
-- `systemize` — turn several related visual moments into one coherent motion and material language.
+### Landmark
 
-Keep the scope centered on one visual system unless the user explicitly requests a broader system.
+Use for a hero, launch moment, flagship data surface, or transition that carries product identity.
 
-## Mandatory workflow
+- Name the brief's obvious attractors and keep their direct translation as a shadow baseline.
+- Forecast the artifact, renderer, material causality, temporal archetype, and interaction meaning that another independent run is most likely to converge on.
+- Run the bundled creative-offset generator once and record its causal and representation constraints.
+- Explore enough candidates to reveal genuinely different visual worlds, including an anti-literal direction and one offset taxonomy-external direction.
+- Freeze the candidate set, then compare candidates pairwise with a distance matrix.
+- Select only a winner that visibly breaks the forecast cluster on at least two of material causality, temporal archetype, and interaction meaning. Rebranch a clustered winner before implementation.
 
-For every new direction, complete Stages 0–8 in order. Keep Stages 1–4 concise and internal unless sharing them helps the user decide. A small refinement may reuse a confirmed thesis, yet it still needs a visual fingerprint and capture plan.
+### Section
 
-### Stage 0 — Read the real surface
+Use for one supporting explanation or visual moment inside a larger page.
 
-Inspect the target page, content hierarchy, framework, components, tokens, fonts, breakpoints, imagery, existing motion, and runtime behavior. Locate the owner element and the smallest safe file set.
+- Author the strongest evidence-led direction first.
+- Run source and output-distance checks.
+- Add a structural branch only when distance or page-fit fails.
 
-Record:
+### Refine
 
-```text
-PAGE JOB      what this section must help a visitor understand or feel
-CONTENT AXIS  the copy, object, or data that must remain primary
-BRAND SIGNAL  one existing trait worth amplifying
-CONSTRAINTS   text-safe area, viewport, stack, budget, accessibility
-OPPORTUNITY   one place where a computational visual adds meaning
-```
+Use when a concept or implementation already exists.
 
-For a greenfield prototype, define these from the prompt and build the smallest real surface that can prove the direction.
+- Reuse the confirmed thesis and signature rule.
+- Compare current and proposed fingerprints.
+- Change the smallest structural layer responsible for the failure.
+- Reopen broad search when the thesis is invalid or distance still fails.
 
-### Stage 1 — Write a visual thesis
+`study` and `systemize` are modifiers: study extracts portable principles from a supplied reference; systemize carries one selected rule across several related moments. A study that leads to implementation still uses landmark, section, or refine scope.
 
-Complete one sentence:
+## V3 decision flow
 
-> The visual makes **[subject]** feel like **[specific physical or spatial phenomenon]**, so the visitor senses **[human response]**.
+### 1. Read the real surface
 
-Then name a **core motion verb** and a **counter-verb**. Examples: gather / shed, inhale / settle, trace / erase, align / rupture. The pair creates an arc and prevents perpetual ambient drift.
+Inspect the target page, content hierarchy, framework, components, tokens, fonts, breakpoints, imagery, data, existing motion, runtime behavior, and recent nearby visuals. Locate the owner element and smallest safe file set.
 
-Reject a thesis that could be pasted onto three unrelated products unchanged. Read [visual-direction.md](references/visual-direction.md) for metaphor tests and product-to-form translation.
-
-### Stage 2 — Create three divergent Direction Cards
-
-Create three project-specific directions before selecting one. Give them names derived from the subject. Avoid fixed tiers such as safe, bold, and experimental.
-
-Each card contains:
+Record a compact brief:
 
 ```text
-NAME             a memorable, subject-specific title
-PROMISE          what the visitor will perceive in one sentence
-SPATIAL IDEA     silhouette, scale, crop, depth, density, text relationship
-MATERIAL IDEA    surface, light, color behavior, texture, edge character
-TYPE ROLE        absent / content / annotation / frame / texture / subject
-MOTION SCORE     rest → wake → develop → peak → recover
-INTERACTION      input, mapping, bound, recovery
-RENDER OPTIONS   one or two plausible engines, still provisional
-FINGERPRINT      artifact / archetype / scale / density / material / tempo / response / type role
-RISK             the most likely way this direction becomes cheap or generic
+PAGE JOB       what this moment must help a visitor understand, judge, or feel
+CONTENT AXIS   copy, object, relationship, or data that stays primary
+TARGET EVIDENCE nouns, actions, constraints, data behavior, and production traces
+BRAND SIGNAL   one existing trait worth amplifying
+BOUNDARIES     layout, stack, performance, accessibility, and capability limits
+OUTPUT HISTORY nearest accessible recent visual, or unavailable plus search performed
 ```
 
-The cards must differ structurally on at least four fingerprint axes. Palette swaps, particle-count changes, and alternate easing curves count as tuning inside one direction.
+For greenfield work, define these from the prompt and build the smallest real surface that proves the direction.
 
-Use [pattern-language.md](references/pattern-language.md) to expand the search space. Pattern cards supply transformation rules and failure signatures; they do not prescribe finished compositions.
+When a direct reference is supplied, use [reference-study.md](references/reference-study.md) for source analysis: separate evidence, portable rules, recognizable surface identity, and rights boundaries. Generate target directions through [creative-search.md](references/creative-search.md) at the selected tier.
 
-### Stage 3 — Select with evidence
+### 2. Search without taxonomy or renderer priming
 
-Score each direction from 1–5:
+Read [visual-direction.md](references/visual-direction.md) and [creative-search.md](references/creative-search.md). Keep Pattern Language, renderer guides, starter visuals, and trend galleries closed while generating candidates.
 
-| Criterion | Question |
-| --- | --- |
-| Product specificity | Does the idea encode the subject, behavior, or data? |
-| Compositional strength | Does the resting frame have hierarchy and tension? |
-| Distinctness | Does its fingerprint differ from familiar portfolio effects? |
-| System fit | Does it extend the page's typography, color, and interaction language? |
-| Feasibility | Can it reach the quality bar inside the runtime budget? |
+Build from the target's objects, relations, data, constraints, language, and production behavior. A thesis may be a behavior, mapping, event, composition, material rule, or metaphor; no sentence template is required.
 
-Select the strongest total with no score below 3. Revise the winner until specificity, composition, and distinctness each reach 4 or higher. Preserve one useful trait from either unselected card when it strengthens the single thesis.
+Apply the scope tier:
 
-### Stage 4 — Author the design specification
+- **Landmark:** name and quarantine the obvious attractors, record the likely independent-run convergence forecast, run `node <signature-visual-skill>/scripts/creative-offset.mjs`, then explore until the candidate matrix shows structurally distinct worlds. Resolve `<signature-visual-skill>` to the directory containing this file. Use the generated causal route to coordinate substance, temporal structure, and interaction meaning. Use its representation mode to force a distinct high-level spatial organization and exclude the named collapse family. Renderer, finished artifact, and palette stay open. Include an anti-literal direction and the offset taxonomy-external direction. Save the offset JSON in `selection.noveltyGuard`.
+- **Section:** begin with one direction; branch on a named distance or fit failure.
+- **Refine:** reuse the thesis; branch only when the diagnosis requires it.
 
-Define four connected systems:
+Ordinary work uses one generated offset. Use `node <signature-visual-skill>/scripts/creative-offset.mjs --cohort N --seed <base-seed>` only when coordinating independent alternatives or running a benchmark. Assign one roster entry to each independent run, preserve its zero-based `index`, and store `{baseSeed,index,size}` as `selection.noveltyGuard.cohort`. Each run still begins from its own target evidence and delays renderer routing until direction freeze.
 
-- **Composition:** frame, anchor, crop, depth layers, negative space, text-safe relationship, mobile re-composition. Read [composition.md](references/composition.md).
-- **Material:** palette roles, light model, edge behavior, texture scale, opacity/blend rules, background relationship. Read [material-language.md](references/material-language.md).
-- **Motion:** named phases, duration or tempo, energy curve, secondary motion, synchronization, recovery. Read [motion-direction.md](references/motion-direction.md).
-- **Interaction:** semantic input mapping, bounds, latency, exit/recovery, keyboard/touch/data behavior. Read [interaction.md](references/interaction.md).
+### 3. Measure distance and freeze
 
-Declare one `signature rule` that must survive every breakpoint and motion preference. Example: “Every route converges on the same quiet aperture.”
+Fingerprint candidates through artifact, silhouette, spatial grammar, density event, material causality, temporal archetype, interaction meaning, and type role.
 
-### Stage 5 — Route to an engine
+- Landmark work records a pairwise candidate distance matrix. Two candidates remain in the final set only when at least four structural axes are visibly `far`; rebranch or remove the weaker candidate when a pair collapses.
+- Landmark work also compares the provisional winner with `selection.convergenceForecast`. Record `selection.clusterBreakAxes` and visible evidence for at least two breaks among material causality, temporal archetype, and interaction meaning. A provisional winner inside the forecast cluster must rebranch and clear this gate before renderer selection or implementation.
+- Section work records the first direction's nearest source/output neighbor and the reason for any added branch.
+- Refinement records current-to-proposed structural distance.
 
-Choose technology by the selected experience. Read [routing.md](references/routing.md), then the relevant family guide:
+Run source distance and output distance separately. Name the nearest known neighbor and cite the visible or causal difference. Record unavailable history honestly. When output history is unavailable for landmark work, collision insurance applies: a direct product-name, category-object, or obvious noun-to-artifact baseline stays ineligible until a second-order transform changes at least three structural axes.
 
-- [Canvas fields](references/families/canvas-fields.md) for high-count marks, trails, deposition, and field simulation.
-- [Three.js forms](references/families/three-living-forms.md) for depth, camera, geometry, light, and spatial objects.
-- [WebGL shader fields](references/families/webgl-shader-fields.md) for continuous materials, displacement, light fields, and GPU simulation.
-- [SVG systems](references/families/svg-technical-systems.md) for crisp paths, topology, type, diagrams, and instrument precision.
+Freeze when target evidence drives the governing rule, the resting frame is complete, tier-appropriate distance passes, the main risk is testable, and implementation is credible. Stop when further search would restate solved ideas.
 
-Combine engines only when each owns a clear layer and the same visual thesis governs both. Renderer novelty never compensates for an unresolved direction.
+### 4. Expand the frozen direction
 
-### Stage 6 — Implement from a neutral runtime shell
+Open [pattern-language.md](references/pattern-language.md) only now. Use its transformation operators, variation axes, cheap signals, and failure signatures to stress-test or expand the selected rule. Pattern names remain internal unless useful to the handoff.
 
-Read [integration.md](references/integration.md). Use the neutral [Canvas](references/starters/canvas-field.js), [Three.js](references/starters/three-living-form.js), [WebGL](references/starters/webgl-shader-field.js), or [SVG](references/starters/svg-technical-system.js) runtime shell for lifecycle and resource-management patterns. Carry over ownership, sizing, pause/resume, reduced motion, deterministic hooks, and teardown. Replace the visual program—geometry, equations, composition, material, timing, and semantics—with the authored specification.
+Author the connected design system:
 
-Public options should express design intent such as `energy`, `tension`, `porosity`, `cohesion`, `tempo`, and `response`. Keep raw implementation constants private or group them into the chosen material/motion system.
+- **Composition:** frame, anchor, silhouette, crop, density, negative space, text relationship, and mobile re-composition. Read [composition.md](references/composition.md).
+- **Material:** substance, palette roles, light model, edge hierarchy, texture attachment, depth cue, and decay. Read [material-language.md](references/material-language.md).
+- **Temporal:** choose or author a temporal archetype from the governing rule. Held/static, one-shot, finite-state, event-response, bifurcation/branching, inspection/reveal, irreversible event, scroll-linked, ambient, accumulation/accretion, and live/data-paced structures are all valid. Read [motion-direction.md](references/motion-direction.md).
+- **Interaction:** add input only when it reveals the rule; define meaning, target, bounds, latency, cancellation, and aftermath. Read [interaction.md](references/interaction.md).
+
+Declare one observable `signature rule` that survives responsive composition and reduced motion. Motion and interaction may be absent when the held frame carries the full idea.
+
+Create the minimal machine-readable record from [design-record.md](references/design-record.md) after direction freeze and validate it against the [V3 schema](schemas/design-record.schema.json). Run `node <signature-visual-skill>/scripts/validate-design-record.mjs <record-path>` before implementation; the validator replays the offset, regenerates an optional cohort roster, and enforces landmark origins, pair distance, and forecast-break evidence. Store only selected decisions, forecast-break evidence, and distance evidence.
+
+### 5. Route to an engine
+
+Read [routing.md](references/routing.md), then only the relevant family guide:
+
+- [Canvas fields](references/families/canvas-fields.md) for many planar marks, deposition, and field state;
+- [Three.js forms](references/families/three-living-forms.md) for camera, geometry, occlusion, lighting, and spatial assembly;
+- [WebGL shader fields](references/families/webgl-shader-fields.md) for continuous GPU-evaluated material or simulation;
+- [SVG systems](references/families/svg-technical-systems.md) for paths, topology, type, labels, and instrument precision.
+
+Choose the smallest engine that directly expresses the selected experience. When combining engines, give each one a clear layer, one shared semantic state, and one clock. Renderer novelty never resolves a direction or distance failure.
+
+### 6. Implement with production integrity
+
+Read [integration.md](references/integration.md). Reuse a neutral [Canvas](references/starters/canvas-field.js), [Three.js](references/starters/three-living-form.js), [WebGL](references/starters/webgl-shader-field.js), or [SVG](references/starters/svg-technical-system.js) shell for lifecycle patterns. Replace the visual program: geometry, emitters, equations, topology, material, temporal structure, and semantics.
 
 Every implementation needs:
 
-- an explicit owner element and stable layout bounds;
+- an explicit owner and stable layout bounds;
 - responsive sizing and an authored mobile composition;
-- capped device-pixel ratio and density tied to visible area;
+- capped DPR and visible-area density where raster or GPU work applies;
 - pause while hidden or outside the viewport;
-- a meaningful reduced-motion state;
-- deterministic time, seed, and interaction hooks for visual QA;
-- teardown for frames, observers, listeners, GPU resources, and contexts.
+- a meaningful reduced-motion presentation;
+- deterministic seed, semantic state/time, data, and input hooks for QA;
+- accessible labels or equivalent text when the visual carries meaning;
+- teardown for frames, observers, listeners, timers, workers, GPU resources, and contexts.
 
-### Stage 7 — Capture the designed states
+Public options should express design intent such as tension, porosity, accumulation, cohesion, cadence, or response. Keep raw constants private.
 
-Choose a capture protocol from [visual-qa.md](references/visual-qa.md):
+### 7. Capture, critique, and verify
 
-- timeline or scroll: `0 / 25 / 50 / 75 / 100%`;
-- ambient system: fixed seed at five meaningful times;
-- pointer system: rest / approach / engaged / released / recovered;
-- data system: empty / typical / peak / edge;
-- every system: desktop / mobile / reduced motion.
+Read [visual-qa.md](references/visual-qa.md) for deterministic tooling and [motion-direction.md](references/motion-direction.md) for archetype-specific checkpoints. Choose semantic capture states; a universal percentage sequence is optional.
 
-Use the scripts in `scripts/` when the project permits browser automation. A contact sheet exposes weak composition, dead phases, accidental flashes, and repetitive states faster than watching the loop repeatedly.
+Every implemented visual verifies:
 
-### Stage 8 — Critique, revise, verify
+- primary desktop and 390 × 844 mobile;
+- reduced motion;
+- maximum-energy or highest-risk state when one exists;
+- resize or rotation;
+- pointer exit, touch cancellation, keyboard parity, and aftermath when interaction exists;
+- empty, typical, burst, stale, malformed, or other relevant data states;
+- route unmount or repeated dispose;
+- console, page, network, lint, typecheck, test, and build status supported by the project.
 
-Review the contact sheet and live interaction using [failure-signatures.md](references/failure-signatures.md). Score 1–5:
+Review the contact sheet and live behavior with [failure-signatures.md](references/failure-signatures.md). Revise the earliest failed layer.
 
-```text
-THESIS       the phenomenon communicates the intended idea
-FRAME        each key state has hierarchy, balance, and readable content
-MATERIAL     surface, color, light, texture, and edges feel authored
-MOTION       phases create anticipation, change, peak, and recovery
-RESPONSE     input mapping feels semantic, bounded, and calm after exit
-ORIGINALITY  the result has its own fingerprint and avoids source mimicry
-RESILIENCE   mobile, reduced motion, performance, and teardown hold up
-```
+## Evaluation contract
 
-Revise any category below 4. Run project lint, typecheck, tests, and build. Verify desktop, 390 × 844 mobile, pointer exit, resize/rotation, reduced motion, route unmount, and console errors in a real browser.
+Read [evaluation.md](references/evaluation.md) for the complete 1–5 anchors, pass thresholds, and independent-review contract. For an ordinary handoff, report visible evidence and caveats without manufacturing a high score.
 
-## Originality contract
+A score of 5 on any criterion requires all three:
 
-When studying a reference, separate underlying principles from surface identity. Preserve insights such as “density collapses toward a semantic node” or “the quiet frame carries most of the tension.” Re-author the combined composition, palette, typography, material, motion, and interaction for the target project.
+1. artifact evidence naming a file, capture, state, or measured behavior;
+2. the strongest counterevidence that could lower the score;
+3. confirmation from an independent reviewer who did not author the direction.
 
-Before handoff, compare the result with every direct source and packaged example:
+Missing evidence caps that criterion at 4. Keep disagreements visible. Averages never hide a weak production or originality criterion.
 
-- change at least three fingerprint axes;
-- avoid carrying the same dominant silhouette, palette relationship, and motion arc together;
-- ensure the static frame still feels project-specific;
-- ensure a second variation can be described without replacing only colors or counts.
+## Originality and output-distance contract
 
-If the output still reads like a known demo, return to Stage 2 and branch structurally.
+Before handoff:
+
+- compare the selected fingerprint with direct sources and packaged examples;
+- compare it with recent accessible outputs from the same product, skill, gallery, or workspace;
+- verify that structural distance comes from the governing rule; palette, count, intensity, easing, and renderer remain tuning evidence;
+- ensure the static or held frame still feels target-specific;
+- ensure the rule can produce a second meaningful variation.
+
+If the nearest neighbor still shares the dominant skeleton or causal sequence, return to the tier-appropriate search response and update the design record.
 
 ## Handoff
 
 Return:
 
-- the one-sentence visual thesis;
-- the selected direction and signature rule;
-- the renderer and files changed;
-- the contact-sheet states and viewport/motion modes verified;
-- any remaining production caveat.
+- scope, one-sentence thesis, selected direction, and signature rule;
+- the decisive candidate/source/output-distance evidence;
+- renderer and files changed;
+- semantic capture states, viewport/motion modes, and production checks;
+- the design-record location;
+- remaining caveats and any independent-review disagreement.
 
-Keep the explanation compact. The working visual and its verified states are the primary artifacts.
+Keep the explanation compact. The working visual, machine-readable record, and verified states are the primary artifacts.

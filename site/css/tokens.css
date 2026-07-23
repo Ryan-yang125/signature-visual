@@ -14,9 +14,9 @@
   --violet: #7656e8;
   --rose: #f4a8b7;
   --ice: #bde8df;
-  --font-editorial: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
-  --font-sans: "Helvetica Neue", "Arial Nova", Arial, sans-serif;
-  --font-mono: "SFMono-Regular", "Cascadia Mono", "Roboto Mono", Consolas, monospace;
+  --font-editorial: "Gloock", "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+  --font-sans: "Hanken Grotesk", "Helvetica Neue", "Arial Nova", Arial, sans-serif;
+  --font-mono: "DM Mono", "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
   --page-pad: clamp(18px, 3.4vw, 58px);
   --content-max: 1680px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

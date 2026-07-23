@@ -1,3 +1,5 @@
+import { createRuntimeState } from '../runtime-state.js';
+
 const canvas = document.querySelector('#shader');
 const bench = document.querySelector('.bench');
 const crt = document.querySelector('.crt');
@@ -10,6 +12,7 @@ const needle = document.querySelector('#needle');
 const probe = document.querySelector('.probe');
 const scoreItems = [...document.querySelectorAll('[data-score]')];
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const runtime = createRuntimeState({ reducedMotion });
 
 const CYCLE = 20000;
 const phaseNames = ['equilibrium', 'spike', 'outage', 'reroute', 'cool'];
@@ -19,10 +22,9 @@ const pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, active: 0, target: 0 };
 let width = 1;
 let height = 1;
 let frame = 0;
-let visible = true;
-let pageVisible = true;
 let start = performance.now();
 let glState = null;
+let contextLost = false;
 
 function smoothstep(edge0, edge1, value) {
   const t = Math.max(0, Math.min(1, (value - edge0) / (edge1 - edge0)));
@@ -189,11 +191,43 @@ function initializeWebgl() {
   };
 }
 
-glState = initializeWebgl();
-if (!glState) bench.classList.add('webgl-fallback');
+function setGpuFallback(active, reason = null) {
+  contextLost = active && reason === 'context-lost';
+  runtime.setFallback(active, reason);
+  bench.classList.toggle('webgl-fallback', active);
+  runtime.setPauseReason('gpu-context-lost', contextLost);
+}
+
+function handleContextLost(event) {
+  event?.preventDefault?.();
+  setGpuFallback(true, 'context-lost');
+  sync();
+}
+
+function handleContextRestored() {
+  contextLost = false;
+  setGpuFallback(false);
+  resize();
+  sync();
+}
+
+function installWebgl() {
+  contextLost = false;
+  glState = initializeWebgl();
+  runtime.addListener(canvas, 'webglcontextlost', handleContextLost);
+  runtime.addListener(canvas, 'webglcontextrestored', handleContextRestored);
+  setGpuFallback(!glState, glState ? null : 'webgl-unavailable');
+}
 
 function resize() {
   const rect = crt.getBoundingClientRect();
+  const explicitlyZero = bench.style.width === '0px' || bench.style.height === '0px';
+  const zeroSize = explicitlyZero || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  if (zeroSize || runtime.state.disposed) {
+    sync();
+    return;
+  }
   const dpr = Math.min(devicePixelRatio || 1, 1.65);
   width = Math.max(1, Math.round(rect.width * dpr));
   height = Math.max(1, Math.round(rect.height * dpr));
@@ -202,8 +236,23 @@ function resize() {
   glState?.gl.viewport(0, 0, width, height);
 }
 
+function refreshSizePause() {
+  const rect = crt.getBoundingClientRect();
+  const zeroSize = bench.style.width === '0px' || bench.style.height === '0px' || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  if (zeroSize) {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    runtime.setRafScheduled(false);
+  } else if (!runtime.state.disposed && !runtime.state.paused && !runtime.state.resources.raf) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
+}
+
 function pointerMove(event) {
   const rect = crt.getBoundingClientRect();
+  if (rect.width < 1 || rect.height < 1) return;
   pointer.tx = (event.clientX - rect.left) / rect.width;
   pointer.ty = 1 - (event.clientY - rect.top) / rect.height;
   pointer.target = 1;
@@ -211,6 +260,12 @@ function pointerMove(event) {
   probe.style.top = `${(1 - pointer.ty) * 100}%`;
   probe.classList.add('is-active');
   probeLabel.textContent = 'reading';
+  runtime.setPointer({
+    x: pointer.tx,
+    y: 1 - pointer.ty,
+    active: true,
+    event: event.type
+  });
 }
 
 function updatePanel(score) {
@@ -233,7 +288,7 @@ function renderAt(timeMs = 0) {
   pointer.active += (pointer.target - pointer.active) * 0.09;
   updatePanel(score);
 
-  if (glState) {
+  if (glState && !contextLost) {
     const { gl, program, uniforms } = glState;
     gl.useProgram(program);
     gl.uniform2f(uniforms.resolution, width, height);
@@ -249,13 +304,33 @@ function renderAt(timeMs = 0) {
 
 function animate(now) {
   renderAt(now - start);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
 }
 
 function sync() {
   cancelAnimationFrame(frame);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
-  else renderAt(CYCLE * 0.72);
+  frame = 0;
+  runtime.setRafScheduled(false);
+  runtime.setPauseReason('document-hidden', document.hidden);
+  runtime.setReducedMotion(reducedMotion.matches);
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    renderAt(performance.now() - start);
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  } else if (!runtime.state.disposed && !runtime.describe().pauseReasons.includes('zero-size')) {
+    renderAt(CYCLE * 0.72);
+  }
+}
+
+function clearPointer(event = 'pointerleave') {
+  pointer.target = 0;
+  pointer.active = 0;
+  probe.classList.remove('is-active');
+  probeLabel.textContent = 'parked';
+  runtime.clearPointer(event);
 }
 
 const qaState = { seed: 125, timeMs: 0, progress: 0 };
@@ -294,50 +369,102 @@ const qa = {
     probe.style.left = `${next.x * 100}%`;
     probe.style.top = `${next.y * 100}%`;
     probe.classList.toggle('is-active', pointer.target > 0);
+    probeLabel.textContent = pointer.target > 0 ? 'reading' : 'parked';
+    runtime.setPointer({ x: next.x, y: next.y, active: pointer.target > 0, event: 'hook' });
   },
   render() {
     renderAt(qaState.timeMs);
   },
   describe() {
-    return { phase: phaseLabel.textContent, seed: qaState.seed, time: qaState.timeMs / 1000, progress: qaState.progress };
+    refreshSizePause();
+    return runtime.describe({
+      phase: phaseLabel.textContent,
+      seed: qaState.seed,
+      time: qaState.timeMs / 1000,
+      progress: qaState.progress,
+      renderer: glState && !contextLost ? 'webgl-shader' : 'authored-fallback'
+    });
   },
   flush() {
     seekQa({ timeMs: reducedMotion.matches ? CYCLE * 0.72 : performance.now() - start });
+  },
+  loseContext() {
+    handleContextLost({ preventDefault() {} });
+    return qa.describe();
+  },
+  restoreContext() {
+    handleContextRestored();
+    return qa.describe();
+  },
+  dispose,
+  remount() {
+    if (!runtime.state.disposed) dispose();
+    start = performance.now();
+    mount();
+    return qa.describe();
   }
 };
 
 window.__signatureVisual = qa;
 window.__signatureVisualQA = qa;
 
-new ResizeObserver(resize).observe(crt);
-new IntersectionObserver(entries => {
-  visible = entries[0]?.isIntersecting ?? true;
-  sync();
-}).observe(bench);
-crt.addEventListener('pointermove', pointerMove, { passive: true });
-crt.addEventListener('pointerleave', () => {
-  pointer.target = 0;
-  probe.classList.remove('is-active');
-  probeLabel.textContent = 'parked';
-}, { passive: true });
-document.addEventListener('visibilitychange', sync);
-reducedMotion.addEventListener('change', sync);
-window.addEventListener('message', event => {
-  if (event.origin !== location.origin) return;
-  if (event.data?.type === 'signature-visual-visibility') {
-    pageVisible = Boolean(event.data.visible);
-    sync();
-  }
-});
-window.addEventListener('pagehide', () => {
-  cancelAnimationFrame(frame);
+function destroyWebgl() {
   if (!glState) return;
   const { gl, buffer, program, vertexShader, fragmentShader } = glState;
-  gl.deleteBuffer(buffer);
-  gl.deleteProgram(program);
-  gl.deleteShader(vertexShader);
-  gl.deleteShader(fragmentShader);
-});
+  if (!gl.isContextLost()) {
+    gl.deleteBuffer(buffer);
+    gl.deleteProgram(program);
+    gl.deleteShader(vertexShader);
+    gl.deleteShader(fragmentShader);
+  }
+  glState = null;
+}
 
-resize();
-sync();
+function dispose() {
+  if (!runtime.disposeManaged()) return qa.describe();
+  cancelAnimationFrame(frame);
+  frame = 0;
+  clearPointer('dispose');
+  destroyWebgl();
+  contextLost = false;
+  bench.classList.add('webgl-fallback');
+  return qa.describe();
+}
+
+function mount() {
+  runtime.beginMount();
+  runtime.setPauseReason('window-blur', false);
+  runtime.setPauseReason('host-hidden', false);
+  installWebgl();
+  runtime.addObserver(new ResizeObserver(resize), crt);
+  runtime.addObserver(new IntersectionObserver(entries => {
+    runtime.setPauseReason('outside-viewport', !(entries[0]?.isIntersecting ?? true));
+    sync();
+  }), bench);
+  runtime.addListener(crt, 'pointermove', pointerMove, { passive: true });
+  for (const type of ['pointerleave', 'pointercancel', 'lostpointercapture']) {
+    runtime.addListener(crt, type, () => clearPointer(type), { passive: true });
+  }
+  runtime.addListener(document, 'visibilitychange', sync);
+  runtime.addListener(reducedMotion, 'change', sync);
+  runtime.addListener(window, 'blur', () => {
+    clearPointer('window-blur');
+    runtime.setPauseReason('window-blur', true);
+    sync();
+  });
+  runtime.addListener(window, 'focus', () => {
+    runtime.setPauseReason('window-blur', false);
+    sync();
+  });
+  runtime.addListener(window, 'message', event => {
+    if (event.origin !== location.origin || event.data?.type !== 'signature-visual-visibility') return;
+    runtime.setPauseReason('host-hidden', !event.data.visible);
+    sync();
+  });
+  runtime.addListener(window, 'pagehide', dispose, { once: true });
+  resize();
+  runtime.finishMount();
+  sync();
+}
+
+mount();

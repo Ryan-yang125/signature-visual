@@ -68,11 +68,13 @@ export function createShaderField(target, options = {}) {
   let fragmentShader = null;
   let buffer = null;
   let uniforms = {};
-  let width = 1;
-  let height = 1;
+  let width = 0;
+  let height = 0;
   let dpr = 1;
   let frame = 0;
   let visible = true;
+  let windowFocused = true;
+  let hasSize = false;
   let destroyed = false;
   let contextLost = false;
   let captureTime = null;
@@ -80,11 +82,34 @@ export function createShaderField(target, options = {}) {
   let startTime = performance.now();
   let previousTime = startTime;
   let seed = normalizeSeed(config.seed);
+  let fallbackReason = null;
+  let fallbackNode;
+  let fallbackCleanup;
 
   function showFallback(reason) {
+    fallbackReason = reason;
     canvas.dataset.svFallback = reason;
-    if (typeof options.fallback === 'function') options.fallback({ target, canvas, reason });
-    else if (typeof options.fallback === 'string') canvas.style.background = options.fallback;
+    if (fallbackNode || fallbackCleanup || options.fallback === undefined) return;
+    const result = typeof options.fallback === 'function'
+      ? options.fallback({ target, canvas, reason, renderer: 'webgl' })
+      : options.fallback;
+    if (result instanceof Node) fallbackNode = result;
+    else if (typeof result === 'function') fallbackCleanup = result;
+    else if (result?.node instanceof Node) {
+      fallbackNode = result.node;
+      fallbackCleanup = result.dispose;
+    } else if (typeof result === 'string') canvas.style.background = result;
+    if (fallbackNode && !fallbackNode.isConnected) target.append(fallbackNode);
+  }
+
+  function clearFallback() {
+    fallbackReason = null;
+    canvas.dataset.svFallback = '';
+    canvas.style.background = '';
+    fallbackCleanup?.();
+    fallbackCleanup = undefined;
+    fallbackNode?.remove();
+    fallbackNode = undefined;
   }
 
   function compile(type, source) {
@@ -153,12 +178,12 @@ export function createShaderField(target, options = {}) {
         pointerActive: gl.getUniformLocation(program, 'uPointerActive'),
         seed: gl.getUniformLocation(program, 'uSeed')
       };
-      canvas.dataset.svFallback = '';
+      clearFallback();
       return true;
     } catch (error) {
       releaseResources();
       showFallback('shader-error');
-      options.onError?.(error);
+      try { options.onError?.(error); } catch {}
       return false;
     }
   }
@@ -166,15 +191,18 @@ export function createShaderField(target, options = {}) {
   function resize() {
     const rect = target.getBoundingClientRect();
     dpr = Math.min(devicePixelRatio || 1, config.maxDpr);
-    width = Math.max(1, Math.round(rect.width * dpr));
-    height = Math.max(1, Math.round(rect.height * dpr));
+    const cssWidth = Math.max(0, rect.width);
+    const cssHeight = Math.max(0, rect.height);
+    hasSize = cssWidth > 0 && cssHeight > 0;
+    width = Math.max(1, Math.round(cssWidth * dpr));
+    height = Math.max(1, Math.round(cssHeight * dpr));
     if (canvas.width !== width || canvas.height !== height) {
       canvas.width = width;
       canvas.height = height;
       gl?.viewport(0, 0, width, height);
     }
     options.onResize?.({ gl, program, uniforms, canvas, target, width, height, dpr });
-    renderOnce();
+    syncAnimation();
   }
 
   function updatePointer(event) {
@@ -184,12 +212,24 @@ export function createShaderField(target, options = {}) {
     pointer.targetActive = 1;
   }
 
-  function leavePointer() {
+  function cancelPointer() {
     pointer.targetActive = 0;
+    pointer.active = 0;
+    if (!destroyed) syncAnimation();
+  }
+
+  function handleWindowBlur() {
+    windowFocused = false;
+    cancelPointer();
+  }
+
+  function handleWindowFocus() {
+    windowFocused = true;
+    syncAnimation();
   }
 
   function renderFrame(now = performance.now(), singleFrame = false) {
-    if (destroyed || !gl || !program || contextLost) return;
+    if (destroyed || !hasSize || !gl || !program || contextLost) return;
     const delta = Math.min(0.05, Math.max(0, (now - previousTime) / 1000));
     previousTime = now;
     const time = captureTime ?? (reducedMotion.matches ? config.reducedTime : (now - startTime) / 1000);
@@ -211,7 +251,7 @@ export function createShaderField(target, options = {}) {
     });
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-    if (visible && !document.hidden && !reducedMotion.matches && captureTime === null && !singleFrame) {
+    if (visible && windowFocused && !document.hidden && !reducedMotion.matches && captureTime === null && !singleFrame) {
       frame = requestAnimationFrame(renderFrame);
     }
   }
@@ -223,7 +263,7 @@ export function createShaderField(target, options = {}) {
 
   function syncAnimation() {
     cancelAnimationFrame(frame);
-    if (visible && !document.hidden && !reducedMotion.matches && captureTime === null) {
+    if (hasSize && visible && windowFocused && !document.hidden && !reducedMotion.matches && !contextLost && gl && program && captureTime === null) {
       previousTime = performance.now();
       frame = requestAnimationFrame(renderFrame);
     } else {
@@ -246,11 +286,46 @@ export function createShaderField(target, options = {}) {
     pointer.tx = Math.max(0, Math.min(1, Number(next.x ?? pointer.tx)));
     const ratioY = Math.max(0, Math.min(1, Number(next.y ?? 1 - pointer.ty)));
     pointer.ty = 1 - ratioY;
-    pointer.targetActive = Math.max(0, Math.min(1, Number(next.active ?? pointer.targetActive)));
+    const active = next.active === undefined ? pointer.targetActive > 0 : Boolean(next.active);
+    const strength = next.strength === undefined ? (active ? 1 : 0) : Number(next.strength);
+    pointer.targetActive = active && Number.isFinite(strength) ? Math.max(0, Math.min(1, strength)) : 0;
     pointer.x = pointer.tx;
     pointer.y = pointer.ty;
     pointer.active = pointer.targetActive;
     renderOnce();
+  }
+
+  function describe() {
+    const pauseReasons = [];
+    if (!hasSize) pauseReasons.push('zero-size');
+    if (!visible) pauseReasons.push('offscreen');
+    if (document.hidden) pauseReasons.push('document-hidden');
+    if (!windowFocused) pauseReasons.push('window-blur');
+    if (reducedMotion.matches) pauseReasons.push('reduced-motion');
+    if (contextLost) pauseReasons.push('context-lost');
+    if (!gl || !program) pauseReasons.push('renderer-unavailable');
+    return {
+      ready: !destroyed && Boolean((gl && program) || fallbackReason),
+      disposed: destroyed,
+      renderer: 'webgl',
+      fallback: Boolean(fallbackReason),
+      fallbackReason,
+      paused: pauseReasons.length > 0,
+      pauseReasons,
+      width: hasSize ? width / dpr : 0,
+      height: hasSize ? height / dpr : 0,
+      dpr,
+      seed,
+      time: captureTime ?? Math.max(0, (performance.now() - startTime) / 1000),
+      progress: captureProgress,
+      pointer: {
+        x: pointer.x,
+        y: 1 - pointer.y,
+        active: pointer.targetActive > 0,
+        strength: pointer.active
+      },
+      reducedMotion: reducedMotion.matches
+    };
   }
 
   function handleContextLost(event) {
@@ -275,16 +350,36 @@ export function createShaderField(target, options = {}) {
     syncAnimation();
   }, { rootMargin: '120px' });
 
+  let initialized = false;
+  let initializationError;
+  try {
+    initialized = initialize();
+    resize();
+  } catch (error) {
+    initialized = false;
+    initializationError = error;
+    releaseResources();
+    showFallback('initialization-error');
+    try { options.onError?.(error); } catch {}
+  }
+  if (!initialized && options.fallback === undefined) {
+    releaseResources();
+    canvas.remove();
+    if (changedPosition) target.style.position = previousPosition;
+    throw initializationError ?? new Error(`WebGL initialization failed: ${fallbackReason ?? 'renderer unavailable'}`);
+  }
   canvas.addEventListener('webglcontextlost', handleContextLost);
   canvas.addEventListener('webglcontextrestored', handleContextRestored);
   resizeObserver.observe(target);
   intersectionObserver.observe(target);
   target.addEventListener('pointermove', updatePointer, { passive: true });
-  target.addEventListener('pointerleave', leavePointer, { passive: true });
+  target.addEventListener('pointerleave', cancelPointer, { passive: true });
+  target.addEventListener('pointercancel', cancelPointer, { passive: true });
+  target.addEventListener('lostpointercapture', cancelPointer, { passive: true });
   document.addEventListener('visibilitychange', syncAnimation);
   reducedMotion.addEventListener('change', syncAnimation);
-  initialize();
-  resize();
+  window.addEventListener('blur', handleWindowBlur);
+  window.addEventListener('focus', handleWindowFocus);
   syncAnimation();
 
   function dispose() {
@@ -294,12 +389,17 @@ export function createShaderField(target, options = {}) {
     resizeObserver.disconnect();
     intersectionObserver.disconnect();
     target.removeEventListener('pointermove', updatePointer);
-    target.removeEventListener('pointerleave', leavePointer);
+    target.removeEventListener('pointerleave', cancelPointer);
+    target.removeEventListener('pointercancel', cancelPointer);
+    target.removeEventListener('lostpointercapture', cancelPointer);
     document.removeEventListener('visibilitychange', syncAnimation);
     reducedMotion.removeEventListener('change', syncAnimation);
+    window.removeEventListener('blur', handleWindowBlur);
+    window.removeEventListener('focus', handleWindowFocus);
     canvas.removeEventListener('webglcontextlost', handleContextLost);
     canvas.removeEventListener('webglcontextrestored', handleContextRestored);
     releaseResources();
+    clearFallback();
     gl?.getExtension('WEBGL_lose_context')?.loseContext();
     options.dispose?.();
     canvas.remove();
@@ -311,5 +411,9 @@ export function createShaderField(target, options = {}) {
   dispose.seek = seek;
   dispose.setPointer = setPointer;
   dispose.render = renderOnce;
+  dispose.describe = describe;
+  dispose.loseContext = () => gl?.getExtension('WEBGL_lose_context')?.loseContext();
+  dispose.restoreContext = () => gl?.getExtension('WEBGL_lose_context')?.restoreContext();
+  Object.defineProperty(dispose, 'ready', { enumerable: true, get: () => describe().ready });
   return dispose;
 }

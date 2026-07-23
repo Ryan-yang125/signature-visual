@@ -75,7 +75,7 @@ reveal aperture and phase
 data field or mask texture
 ```
 
-Smooth input outside the shader or with explicit time constants. Define pointer exit and capture it as a recovered state.
+Smooth input outside the shader or with explicit time constants. Define pointer exit, cancellation, and any authored aftermath required by the temporal archetype.
 
 ## Compatibility and fallback
 
@@ -110,4 +110,4 @@ Expose `seek({ time, progress })`, semantic pointer/data setters, `render()`, an
 
 ## Runtime shell
 
-Use [webgl-shader-field.js](../starters/webgl-shader-field.js) for context setup, uniforms, visibility, and cleanup. Replace the fragment program, spatial hierarchy, palette, material model, and state score.
+Use [webgl-shader-field.js](../starters/webgl-shader-field.js) for context setup, uniforms, visibility, and cleanup. Replace the fragment program, spatial hierarchy, palette, material model, and semantic state program.

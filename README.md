@@ -1,18 +1,26 @@
 # Signature Visual
 
-**A self-contained visual direction Skill for memorable computational experiences on the web.**
+**A self-contained design Skill for original computational visuals on the web.**
 
-[Live website →](https://signature-visual.pages.dev) &nbsp;·&nbsp; [Install](#install) &nbsp;·&nbsp; [How it works](#how-it-works) &nbsp;·&nbsp; [Visual QA](#deterministic-visual-qa)
+[Live website](https://signature-visual.pages.dev) · [Install](#install) · [V3 method](#v3-method) · [Runtime QA](#deterministic-runtime-qa) · [Benchmark](#benchmark-discipline)
 
 <p align="center">
   <a href="https://signature-visual.pages.dev">
-    <img src="site/screenshots/og-signature-visual.png" alt="Signature Visual director interface showing three art directions and a five-state motion score" />
+    <img src="site/screenshots/og-signature-visual.png" alt="Signature Visual Edition 03 director showing creative search entropy, temporal archetypes, adversarial selection, and a live computational direction" />
   </a>
 </p>
 
-People ask for a page to feel alive, trustworthy, spatial, precise, strange, or memorable. Signature Visual translates that intent into a product-specific visual thesis, develops three structurally different art directions, composes material and motion, selects the rendering engine, implements the system, and reviews deterministic visual states.
+People rarely ask for a renderer. They ask for a page to feel alive, precise, spatial, organic, atmospheric, trustworthy, strange, or memorable.
 
-It can add one signature moment to an existing page, redesign a familiar-looking effect, study an HTML or visual reference, or systemize several related moments.
+Signature Visual turns that intent into a product-owned visual system. It expands the creative search at the right scale, challenges candidates against target evidence and nearby outputs, chooses a temporal structure, routes to the smallest suitable engine, implements production behavior, and captures deterministic evidence for critique.
+
+Use it to:
+
+- add one memorable moment to an existing page;
+- redirect a familiar Canvas, Three.js, WebGL, shader, or SVG effect;
+- study a visual or HTML reference while preserving source distance;
+- turn one selected rule into a reusable family of related visuals;
+- verify responsive, reduced-motion, interaction, and lifecycle behavior.
 
 ## Install
 
@@ -20,217 +28,324 @@ It can add one signature moment to an existing page, redesign a familiar-looking
 npx skills add Ryan-yang125/signature-visual
 ```
 
-Re-run the command to update. The package follows the portable `SKILL.md` convention and carries no external Skill dependency.
+Run the same command again to update. The package follows the portable `SKILL.md` convention and has no external Skill dependency.
 
 Manual installation works by copying [`skills/signature-visual/`](skills/signature-visual/) into the Skill directory used by your agent:
 
 - Claude Code: `~/.claude/skills/signature-visual/`
 - Codex: `~/.codex/skills/signature-visual/` or `.codex/skills/signature-visual/`
-- Cursor and other agents: keep `SKILL.md`, `references/`, and `scripts/` together in the agent's rule or Skill path
+- Cursor and compatible agents: keep `SKILL.md`, `references/`, `schemas/`, and `scripts/` together in the agent's Skill path
 
-## V2: visual direction comes first
+## V3 method
 
-V2 addresses the most common failure in computational web design: technically capable effects converging on the same visual identity.
+V3 treats computational visual design as four connected problems:
 
-The Skill now requires:
+```text
+target page + ambiguous creative intent
+                  |
+                  v
+scope the search: landmark / section / refine
+                  |
+                  v
+evidence-led candidates + taxonomy-external direction
+                  |
+                  v
+candidate distance + source distance + output distance
+                  |
+                  v
+convergence forecast + causal cluster break
+                  |
+                  v
+adversarial selection and direction freeze
+                  |
+                  v
+composition + material + temporal archetype + interaction
+                  |
+                  v
+late renderer choice and neutral production shell
+                  |
+                  v
+semantic captures + derived views + runtime scenarios
+                  |
+                  v
+critique, targeted revision, compact design record
+```
 
-1. a product-grounded visual thesis and paired motion verbs;
-2. three Direction Cards with different fingerprints and silhouettes;
-3. evidence-based selection through specificity, composition, distinctness, system fit, and feasibility;
-4. an authored composition, material system, motion score, interaction contract, and signature rule;
-5. renderer selection after the direction is clear;
-6. implementation from neutral lifecycle shells;
-7. deterministic contact sheets across key states, mobile, and reduced motion;
-8. critique and targeted revision for every quality score below four.
+### Creative search entropy
 
-The result can expand into a family of related visuals while retaining one recognizable motion and material language.
+Search depth follows the visual's role and actual uncertainty.
+
+- **Landmark** work first names the obvious product-name, category, and noun-to-artifact answers as a shadow baseline. It then generates an anti-literal direction and a taxonomy-external direction under a fresh, replayable creative offset before Pattern Language, renderer guides, starter visuals, or trend galleries enter the process.
+- **Section** work begins with the strongest evidence-led direction. A new branch appears only after a named fit or distance failure.
+- **Refine** work retains the confirmed thesis and changes the smallest structural layer responsible for the visible failure.
+
+Landmark candidates are compared pairwise across silhouette, spatial grammar, material causality, temporal archetype, interaction meaning, and type role. Every pair retained for selection needs visible distance on at least four of those six axes. Palette, count, intensity, camera, easing, and renderer changes usually remain tuning inside one direction.
+
+The bundled generator adds per-run structural pressure while staying renderer, artifact, and palette neutral:
+
+```bash
+npm run creative-offset
+npm run creative-offset -- --seed replay-this-search
+npm run creative-offset -- --cohort 3 --seed replay-this-cohort
+```
+
+Its JSON records a quarantine list, evidence move, spatial pressure, coherent substance/temporal/interaction pressures, a representation pressure, counterfactual, and winner challenge. The causal route and representation coordinate stay renderer, artifact, and palette neutral. When output history is unavailable, the direct shadow baseline remains ineligible until a second-order transform changes at least three structural axes. This collision insurance gives isolated runs a wider search distribution while preserving exact replay.
+
+Coordinated independent alternatives and benchmark runs create one cohort roster up front. Every entry receives a distinct causal route and spatial representation mode, then replays as a normal single offset from its derived seed. Ordinary landmark work continues to use one offset.
+
+### Adversarial selection
+
+The strongest candidate and any external direction enter the same trial. Useful challenges include:
+
+- remove color and inspect whether the silhouette still belongs to the product;
+- freeze the visual and inspect hierarchy, tension, and content safety;
+- substitute the renderer and test whether the governing idea survives;
+- compare the nearest direct source and recent accessible output separately;
+- forecast the artifact, renderer, material, time model, and interaction an independent run will likely choose, then make the winner visibly break at least two of material causality, temporal archetype, and interaction meaning;
+- name the strongest counterevidence before freezing the direction.
+
+The selected direction freezes when target evidence drives its governing rule, the held frame is complete, distance checks pass at the chosen tier, the primary risk is testable, and implementation is credible.
+
+### Temporal archetypes
+
+Time follows the governing rule. A static direction can carry the full idea, and an animated direction can use any causal shape the product requires.
+
+V3 recognizes structures such as:
+
+- Pulse
+- Accumulation or accretion
+- Bifurcation or branching
+- Irreversible event
+- Inspection or reveal
+- State machine
+- Scroll causality
+- Authored still
+- One-shot, event-response, ambient, and live data pacing
+
+Semantic capture states come from the selected archetype. A universal five-beat percentage sequence is optional.
+
+### Pattern Atlas after freeze
+
+Pattern Language opens after the candidate set and selected direction freeze. Its patterns act as critique operators:
+
+- a coherence operator asks whether local behavior reveals one larger rule;
+- a boundary operator tests identity, porosity, and recovery;
+- an instrument operator turns invisible state into bounded inspection;
+- a memory operator checks which history must remain visible;
+- a deposition operator gives computation material trace and residue;
+- a threshold operator creates a decisive event and useful aftermath.
+
+Operators pressure or expand one selected rule. They never supply a replacement thesis or finished template.
+
+### Late renderer choice
+
+The experience chooses the engine:
+
+| Family | Best when the direction depends on |
+| --- | --- |
+| Canvas 2D | many planar marks, trails, deposition, field state |
+| Three.js | camera, geometry, occlusion, light, spatial assembly |
+| Raw WebGL | continuous GPU-evaluated material, displacement, simulation |
+| SVG | paths, topology, type, labels, semantic geometry, instrument precision |
+
+Neutral runtime shells carry ownership, responsive sizing, capped DPR, visibility pause, reduced motion, deterministic controls, and teardown. The project-specific visual program supplies geometry, equations, topology, material, temporal behavior, and meaning.
 
 ## Live cases
 
-The four case studies share a production standard and deliberately occupy different design worlds.
+The four public studies share production discipline and occupy distinct visual worlds.
 
 <table>
   <tr>
-    <td width="50%"><a href="https://signature-visual.pages.dev/examples/particle-current/"><img src="site/screenshots/particle-current.png" alt="Memory Loom, a warm editorial Canvas field that weaves collaboration history into fibres" /></a></td>
-    <td width="50%"><a href="https://signature-visual.pages.dev/examples/living-orb/"><img src="site/screenshots/living-orb.png" alt="Permeable Intelligence, a pale editorial Three.js specimen with an adaptive membrane" /></a></td>
+    <td width="50%"><a href="https://signature-visual.pages.dev/examples/particle-current/"><img src="site/screenshots/particle-current.png" alt="Memory Loom Canvas case, collaboration history gathered into warm editorial fibres" /></a></td>
+    <td width="50%"><a href="https://signature-visual.pages.dev/examples/living-orb/"><img src="site/screenshots/living-orb.png" alt="Permeable Intelligence Three.js case, an adaptive synthetic membrane" /></a></td>
   </tr>
   <tr>
-    <td><b>Memory Loom</b><br/><sub>Canvas 2D · coordination as fibres that gather, cross, knot, and release</sub></td>
-    <td><b>Permeable Intelligence</b><br/><sub>Three.js · a synthetic specimen whose boundary admits, responds, and repairs</sub></td>
+    <td><b>Memory Loom</b><br/><sub>Canvas 2D · coordination becomes fibres that gather, cross, knot, and release</sub></td>
+    <td><b>Permeable Intelligence</b><br/><sub>Three.js · an external signal crosses a boundary, changes the interior, and heals</sub></td>
   </tr>
   <tr>
-    <td><a href="https://signature-visual.pages.dev/examples/radiance-field/"><img src="site/screenshots/radiance-field.png" alt="Signal Weather, a physical WebGL pressure-topology instrument" /></a></td>
-    <td><a href="https://signature-visual.pages.dev/examples/spatial-lineage/"><img src="site/screenshots/spatial-lineage.png" alt="Decision Plate 027, a pink and graphite SVG decision lineage document" /></a></td>
+    <td><a href="https://signature-visual.pages.dev/examples/radiance-field/"><img src="site/screenshots/radiance-field.png" alt="Signal Weather WebGL case, system pressure presented as a physical instrument" /></a></td>
+    <td><a href="https://signature-visual.pages.dev/examples/spatial-lineage/"><img src="site/screenshots/spatial-lineage.png" alt="Decision Plate 027 SVG case, evidence and decisions arranged as one inspectable trace" /></a></td>
   </tr>
   <tr>
-    <td><b>Signal Weather</b><br/><sub>Raw WebGL · equilibrium, spike, outage, reroute, and cool inside a physical instrument</sub></td>
-    <td><b>Decision Plate 027</b><br/><sub>Semantic SVG · evidence, branching, review, commitment, and archive in one trace</sub></td>
+    <td><b>Signal Weather</b><br/><sub>Raw WebGL · system pressure moves through spike, outage, reroute, and cool</sub></td>
+    <td><b>Decision Plate 027</b><br/><sub>Semantic SVG · evidence, alternatives, review, commitment, and archive form one trace</sub></td>
   </tr>
 </table>
 
-Each case has an authored mobile composition, a designed reduced-motion state, complete lifecycle cleanup, and a deterministic `window.__signatureVisual` bridge. Showcase fonts and Three.js are self-hosted, with a tested static fallback for unavailable GPU contexts.
+Each case includes an authored mobile composition, a meaningful reduced-motion presentation, complete lifecycle cleanup, and the deterministic `window.__signatureVisual` bridge. Showcase fonts and Three.js are self-hosted. The Three.js case includes a tested static fallback for unavailable GPU contexts.
 
-## How it works
+## Deterministic runtime QA
 
-```text
-real page + ambiguous creative intent
-        ↓
-page job + content axis + brand signal + constraints
-        ↓
-visual thesis + core verb / counter-verb
-        ↓
-three divergent Direction Cards
-        ↓
-composition + material + motion score + interaction
-        ↓
-Canvas 2D / Three.js / raw WebGL / SVG
-        ↓
-deterministic states → contact sheet → critique → revision
-        ↓
-responsive, accessible, lifecycle-complete implementation
-```
-
-### Originality contract
-
-Every direction receives a visual fingerprint:
-
-```text
-artifact stance / spatial archetype / scale / density
-material / temporal character / response / type role
-```
-
-A source study separates portable principles from recognizable surface identity. The target changes at least three axes and receives a new combination of composition, palette, typography, material, motion, and interaction.
-
-### Pattern atlas
-
-Ten technology-independent pattern cards widen the search space:
-
-| Pattern | Core idea | Strong fit |
-| --- | --- | --- |
-| Coherent Field | local decisions expose a larger invisible rule | coordination, logistics, collective systems |
-| Living Boundary | identity emerges through an adaptive enclosure | biology, security, communities |
-| Sediment Archive | time remains visible through deposits and strata | provenance, memory, climate |
-| Signal Instrument | an invisible process becomes measurable | infrastructure, diagnostics, audio |
-| Luminous Threshold | change appears where fields or states meet | transitions, energy, discovery |
-| Morphogenetic Growth | local rules create a living structure | ecosystems, learning, creativity |
-| Trace Topology | routes and constraints explain relationships | workflows, lineage, dependencies |
-| Kinetic Index | language becomes spatial and temporal material | search, publishing, mapping |
-| Spatial Assemblage | parts reveal identity through assembly | platforms, modular products, craft |
-| Anomalous System | one deviation exposes an ordered world's rules | risk, quality, monitoring |
-
-Each card contains semantic uses, spatial grammar, material language, a motion score, interaction mapping, broad mutation axes, capture checkpoints, cheap-look diagnostics, and a source-distance rule. Pattern cards generate design spaces; they do not lock projects to finished templates.
-
-## Deterministic Visual QA
-
-The bundled QA CLI captures the exact states an interactive visual was designed to contain.
+The bundled CLI opens every state in a fresh browser context with a fixed seed, epoch, virtual clock, viewport, DPR, locale, timezone, color scheme, motion preference, and scripted pointer sequence.
 
 ```bash
 npm run visual-qa -- path/to/manifest.json
 ```
 
-It supports:
-
-- timeline progress and ambient fixed-time states;
-- scripted pointer approach, engagement, release, and recovery;
-- fixed epoch, virtual clock, seeded randomness, viewport, DPR, locale, color scheme, and motion preference;
-- the standard `window.__signatureVisual` control bridge;
-- console, page, and network error diagnostics;
-- PNG hashes, structured results, and a dependency-free HTML contact sheet.
-
-Print a manifest example:
+Print the current manifest example:
 
 ```bash
 npm run visual-qa -- --print-example
 ```
 
-Run every desktop motion score, four mobile peak states, and four reduced-motion stills:
+Run the repository's desktop, mobile, and reduced-motion production manifests:
 
 ```bash
 npm run visual-qa:cases
 ```
 
-The review compares composition, content safety, material consistency, phase continuity, product meaning, source distance, mobile behavior, and reduced motion. See [visual-qa.md](skills/signature-visual/references/visual-qa.md) and [failure-signatures.md](skills/signature-visual/references/failure-signatures.md).
+The V3 manifest supports capture, interaction, and production tiers. Relevant runtime capabilities are recorded as supported or N/A with a reason. Declarative runtime scenarios can exercise lifecycle and input behavior.
+
+Each run can produce:
+
+```text
+visual-qa-output/
+├── .signature-visual-qa  # ownership marker for safe managed replacement
+├── captures/*.png         # exact state captures
+├── derived/*/*.png        # 160px thumbnail, 12-16px blur, silhouette
+├── contact-sheet.png      # side-by-side thumbnail sheet
+├── contact-sheet.html     # dependency-free review surface
+└── results.json           # state metadata and SHA-256 image hashes
+```
+
+Managed artifacts are written to a staging directory and promoted through a rollback transaction, so renamed or removed states cannot leave stale captures in a new review. The first successful adoption writes `.signature-visual-qa`; later runs require that ownership marker before preserving reviewer notes beside managed evidence. Broad or unrelated output targets are rejected, and an incomplete rollback retains its recovery directory instead of discarding the previous evidence.
+
+Hashes are determinism signals. The public-case runner repeats every manifest: CPU-rendered cases require exact state and contact-sheet hashes, while GPU cases use a narrow same-host pixel tolerance for driver-level channel rounding. Visual approval comes from authored states, derived views, visible critique, and production behavior.
+
+See [visual-qa.md](skills/signature-visual/references/visual-qa.md), [motion-direction.md](skills/signature-visual/references/motion-direction.md), and [failure-signatures.md](skills/signature-visual/references/failure-signatures.md).
+
+## Benchmark discipline
+
+The repository includes public forward-test scenarios in [`evals/scenarios.json`](evals/scenarios.json) and anchored review criteria in [`evals/rubric.md`](evals/rubric.md). The canonical 1-5 evaluation anchors also live in [`evaluation.md`](skills/signature-visual/references/evaluation.md).
+
+A useful comparative evaluation keeps the generation conditions equal and reports its evidence boundary:
+
+1. Run the same hidden brief with isolated agents under the same model, tools, time, and starting surface; allocate one recorded offset cohort for diversity runs and replay each derived seed for reproducibility checks.
+2. Randomize and anonymize the outputs before blind review.
+3. Repeat across briefs, renderer families, task scopes, and model seeds.
+4. Report pairwise preference, every rubric criterion, production-gate pass rate, reviewer agreement, and uncertainty separately.
+5. Treat a one-brief score as one observation. Claims such as near-peer quality or statistical confidence require direct peer controls and repeated comparisons.
+
+The V3 rubric passes only when every criterion reaches at least 4. A world-class artifact candidate averages at least 4.7/5, includes at least four independently supported 5s, and keeps Tier, Originality, and Production at 4 or higher. Every individual 5 requires artifact evidence, the strongest counterevidence, and independent review. A 95-point Skill release also requires multi-brief controls, no three-axis convergence within one brief, and at least 95% automated runtime-gate passage.
+
+No aggregate public benchmark score is claimed in this README.
+
+## Design record
+
+After direction freeze, the Skill creates a compact `signature-visual.design.json` record near the owning component when the project permits. The record stores:
+
+- scope tier and page context;
+- selected thesis, directions, fingerprints, and distance evidence;
+- landmark obvious-attractor baseline, creative-offset seed, optional cohort coordinate, convergence forecast, causal cluster-break axes, and winner challenge;
+- strongest selection evidence and counterevidence;
+- source and output-distance results;
+- signature rule and late renderer decision;
+- semantic states and runtime capabilities;
+- the highest-value critique and resulting revision.
+
+Validate the record against [`design-record.schema.json`](skills/signature-visual/schemas/design-record.schema.json), then run `node skills/signature-visual/scripts/validate-design-record.mjs path/to/signature-visual.design.json`. The executable validator replays the creative offset, counts candidate distance, and enforces the landmark causal cluster-break gate. The record gives future runs enough evidence for accurate output-distance checks without preserving a long process transcript.
 
 ## Skill architecture
 
-The progressive-disclosure structure keeps the core workflow concise and loads specialized knowledge only when the task needs it.
+The package uses progressive disclosure. The main workflow stays concise and opens focused references only when the current decision needs them.
 
 ```text
 skills/signature-visual/
-├── SKILL.md                         # visual-director workflow
-├── agents/openai.yaml              # Codex interface metadata
-├── scripts/
-│   ├── visual-qa.mjs               # deterministic capture + contact sheets
-│   └── visual-qa.test.mjs          # repeatability and failure-path tests
-└── references/
-    ├── visual-direction.md         # thesis, tension, artifact stance
-    ├── composition.md              # spatial archetypes, type, mobile
-    ├── material-language.md        # substance, light, edge, texture
-    ├── motion-direction.md         # phases, tempo, curves, recovery
-    ├── pattern-language.md         # ten generative pattern cards
-    ├── reference-study.md          # fingerprints and transformation matrix
-    ├── interaction.md              # semantic mapping and bounds
-    ├── routing.md                  # experience → renderer
-    ├── integration.md              # ownership, clocks, lifecycle, fallback
-    ├── visual-qa.md                # capture and critique protocol
-    ├── failure-signatures.md       # visible diagnosis and revision order
-    ├── families/                   # Canvas, Three.js, WebGL, SVG depth
-    └── starters/                   # neutral lifecycle runtime shells
+├── SKILL.md
+├── agents/openai.yaml
+├── references/
+│   ├── visual-direction.md
+│   ├── creative-search.md
+│   ├── composition.md
+│   ├── material-language.md
+│   ├── motion-direction.md
+│   ├── pattern-language.md
+│   ├── reference-study.md
+│   ├── interaction.md
+│   ├── routing.md
+│   ├── integration.md
+│   ├── visual-qa.md
+│   ├── failure-signatures.md
+│   ├── design-record.md
+│   ├── evaluation.md
+│   ├── families/
+│   └── starters/
+├── schemas/
+│   ├── design-record.schema.json
+│   ├── visual-qa-manifest-v3.schema.json
+│   └── visual-qa-results-v3.schema.json
+└── scripts/
+    ├── creative-offset.mjs
+    ├── creative-offset.test.mjs
+    ├── validate-design-record.mjs
+    ├── validate-design-record.test.mjs
+    ├── visual-qa.mjs
+    └── visual-qa.test.mjs
 ```
-
-The runtime shells own sizing, DPR, visibility, input, reduced motion, deterministic controls, and teardown. The agent supplies a project-specific visual program: geometry, field equations, emitters, material, composition, timing, and semantics.
 
 ## Example prompts
 
 ```text
-The hero feels visually generic. Give it one memorable moment that communicates how many independent agents arrive at a shared decision. Keep our existing React stack and make the mobile composition feel intentional.
+The hero feels visually generic. Give it one memorable moment that communicates how independent agents arrive at a defensible shared decision. Keep our existing React stack and make the mobile composition intentional.
 ```
 
 ```text
-This biotechnology hero has a glowing displaced sphere and feels familiar. Redesign the visual around selective permeability: an external signal crosses the membrane, changes the interior, then the organism heals.
+This biotechnology hero has a glowing displaced sphere and feels familiar. Refine it around selective permeability: an external signal crosses the membrane, changes the interior, then the organism heals.
 ```
 
 ```text
-Study this HTML reference. Extract the spatial, material, and temporal rules that give it conviction, then develop three fresh directions for our archival search product. Keep the result structurally distant from the source.
+Study this HTML reference. Extract the spatial, material, and temporal rules that give it conviction, then develop a structurally distant direction for our archival search product.
 ```
 
 ```text
-Our SVG provenance diagram is crowded on mobile and every route moves continuously. Re-direct it around one decision trace from evidence to signed output, with keyboard, touch, and reduced-motion states.
+Our SVG provenance diagram is crowded on mobile and every route moves continuously. Direct it around one decision trace from evidence to signed output, with keyboard, touch, and reduced-motion states.
 ```
+
+## Develop and verify
+
+```bash
+npm ci
+npx playwright install chromium
+npm run build:site
+npm run test:creative-offset
+npm run test:design-record
+npm run test:evals
+npm run test:schemas
+npm run check
+npm run test:visual-qa
+npm run visual-qa:cases
+npm run test:schemas -- --results-root .visual-qa --require-results 12
+npm run screenshots
+npm pack --dry-run
+```
+
+Build the Cloudflare Pages output in `.site-dist`:
+
+```bash
+npm run build:site
+```
+
+Deploy the same verified output:
+
+```bash
+npm run deploy:site
+```
+
+The production build excludes `site/_tests`. CI compiles all three Draft 2020-12 schemas, validates the documented examples and 12 production manifests, validates every generated result, and verifies the package, browser behavior, runtime shells, mobile, reduced motion, teardown, and error handling. The deploy command pins its Wrangler release for reproducible Cloudflare uploads.
 
 ## Repository
 
 ```text
 .
 ├── skills/signature-visual/        # installable universal Skill
-├── site/                           # public site and four live cases
-├── evals/                          # independent scenarios and rubric
-├── docs/direction-case-study.md    # worked director decision
+├── site/                           # Edition 03 site and four live cases
+├── evals/                          # public scenarios and rubric
+├── docs/                           # worked direction evidence
 ├── ACKNOWLEDGEMENTS.md             # research and license boundaries
-└── .github/workflows/verify.yml    # Skill, browser, and QA verification
+└── .github/workflows/verify.yml    # package, browser, and QA verification
 ```
 
-The Skill's methods and scripts are self-contained. A target project can use its existing animation or rendering libraries when they serve the selected direction. The Three.js runtime shell expects the target to provide `three`; the QA CLI uses Playwright when available.
-
-## Develop and verify
-
-```bash
-npm install
-npx playwright install chromium
-npm run build:site
-npm run serve
-npm run check
-npm run test:visual-qa
-npm run visual-qa:cases
-npm run screenshots
-```
-
-`npm run check` verifies Skill links and size, JavaScript syntax, required V2 resources, all four runtime shells and controller methods, teardown, desktop/mobile pages, deterministic bridges, reduced motion, overflow, and browser errors.
-
-The independent evaluation set lives in [`evals/scenarios.json`](evals/scenarios.json), with the acceptance rubric in [`evals/rubric.md`](evals/rubric.md).
-
-## Research and license
-
-The package architecture draws inspiration from [Hallmark](https://github.com/Nutlope/hallmark). Motion, renderer, and deterministic-review research is documented with source and license boundaries in [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md).
+The package architecture draws inspiration from [Hallmark](https://github.com/Nutlope/hallmark). Motion, renderer, evaluation, and deterministic-review research is documented with source and license boundaries in [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md).
 
 Signature Visual is released under the [MIT License](LICENSE).

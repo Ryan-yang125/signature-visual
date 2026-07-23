@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { createRuntimeState } from '../runtime-state.js';
 
 const stage = document.querySelector('#three-stage');
 const sheet = document.querySelector('.specimen-sheet');
@@ -6,6 +7,8 @@ const phaseLabel = document.querySelector('#phase');
 const permeabilityLabel = document.querySelector('#permeability');
 const responseLabel = document.querySelector('#response');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const runtime = createRuntimeState({ reducedMotion });
+const deterministicQa = Boolean(window.__signatureVisualQASeed);
 
 const CYCLE = 18000;
 const phaseNames = ['dormant', 'osmosis', 'permeable', 'response', 'repair'];
@@ -22,32 +25,63 @@ function supportsWebGL() {
   return true;
 }
 
-let gpuAvailable = supportsWebGL();
-let renderer;
-if (gpuAvailable) {
-  try {
-    renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
-      preserveDrawingBuffer: Boolean(window.__signatureVisualQASeed)
-    });
-    renderer.setClearColor(0x000000, 0);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.domElement.setAttribute('aria-hidden', 'true');
-    stage.append(renderer.domElement);
-  } catch {
-    gpuAvailable = false;
-  }
+const fallbackRenderer = {
+  setPixelRatio() {},
+  setSize() {},
+  render() {},
+  dispose() {}
+};
+let gpuAvailable = false;
+let contextLost = false;
+let renderer = fallbackRenderer;
+
+function setGpuFallback(active, reason = null) {
+  contextLost = active && reason === 'context-lost';
+  runtime.setFallback(active, reason);
+  stage.classList.toggle('three-ready', !active && gpuAvailable);
+  stage.dataset.renderer = active ? 'fallback' : 'webgl';
+  runtime.setPauseReason('gpu-context-lost', contextLost);
 }
-if (!gpuAvailable) {
-  stage.dataset.renderer = 'fallback';
-  renderer = {
-    setPixelRatio() {},
-    setSize() {},
-    render() {},
-    dispose() {}
-  };
+
+function handleContextLost(event) {
+  event?.preventDefault?.();
+  setGpuFallback(true, 'context-lost');
+  sync();
+}
+
+function handleContextRestored() {
+  contextLost = false;
+  setGpuFallback(false);
+  resize();
+  sync();
+}
+
+function initializeRenderer() {
+  gpuAvailable = supportsWebGL();
+  contextLost = false;
+  renderer = fallbackRenderer;
+  if (gpuAvailable) {
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance',
+        preserveDrawingBuffer: Boolean(window.__signatureVisualQASeed)
+      });
+      renderer.setClearColor(0x000000, 0);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.domElement.setAttribute('aria-hidden', 'true');
+      stage.append(renderer.domElement);
+      runtime.addListener(renderer.domElement, 'webglcontextlost', handleContextLost);
+      runtime.addListener(renderer.domElement, 'webglcontextrestored', handleContextRestored);
+      setGpuFallback(false);
+      return;
+    } catch {
+      gpuAvailable = false;
+      renderer = fallbackRenderer;
+    }
+  }
+  setGpuFallback(true, 'webgl-unavailable');
 }
 
 const uniforms = {
@@ -178,8 +212,6 @@ keyLight.position.set(-3, 4, 5);
 scene.add(keyLight);
 
 let frame = 0;
-let visible = true;
-let pageVisible = true;
 let start = performance.now();
 
 function smoothstep(edge0, edge1, value) {
@@ -198,6 +230,13 @@ function timeline(progress) {
 
 function resize() {
   const rect = sheet.getBoundingClientRect();
+  const explicitlyZero = sheet.style.width === '0px' || sheet.style.height === '0px';
+  const zeroSize = explicitlyZero || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  if (zeroSize || runtime.state.disposed) {
+    sync();
+    return;
+  }
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.7));
   renderer.setSize(rect.width, rect.height, false);
   camera.aspect = rect.width / rect.height;
@@ -207,11 +246,32 @@ function resize() {
   organism.scale.set(mobile ? 0.73 : 0.92, mobile ? 1.03 : 1.32, mobile ? 0.57 : 0.72);
 }
 
+function refreshSizePause() {
+  const rect = sheet.getBoundingClientRect();
+  const zeroSize = sheet.style.width === '0px' || sheet.style.height === '0px' || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  if (zeroSize) {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    runtime.setRafScheduled(false);
+  } else if (!deterministicQa && !runtime.state.disposed && !runtime.state.paused && !runtime.state.resources.raf) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
+}
+
 function pointerMove(event) {
   const rect = sheet.getBoundingClientRect();
+  if (rect.width < 1 || rect.height < 1) return;
   pointer.tx = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   pointer.ty = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
   pointer.target = 1;
+  runtime.setPointer({
+    x: (event.clientX - rect.left) / rect.width,
+    y: (event.clientY - rect.top) / rect.height,
+    active: true,
+    event: event.type
+  });
 }
 
 function renderAt(timeMs = 0) {
@@ -246,8 +306,8 @@ function renderAt(timeMs = 0) {
     vesicle.rotation.y = -seconds * 0.15 + phase;
   }
 
-  renderer.render(scene, camera);
-  if (gpuAvailable) stage.classList.add('three-ready');
+  if (!contextLost) renderer.render(scene, camera);
+  if (gpuAvailable && !contextLost) stage.classList.add('three-ready');
   sheet.dataset.phase = phaseNames[score.phase];
   phaseLabel.textContent = phaseNames[score.phase];
   permeabilityLabel.textContent = score.permeability > 0.64 ? 'open' : score.permeability > 0.3 ? 'softening' : 'sealed';
@@ -256,13 +316,35 @@ function renderAt(timeMs = 0) {
 
 function animate(now) {
   renderAt(now - start);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
 }
 
 function sync() {
   cancelAnimationFrame(frame);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
-  else renderAt(CYCLE * 0.66);
+  frame = 0;
+  runtime.setRafScheduled(false);
+  runtime.setPauseReason('document-hidden', document.hidden);
+  runtime.setReducedMotion(reducedMotion.matches);
+  if (deterministicQa) {
+    if (!runtime.state.disposed && !runtime.describe().pauseReasons.includes('zero-size')) renderAt(qaState.timeMs);
+    return;
+  }
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    renderAt(performance.now() - start);
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  } else if (!runtime.state.disposed && !runtime.describe().pauseReasons.includes('zero-size')) {
+    renderAt(CYCLE * 0.66);
+  }
+}
+
+function clearPointer(event = 'pointerleave') {
+  pointer.target = 0;
+  pointer.active = 0;
+  runtime.clearPointer(event);
 }
 
 const qaState = { seed: 125, timeMs: 0, progress: 0 };
@@ -298,39 +380,45 @@ const qa = {
     pointer.y = pointer.ty;
     pointer.target = next.active === false ? 0 : 1;
     pointer.active = pointer.target;
+    runtime.setPointer({ x: next.x, y: next.y, active: pointer.target > 0, event: 'hook' });
   },
   render() {
     renderAt(qaState.timeMs);
   },
   describe() {
-    return { phase: phaseLabel.textContent, seed: qaState.seed, time: qaState.timeMs / 1000, progress: qaState.progress, renderer: gpuAvailable ? 'webgl' : 'fallback' };
+    refreshSizePause();
+    return runtime.describe({
+      phase: phaseLabel.textContent,
+      seed: qaState.seed,
+      time: qaState.timeMs / 1000,
+      progress: qaState.progress,
+      renderer: gpuAvailable && !contextLost ? 'webgl' : 'fallback'
+    });
   },
   flush() {
     seekQa({ timeMs: reducedMotion.matches ? CYCLE * 0.66 : performance.now() - start });
+  },
+  loseContext() {
+    handleContextLost({ preventDefault() {} });
+    return qa.describe();
+  },
+  restoreContext() {
+    handleContextRestored();
+    return qa.describe();
+  },
+  dispose,
+  remount() {
+    if (!runtime.state.disposed) dispose();
+    start = performance.now();
+    mount();
+    return qa.describe();
   }
 };
 
 window.__signatureVisual = qa;
 window.__signatureVisualQA = qa;
 
-new ResizeObserver(resize).observe(sheet);
-new IntersectionObserver(entries => {
-  visible = entries[0]?.isIntersecting ?? true;
-  sync();
-}).observe(sheet);
-sheet.addEventListener('pointermove', pointerMove, { passive: true });
-sheet.addEventListener('pointerleave', () => { pointer.target = 0; }, { passive: true });
-document.addEventListener('visibilitychange', sync);
-reducedMotion.addEventListener('change', sync);
-window.addEventListener('message', event => {
-  if (event.origin !== location.origin) return;
-  if (event.data?.type === 'signature-visual-visibility') {
-    pageVisible = Boolean(event.data.visible);
-    sync();
-  }
-});
-window.addEventListener('pagehide', () => {
-  cancelAnimationFrame(frame);
+function disposeSceneResources() {
   geometry.dispose();
   innerGeometry.dispose();
   vesicleGeometry.dispose();
@@ -338,8 +426,58 @@ window.addEventListener('pagehide', () => {
   shellMaterial.dispose();
   innerMaterial.dispose();
   vesicleMaterial.dispose();
-  renderer.dispose();
-});
+}
 
-resize();
-sync();
+function dispose() {
+  if (!runtime.disposeManaged()) return qa.describe();
+  cancelAnimationFrame(frame);
+  frame = 0;
+  clearPointer('dispose');
+  renderer.dispose();
+  renderer.domElement?.remove();
+  renderer = fallbackRenderer;
+  gpuAvailable = false;
+  contextLost = false;
+  stage.classList.remove('three-ready');
+  stage.dataset.renderer = 'fallback';
+  disposeSceneResources();
+  return qa.describe();
+}
+
+function mount() {
+  runtime.beginMount();
+  runtime.setPauseReason('window-blur', false);
+  runtime.setPauseReason('host-hidden', false);
+  initializeRenderer();
+  runtime.addObserver(new ResizeObserver(resize), sheet);
+  runtime.addObserver(new IntersectionObserver(entries => {
+    runtime.setPauseReason('outside-viewport', !(entries[0]?.isIntersecting ?? true));
+    sync();
+  }), sheet);
+  runtime.addListener(sheet, 'pointermove', pointerMove, { passive: true });
+  for (const type of ['pointerleave', 'pointercancel', 'lostpointercapture']) {
+    runtime.addListener(sheet, type, () => clearPointer(type), { passive: true });
+  }
+  runtime.addListener(document, 'visibilitychange', sync);
+  runtime.addListener(reducedMotion, 'change', sync);
+  runtime.addListener(window, 'blur', () => {
+    clearPointer('window-blur');
+    runtime.setPauseReason('window-blur', true);
+    sync();
+  });
+  runtime.addListener(window, 'focus', () => {
+    runtime.setPauseReason('window-blur', false);
+    sync();
+  });
+  runtime.addListener(window, 'message', event => {
+    if (event.origin !== location.origin || event.data?.type !== 'signature-visual-visibility') return;
+    runtime.setPauseReason('host-hidden', !event.data.visible);
+    sync();
+  });
+  runtime.addListener(window, 'pagehide', dispose, { once: true });
+  resize();
+  runtime.finishMount();
+  sync();
+}
+
+mount();
