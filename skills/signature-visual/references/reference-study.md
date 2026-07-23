@@ -17,10 +17,10 @@ Respect source licenses. Treat unknown, restrictive, or per-artifact licenses as
 
 Capture or inspect at least:
 
-- initial/resting state;
-- one developed state;
-- the strongest transformation;
-- recovery or final state;
+- the held or initial state;
+- one meaningful intermediate state when the source has one;
+- the strongest structural change;
+- the committed, recovered, branched, accumulated, or final state implied by the source;
 - mobile when available.
 
 Describe only visible evidence:
@@ -32,7 +32,7 @@ DEPTH         layer count and cues
 COLOR         role relationships and tonal range
 TYPE          scale, voice, placement, relationship to visual
 MATERIAL      surface, edge, texture, light, decay
-TIME          phase changes, tempo, asymmetry, repetition
+TIME          state changes, tempo, asymmetry, repetition
 INPUT         visible cause and consequence
 ARTIFACT      environment / specimen / instrument / document / event / sample
 ```
@@ -45,7 +45,7 @@ Extract sentences that can survive a new subject and renderer:
 - “Typography forms the terrain, so labels and image share one material.”
 - “The interface behaves like a scientific annex with simultaneous comparisons.”
 - “One narrow signal color appears only when the instrument locks.”
-- “The visual peak changes topology and leaves a persistent trace.”
+- “The decisive state change alters topology and leaves a persistent trace.”
 
 Separate each rule into composition, material, motion, interaction, and production behavior.
 
@@ -65,7 +65,7 @@ TYPE ROLE    absent / label / frame / texture / subject
 PALETTE      tonal structure and signal relationship
 ```
 
-The fingerprint is a collision detector. It is not a style label.
+The fingerprint acts as a collision detector and carries no style label.
 
 ## Pass 4 — Transform for the target
 
@@ -75,19 +75,19 @@ Create a transformation matrix:
 | --- | --- | --- | --- |
 | concentrated miniature | product handles rare anomalies | one tiny fault inside a vast ordered field | area-capped array with local rule break |
 | persistent stains | revision history matters | resolved comments leave faint strata | retained offscreen buffer or SVG layers |
-| instrument lock state | trust needs visible confirmation | route alignment creates a held signal | deterministic phase and sparse signal color |
+| instrument lock state | trust needs visible confirmation | route alignment creates a held signal | deterministic state and sparse signal color |
 
 Change at least three fingerprint axes, including artifact stance, type role, or spatial archetype when the source has a strong surrounding shell. Preserve at most one highly recognizable surface trait, and only when it has direct target meaning.
 
-## Pass 5 — Generate three directions
+## Pass 5 — Transform at the selected scope
 
-Use different transformations in each Direction Card:
+Keep Pattern Language and renderer guides closed until the transformed candidates freeze. Route the target through [creative-search.md](creative-search.md):
 
-- one may preserve the source's spatial rule and change its material/time system;
-- one may preserve the motion principle inside another artifact stance;
-- one may preserve only the density hierarchy and create a new phenomenon.
+- landmark work includes a taxonomy-external direction and a pairwise distance matrix;
+- section work begins with one evidence-led transformation and branches when distance or page fit fails;
+- refine work preserves the confirmed thesis and changes the smallest structural layer responsible for the failure.
 
-The three cards need different silhouettes at thumbnail size.
+When several candidates are required, give them structurally different silhouettes and change at least four fingerprint axes in every pair.
 
 ## Study output
 
@@ -96,7 +96,7 @@ Return or record:
 1. the source fingerprint;
 2. three to seven portable principles;
 3. surface traits to leave behind;
-4. three variation axes with wide range;
+4. variation axes with wide range;
 5. production constraints and likely renderer mechanisms;
 6. the transformation matrix for the target;
 7. license or attribution notes when relevant.

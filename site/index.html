@@ -6,17 +6,18 @@
     <meta name="theme-color" content="#f0ece2" />
     <meta
       name="description"
-      content="Signature Visual is a visual-direction skill that turns product meaning into original, production-ready computational experiences."
+      content="Signature Visual is a self-contained design skill for original computational visuals, adversarial direction selection, authored time, and deterministic runtime QA."
     />
-    <meta property="og:title" content="Signature Visual — visual direction for the web" />
+    <meta property="og:title" content="Signature Visual | Computational visual direction" />
     <meta
       property="og:description"
-      content="Move from a semantic seed to an ownable visual system, motion score, implementation, and deterministic visual review."
+      content="Expand the creative search, challenge every direction, author its behavior in time, and verify the exact runtime states."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/screenshots/og-signature-visual.png" />
-    <title>Signature Visual — visual direction for the web</title>
+    <title>Signature Visual | Computational visual direction</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
     <link rel="stylesheet" href="/css/tokens.css" />
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/sections.css" />
@@ -28,13 +29,13 @@
       <a class="brand" href="#top" aria-label="Signature Visual home">
         <span class="brand-glyph" aria-hidden="true">✣</span>
         <span class="brand-name">Signature Visual</span>
-        <span class="brand-note">Visual direction skill</span>
+        <span class="brand-note">Computational visual direction</span>
       </a>
       <nav aria-label="Primary navigation">
         <a href="#method">Method</a>
-        <a href="#patterns">Pattern atlas</a>
-        <a href="#cases">Cases</a>
-        <a href="#qa">Visual QA</a>
+        <a href="#patterns">Critique atlas</a>
+        <a href="#cases">Live cases</a>
+        <a href="#qa">Runtime QA</a>
         <a href="https://github.com/Ryan-yang125/signature-visual">GitHub ↗</a>
       </nav>
     </header>
@@ -42,132 +43,183 @@
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero-intro">
-          <p class="edition-label">Open design skill · Edition 02</p>
-          <h1 id="hero-title">A visual idea <em>only this product</em> could own.</h1>
+          <p class="edition-label">Open design skill / Edition 03</p>
+          <h1 id="hero-title">Search wide. <span>Direct what survives.</span></h1>
           <p class="hero-lede">
-            Signature Visual reads the product, develops three art directions, composes a motion score, and builds one memorable computational experience into the page.
+            Expand visual possibilities, attack weak directions, author time, and verify the runtime before the idea ships.
           </p>
           <div class="hero-actions">
             <button class="install-command" type="button" data-copy="npx skills add Ryan-yang125/signature-visual">
               <span class="command-text">npx skills add Ryan-yang125/signature-visual</span>
               <span class="copy-label">Copy</span>
             </button>
-            <a class="arrow-link" href="#method">Read the method <span aria-hidden="true">↓</span></a>
+            <a class="arrow-link" href="#cases">Open live cases <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
-        <div class="director-demo" aria-label="Interactive visual-direction demonstration">
+        <div class="director-demo" aria-label="Interactive visual director demonstration">
           <div class="semantic-seed">
-            <span class="folio">Semantic seed / 07</span>
+            <span class="folio">Director brief</span>
             <blockquote>“Make cross-border money movement feel alive, precise, and trustworthy.”</blockquote>
+            <p>Keep the headline primary. Preserve a calm authored still.</p>
           </div>
 
-          <div class="direction-stage" data-direction="tidal">
+          <div class="director-controls">
+            <fieldset class="control-cluster entropy-control">
+              <legend>Creative search entropy</legend>
+              <div role="group" aria-label="Choose creative search distance">
+                <button type="button" data-entropy="near" aria-pressed="false">Near</button>
+                <button class="is-active" type="button" data-entropy="cross" aria-pressed="true">Cross</button>
+                <button type="button" data-entropy="far" aria-pressed="false">Far</button>
+              </div>
+              <p id="entropy-note">Cross artifact stance, substance, and temporal character.</p>
+            </fieldset>
+
+            <fieldset class="control-cluster temporal-control">
+              <legend>Temporal archetype</legend>
+              <div role="group" aria-label="Choose temporal archetype">
+                <button class="is-active" type="button" data-temporal="accumulation" aria-pressed="true">Accumulation</button>
+                <button type="button" data-temporal="bifurcation" aria-pressed="false">Bifurcation</button>
+                <button type="button" data-temporal="inspection" aria-pressed="false">Inspection</button>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="direction-stage" data-direction="tidal" data-temporal="accumulation" data-entropy="cross">
             <canvas id="direction-canvas" aria-hidden="true"></canvas>
             <div class="stage-grain" aria-hidden="true"></div>
             <div class="stage-caption">
-              <span id="stage-index">Direction 01</span>
+              <span id="stage-index">Search winner</span>
               <strong id="stage-name">Tidal Ledger</strong>
-              <span id="stage-material">ink currents · coordinated drift</span>
+              <span id="stage-material">ink currents / coordinated drift</span>
             </div>
-            <p class="stage-live" id="director-status" aria-live="polite">Tidal Ledger, Still state</p>
+            <p class="stage-live" id="director-status" aria-live="polite">Tidal Ledger, Accumulation, Seed state</p>
           </div>
 
-          <div class="direction-selector" role="group" aria-label="Choose an art direction">
-            <button class="direction-card is-active direction-card--tidal" type="button" data-direction="tidal" aria-pressed="true">
-              <span class="direction-number">01</span>
-              <strong>Tidal Ledger</strong>
-              <span>Trust as many currents finding one cadence.</span>
-              <i>fluid · patient · collective</i>
-            </button>
-            <button class="direction-card direction-card--glass" type="button" data-direction="glass" aria-pressed="false">
-              <span class="direction-number">02</span>
-              <strong>Glasshouse Core</strong>
-              <span>Infrastructure as a clear, living chamber.</span>
-              <i>tactile · lucid · protected</i>
-            </button>
-            <button class="direction-card direction-card--relay" type="button" data-direction="relay" aria-pressed="false">
-              <span class="direction-number">03</span>
-              <strong>Relay Almanac</strong>
-              <span>Precision recorded as routes, marks, and arrivals.</span>
-              <i>measured · graphic · exact</i>
-            </button>
+          <div class="selection-room">
+            <div class="selection-heading">
+              <span>Adversarial selection</span>
+              <p>Search outputs and an external direction enter the same trial.</p>
+            </div>
+            <div class="direction-selector" role="group" aria-label="Choose a direction to challenge">
+              <button class="direction-card is-active direction-card--tidal" type="button" data-direction="tidal" aria-pressed="true">
+                <span class="direction-number">Search winner</span>
+                <strong>Tidal Ledger</strong>
+              </button>
+              <button class="direction-card direction-card--glass" type="button" data-direction="glass" aria-pressed="false">
+                <span class="direction-number">External direction</span>
+                <strong>Glasshouse Core</strong>
+              </button>
+              <button class="direction-card direction-card--relay" type="button" data-direction="relay" aria-pressed="false">
+                <span class="direction-number">Counterfactual</span>
+                <strong>Relay Almanac</strong>
+              </button>
+              <button class="direction-card direction-card--quiet" type="button" data-direction="quiet" aria-pressed="false">
+                <span class="direction-number">Far field</span>
+                <strong>Quiet Escrow</strong>
+              </button>
+            </div>
+            <div class="selection-verdict" aria-live="polite">
+              <span id="challenge-name">Challenge / remove color</span>
+              <p id="challenge-verdict">The protected corridor and current topology still carry the idea.</p>
+            </div>
           </div>
 
           <div class="motion-score" aria-labelledby="motion-score-title">
             <div class="motion-score-head">
-              <span class="folio" id="motion-score-title">Motion score / five beats</span>
-              <span class="motion-readout" id="motion-readout">Still · 00%</span>
+              <span class="folio" id="motion-score-title">Temporal score / <b id="archetype-readout">Accumulation</b></span>
+              <span class="motion-readout" id="motion-readout">Seed / 00%</span>
             </div>
             <div class="score-track" aria-hidden="true">
               <span class="score-fill" id="score-fill"></span>
               <span class="score-playhead" id="score-playhead"></span>
             </div>
-            <div class="score-states" role="group" aria-label="Preview motion state">
-              <button class="is-active" type="button" data-progress="0" aria-pressed="true"><span>01</span>Still</button>
-              <button type="button" data-progress="0.25" aria-pressed="false"><span>02</span>Wake</button>
-              <button type="button" data-progress="0.5" aria-pressed="false"><span>03</span>Gather</button>
-              <button type="button" data-progress="0.75" aria-pressed="false"><span>04</span>Crest</button>
-              <button type="button" data-progress="1" aria-pressed="false"><span>05</span>Settle</button>
+            <div class="score-states" role="group" aria-label="Preview temporal state">
+              <button class="is-active" type="button" data-progress="0" aria-pressed="true"><span>01</span><b>Seed</b></button>
+              <button type="button" data-progress="0.25" aria-pressed="false"><span>02</span><b>Gather</b></button>
+              <button type="button" data-progress="0.5" aria-pressed="false"><span>03</span><b>Layer</b></button>
+              <button type="button" data-progress="0.75" aria-pressed="false"><span>04</span><b>Saturate</b></button>
+              <button type="button" data-progress="1" aria-pressed="false"><span>05</span><b>Residue</b></button>
             </div>
           </div>
         </div>
       </section>
 
       <section class="method" id="method" aria-labelledby="method-title">
-        <div class="section-lead">
-          <p class="section-kicker">From request to direction</p>
-          <h2 id="method-title">Meaning enters first. Form, material, and time follow.</h2>
+        <div class="method-manifesto">
+          <h2 id="method-title">Keep the search open long enough to find a real idea.</h2>
           <p>
-            The skill opens with a concise visual brief, widens the field into three distinct propositions, and selects the direction with the strongest semantic fit and visual fingerprint.
+            V3 separates creative search, selection, temporal authorship, and runtime evidence. Each layer has its own failure test.
           </p>
         </div>
 
-        <div class="brief-composition">
-          <article class="brief-sheet">
+        <div class="protocol-grid">
+          <article class="protocol-search">
             <header>
-              <span class="folio">Visual brief / sample</span>
-              <span>12.06.26</span>
+              <span>Creative search entropy</span>
+              <strong>Expand before rendering</strong>
             </header>
-            <h3>Trust should feel coordinated, calm, and alive.</h3>
-            <dl>
-              <div><dt>Page job</dt><dd>Establish confidence before the first number appears.</dd></div>
-              <div><dt>Product truth</dt><dd>Value crosses many boundaries while the experience stays coherent.</dd></div>
-              <div><dt>Human response</dt><dd>Calm mastery with a moment of discovery.</dd></div>
-              <div><dt>Constraints</dt><dd>Text-safe hero, mobile composition, quiet reduced-motion state.</dd></div>
-            </dl>
+            <p class="protocol-thesis">Quarantine the obvious answer, then search from a fresh causal offset.</p>
+            <div class="search-map" aria-label="Example search field">
+              <span>Shadow / transit map</span>
+              <span>Anti-literal / agency transfer</span>
+              <span>Cohort 03 / void · strata · type</span>
+              <span>Candidate / custody aperture</span>
+              <span>Candidate / quiet escrow</span>
+            </div>
+            <p class="protocol-rule">Each cohort entry coordinates substance, time, interaction, and a distinct representation mode. Freeze the direction first, then route it to the smallest engine that can express its governing rule.</p>
           </article>
 
-          <div class="method-arrow" aria-hidden="true">
-            <span>Develop</span>
-            <svg viewBox="0 0 160 92">
-              <path d="M4 44C52 44 78 12 118 26c19 7 20 33 5 45-14 11-36 1-29-13 7-15 43-8 61 12" />
-              <path d="m143 59 12 11-15 7" />
-            </svg>
-          </div>
-
-          <article class="direction-anatomy">
-            <div class="anatomy-title">
-              <span class="folio">Selected direction / anatomy</span>
-              <h3>Tidal Ledger</h3>
+          <article class="protocol-selection">
+            <div class="selection-title">
+              <span>Adversarial selection</span>
+              <h3>The winner must survive hostile questions.</h3>
             </div>
             <ol>
-              <li><span>Spatial grammar</span><strong>Parallel currents form and release a protected reading corridor.</strong></li>
-              <li><span>Material language</span><strong>Dense mineral ink, fine capillary lines, rare metallic glints.</strong></li>
-              <li><span>Motion score</span><strong>Still → wake → gather → crest → settle.</strong></li>
-              <li><span>Interaction contract</span><strong>Pointer proximity parts the current; departure restores the cadence.</strong></li>
-              <li><span>Fingerprint test</span><strong>The concept remains recognizable in monochrome and at thumbnail scale.</strong></li>
+              <li><span>Remove the palette</span><strong>Does the silhouette still belong to the product?</strong></li>
+              <li><span>Freeze the motion</span><strong>Does the resting frame hold hierarchy and tension?</strong></li>
+              <li><span>Swap the renderer</span><strong>Does the thesis survive outside one familiar effect?</strong></li>
+              <li><span>Forecast convergence</span><strong>What artifact, material, time model, and interaction will another run choose first?</strong></li>
+              <li><span>Break the causal cluster</span><strong>Does the winner cross at least two causal axes from that forecast?</strong></li>
+              <li><span>Invite an external direction</span><strong>Can a new candidate beat the current choice under the same rubric?</strong></li>
             </ol>
+          </article>
+
+          <article class="temporal-registry">
+            <div>
+              <span>Temporal archetypes</span>
+              <h3>Time is selected as deliberately as material.</h3>
+              <p>Choose the causal shape that carries the product truth, then author its states.</p>
+            </div>
+            <ul>
+              <li><strong>Pulse</strong><span>energy returns around a stable center</span></li>
+              <li><strong>Accumulation</strong><span>actions leave a legible residue</span></li>
+              <li><strong>Bifurcation</strong><span>pressure creates consequential branches</span></li>
+              <li><strong>Irreversible Event</strong><span>one change permanently alters the field</span></li>
+              <li><strong>Inspection</strong><span>attention isolates and verifies evidence</span></li>
+              <li><strong>State Machine</strong><span>discrete conditions govern each transition</span></li>
+              <li><strong>Scroll Causality</strong><span>reader movement reveals dependency</span></li>
+              <li><strong>Authored Still</strong><span>one composed frame carries the full meaning</span></li>
+            </ul>
+          </article>
+
+          <article class="runtime-contract">
+            <span>Deterministic runtime QA</span>
+            <h3>Review the exact visual that will ship.</h3>
+            <pre><code>seed + viewport + clock + input
+ motion preference + runtime state
+= reproducible visual evidence</code></pre>
+            <p>Production behavior, accessibility, and lifecycle integrity enter the same review as composition and material.</p>
           </article>
         </div>
       </section>
 
       <section class="patterns" id="patterns" aria-labelledby="patterns-title">
         <div class="pattern-heading">
-          <p class="section-kicker">Pattern atlas / open systems</p>
-          <h2 id="patterns-title">Six generative spaces. Hundreds of possible signatures.</h2>
+          <p class="atlas-declaration">Pattern Atlas enters after the direction freezes.</p>
+          <h2 id="patterns-title">Use patterns as critique operators.</h2>
           <p>
-            Each pattern card carries semantic uses, spatial rules, material logic, motion verbs, and mutation axes. Projects inherit a grammar and develop their own form.
+            Each operator pressures one part of the chosen system. It opens a controlled mutation without replacing the visual thesis.
           </p>
         </div>
 
@@ -175,60 +227,60 @@
           <article class="pattern-card pattern-current">
             <div class="pattern-visual" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
             <div class="pattern-copy">
-              <span class="pattern-id">A / Current ecology</span>
-              <h3>Coordination becomes a field.</h3>
-              <p>For networks, markets, communities, and systems that need collective presence.</p>
-              <small>Mutate: force law · corridor · trail age · density · edge behavior</small>
+              <span class="pattern-id">Coherence operator</span>
+              <h3>Can local behavior reveal one larger rule?</h3>
+              <p>Apply when the frame contains many actors with no readable collective consequence.</p>
+              <small>Pressure: force law / corridor / density / edge behavior</small>
             </div>
           </article>
 
           <article class="pattern-card pattern-specimen">
             <div class="pattern-visual" aria-hidden="true"><span></span><span></span><span></span></div>
             <div class="pattern-copy">
-              <span class="pattern-id">B / Living specimen</span>
-              <h3>Capability gains a body.</h3>
-              <p>For biotech, intelligence, craft, and products that benefit from a singular presence.</p>
-              <small>Mutate: silhouette · tissue · pulse · light rig · camera distance</small>
+              <span class="pattern-id">Boundary operator</span>
+              <h3>Where does identity become permeable?</h3>
+              <p>Apply when an object has presence but its response carries little meaning.</p>
+              <small>Pressure: silhouette / porosity / interior / recovery</small>
             </div>
           </article>
 
           <article class="pattern-card pattern-instrument">
             <div class="pattern-visual" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
             <div class="pattern-copy">
-              <span class="pattern-id">C / Field instrument</span>
-              <h3>Live data becomes an object.</h3>
-              <p>For observability, climate, audio, finance, and interfaces built around sensing.</p>
-              <small>Mutate: housing · scale logic · sampling · controls · signal decay</small>
+              <span class="pattern-id">Instrument operator</span>
+              <h3>What becomes measurable through interaction?</h3>
+              <p>Apply when invisible state needs a precise, bounded, and recoverable response.</p>
+              <small>Pressure: scale / sampling / control / signal decay</small>
             </div>
           </article>
 
           <article class="pattern-card pattern-terrain">
             <div class="pattern-visual" aria-hidden="true"><span>TRACE</span><span>TRACE</span><span>TRACE</span><span>TRACE</span></div>
             <div class="pattern-copy">
-              <span class="pattern-id">D / Terrain memory</span>
-              <h3>History acquires depth.</h3>
-              <p>For archives, provenance, research, places, and products shaped through time.</p>
-              <small>Mutate: contour source · strata · label rhythm · erosion · reveal path</small>
+              <span class="pattern-id">Memory operator</span>
+              <h3>Which past action must remain visible?</h3>
+              <p>Apply when recovery erases evidence that the product should preserve.</p>
+              <small>Pressure: strata / annotation / erosion / reveal path</small>
             </div>
           </article>
 
           <article class="pattern-card pattern-pigment">
             <div class="pattern-visual" aria-hidden="true"><span></span><span></span><span></span></div>
             <div class="pattern-copy">
-              <span class="pattern-id">E / Deposited pigment</span>
-              <h3>Computation leaves a trace.</h3>
-              <p>For culture, care, editorial products, and experiences that need softness.</p>
-              <small>Mutate: solvent · bleed · granulation · palette · drying sequence</small>
+              <span class="pattern-id">Deposition operator</span>
+              <h3>What material trace should computation leave?</h3>
+              <p>Apply when motion feels weightless and needs accumulation, drag, or residue.</p>
+              <small>Pressure: solvent / bleed / granulation / drying sequence</small>
             </div>
           </article>
 
           <article class="pattern-card pattern-signal">
             <div class="pattern-visual" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
             <div class="pattern-copy">
-              <span class="pattern-id">F / Signal bloom</span>
-              <h3>Energy appears at a threshold.</h3>
-              <p>For launches, infrastructure, creative tools, and moments of transformation.</p>
-              <small>Mutate: frequency · interference · threshold · falloff · chroma split</small>
+              <span class="pattern-id">Threshold operator</span>
+              <h3>Where does change become undeniable?</h3>
+              <p>Apply when the motion has activity but no decisive event or afterimage.</p>
+              <small>Pressure: contact / interference / threshold / falloff</small>
             </div>
           </article>
         </div>
@@ -236,9 +288,8 @@
 
       <section class="cases" id="cases" aria-labelledby="cases-title">
         <div class="section-lead cases-lead">
-          <p class="section-kicker">Built studies / four identities</p>
-          <h2 id="cases-title">One discipline. Very different worlds.</h2>
-          <p>Each live case responds to its own page job, content architecture, and product truth. Open a study to experience the composition at full scale.</p>
+          <h2 id="cases-title">Four live cases. Four distinct identities.</h2>
+          <p>Each study responds to its own page job, material thesis, temporal archetype, and runtime constraints.</p>
         </div>
 
         <div class="case-grid">
@@ -248,10 +299,10 @@
               <span class="case-live">Live study</span>
             </div>
             <div class="case-copy">
-              <span class="case-index">01 · Canvas / coordination archive</span>
+              <span class="case-index">Canvas / coordination archive</span>
               <h3>Memory Loom</h3>
               <p>Shared work becomes warm-paper fibres that gather, cross, knot, and release around new attention.</p>
-              <a href="/examples/particle-current/">Open the full study ↗</a>
+              <a href="/examples/particle-current/">Open study ↗</a>
             </div>
           </article>
 
@@ -261,10 +312,10 @@
               <span class="case-live">Live study</span>
             </div>
             <div class="case-copy">
-              <span class="case-index">02 · Three.js / synthetic specimen</span>
+              <span class="case-index">Three.js / synthetic specimen</span>
               <h3>Permeable Intelligence</h3>
               <p>An asymmetric tissue boundary admits an external signal, reorganizes its interior, and repairs.</p>
-              <a href="/examples/living-orb/">Open the full study ↗</a>
+              <a href="/examples/living-orb/">Open study ↗</a>
             </div>
           </article>
 
@@ -274,10 +325,10 @@
               <span class="case-live">Live study</span>
             </div>
             <div class="case-copy">
-              <span class="case-index">03 · WebGL / pressure instrument</span>
+              <span class="case-index">WebGL / pressure instrument</span>
               <h3>Signal Weather</h3>
               <p>Distributed-system pressure becomes a physical monitor that moves through spike, outage, reroute, and cool.</p>
-              <a href="/examples/radiance-field/">Open the full study ↗</a>
+              <a href="/examples/radiance-field/">Open study ↗</a>
             </div>
           </article>
 
@@ -287,10 +338,10 @@
               <span class="case-live">Live study</span>
             </div>
             <div class="case-copy">
-              <span class="case-index">04 · SVG / decision artifact</span>
+              <span class="case-index">SVG / decision artifact</span>
               <h3>Decision Plate 027</h3>
               <p>Evidence, alternatives, review, commitment, and archive form one keyboard-navigable technical trace.</p>
-              <a href="/examples/spatial-lineage/">Open the full study ↗</a>
+              <a href="/examples/spatial-lineage/">Open study ↗</a>
             </div>
           </article>
         </div>
@@ -298,40 +349,56 @@
 
       <section class="visual-qa" id="qa" aria-labelledby="qa-title">
         <div class="qa-intro">
-          <p class="section-kicker">Deterministic visual QA</p>
-          <h2 id="qa-title">A moving idea gets reviewed as a sequence.</h2>
+          <p class="qa-proofline">Deterministic runtime QA</p>
+          <h2 id="qa-title">The moving system becomes reviewable evidence.</h2>
           <p>
-            The skill captures the same seed and viewport at five exact states. A contact sheet makes composition, legibility, material coherence, pacing, and template distance visible in one pass.
+            A fixed seed, viewport, clock, input sequence, and motion preference produce the same inspectable states on every run.
           </p>
         </div>
 
-        <div class="contact-sheet" aria-label="Five fixed-time review frames for the selected direction">
-          <figure><canvas class="qa-canvas" data-progress="0" aria-hidden="true"></canvas><figcaption><span>00%</span>Still</figcaption></figure>
-          <figure><canvas class="qa-canvas" data-progress="0.25" aria-hidden="true"></canvas><figcaption><span>25%</span>Wake</figcaption></figure>
-          <figure><canvas class="qa-canvas" data-progress="0.5" aria-hidden="true"></canvas><figcaption><span>50%</span>Gather</figcaption></figure>
-          <figure><canvas class="qa-canvas" data-progress="0.75" aria-hidden="true"></canvas><figcaption><span>75%</span>Crest</figcaption></figure>
-          <figure><canvas class="qa-canvas" data-progress="1" aria-hidden="true"></canvas><figcaption><span>100%</span>Settle</figcaption></figure>
+        <div class="contact-sheet" aria-label="Five deterministic review frames for the selected direction and temporal archetype">
+          <figure><canvas class="qa-canvas" data-progress="0" aria-hidden="true"></canvas><figcaption><span>00%</span><b>Seed</b></figcaption></figure>
+          <figure><canvas class="qa-canvas" data-progress="0.25" aria-hidden="true"></canvas><figcaption><span>25%</span><b>Gather</b></figcaption></figure>
+          <figure><canvas class="qa-canvas" data-progress="0.5" aria-hidden="true"></canvas><figcaption><span>50%</span><b>Layer</b></figcaption></figure>
+          <figure><canvas class="qa-canvas" data-progress="0.75" aria-hidden="true"></canvas><figcaption><span>75%</span><b>Saturate</b></figcaption></figure>
+          <figure><canvas class="qa-canvas" data-progress="1" aria-hidden="true"></canvas><figcaption><span>100%</span><b>Residue</b></figcaption></figure>
         </div>
 
         <div class="qa-ledger">
-          <div class="qa-stamp"><span>Review state</span><strong>Revise with evidence</strong></div>
-          <dl>
-            <div><dt>Semantic fit</dt><dd>4.8</dd></div>
-            <div><dt>Composition</dt><dd>4.7</dd></div>
-            <div><dt>Motion arc</dt><dd>4.6</dd></div>
-            <div><dt>Material coherence</dt><dd>4.5</dd></div>
-            <div><dt>Template distance</dt><dd>4.8</dd></div>
+          <div class="qa-stamp"><span>Runtime gate</span><strong>Exact state, exact frame.</strong></div>
+          <dl class="qa-outputs">
+            <div><dt>captures/*.png</dt><dd>Frame evidence</dd></div>
+            <div><dt>derived/*/*.png</dt><dd>Thumbnail, blur, silhouette</dd></div>
+            <div><dt>contact-sheet.png</dt><dd>Portable sequence evidence</dd></div>
+            <div><dt>contact-sheet.html</dt><dd>Full visual comparison</dd></div>
+            <div><dt>results.json</dt><dd>State metadata and hashes</dd></div>
           </dl>
-          <p><span>Revision note 03</span>Hold the crest for 180ms, quiet the outer currents, preserve the headline corridor through the entire arc.</p>
+          <p><span>Revision contract</span>Visible evidence names the failure, changes one governing rule, then captures the same state again.</p>
+        </div>
+
+        <div class="benchmark-note">
+          <div>
+            <span>Benchmark discipline</span>
+            <h3>Claims stay as precise as the evidence.</h3>
+          </div>
+          <p>
+            Use isolated runs, hidden briefs, one recorded offset cohort, derived-seed replay checks, randomized blind review, gate scores, and production checks. Report observed scores separately from statistical confidence.
+          </p>
+          <a href="https://github.com/Ryan-yang125/signature-visual/tree/main/evals">Open evaluation scenarios ↗</a>
+        </div>
+
+        <div class="qa-command">
+          <code>npm run visual-qa -- path/to/manifest.json</code>
+          <a href="https://github.com/Ryan-yang125/signature-visual#deterministic-runtime-qa">Read the QA contract ↗</a>
         </div>
       </section>
 
       <section class="install" aria-labelledby="install-title">
         <div class="install-note">
-          <span>For Codex · Claude Code · Cursor · compatible agents</span>
-          <span>Self-contained · open source · MIT</span>
+          <span>Codex / Claude Code / Cursor / compatible agents</span>
+          <span>Self-contained / open source / MIT</span>
         </div>
-        <h2 id="install-title">Give the next product a visual language of its own.</h2>
+        <h2 id="install-title">Give the next product a visual system it can own.</h2>
         <div class="install-bottom">
           <button class="install-command install-command--dark" type="button" data-copy="npx skills add Ryan-yang125/signature-visual">
             <span class="command-text">npx skills add Ryan-yang125/signature-visual</span>
@@ -347,7 +414,7 @@
         <span class="brand-glyph" aria-hidden="true">✣</span>
         <span class="brand-name">Signature Visual</span>
       </a>
-      <p>Visual direction, computational craft, and review discipline in one portable skill.</p>
+      <p>Creative search, visual direction, temporal authorship, and runtime evidence in one portable skill.</p>
       <a href="https://github.com/Ryan-yang125/signature-visual">GitHub ↗</a>
     </footer>
 

@@ -37,13 +37,23 @@ async function verifySkill() {
   const requiredSkillFiles = [
     'agents/openai.yaml',
     'references/visual-direction.md',
+    'references/creative-search.md',
     'references/composition.md',
     'references/material-language.md',
     'references/motion-direction.md',
     'references/pattern-language.md',
     'references/reference-study.md',
+    'references/design-record.md',
+    'references/evaluation.md',
     'references/visual-qa.md',
     'references/failure-signatures.md',
+    'schemas/design-record.schema.json',
+    'schemas/visual-qa-manifest-v3.schema.json',
+    'schemas/visual-qa-results-v3.schema.json',
+    'scripts/creative-offset.mjs',
+    'scripts/creative-offset.test.mjs',
+    'scripts/validate-design-record.mjs',
+    'scripts/validate-design-record.test.mjs',
     'scripts/visual-qa.mjs',
     'scripts/visual-qa.test.mjs'
   ];
@@ -51,9 +61,43 @@ async function verifySkill() {
     await stat(path.join(skillDirectory, relativePath));
   }
 
-  for (const fragment of ['visual thesis', 'Direction Cards', 'signature rule', 'deterministic', 'contact sheet']) {
+  for (const fragment of ['landmark', 'taxonomy-external', 'causal route', 'convergenceForecast', 'clusterBreakAxes', 'output distance', 'signature rule', 'deterministic', 'design record']) {
     if (!skillText.toLowerCase().includes(fragment.toLowerCase())) {
-      throw new Error(`SKILL.md is missing V2 director contract: ${fragment}`);
+      throw new Error(`SKILL.md is missing V3 director contract: ${fragment}`);
+    }
+  }
+
+  const patternLanguage = await readFile(path.join(skillDirectory, 'references', 'pattern-language.md'), 'utf8');
+  if (!patternLanguage.includes('Open this file only after the candidate set and selected direction are frozen')) {
+    throw new Error('Pattern Language must remain a post-freeze critique resource');
+  }
+  if (/semantic fit/i.test(patternLanguage)) throw new Error('Pattern Language still contains semantic-fit priming');
+
+  const motionDirection = await readFile(path.join(skillDirectory, 'references', 'motion-direction.md'), 'utf8');
+  for (const archetype of ['Bifurcation', 'Inspection', 'Irreversible']) {
+    if (!motionDirection.includes(archetype)) throw new Error(`Motion Direction is missing temporal archetype: ${archetype}`);
+  }
+
+  for (const schemaName of ['design-record.schema.json', 'visual-qa-manifest-v3.schema.json', 'visual-qa-results-v3.schema.json']) {
+    JSON.parse(await readFile(path.join(skillDirectory, 'schemas', schemaName), 'utf8'));
+  }
+
+  const productionManifests = (await listFiles(path.join(testDirectory, 'visual-qa'))).filter(file => file.endsWith('.json'));
+  if (productionManifests.length !== 12) throw new Error(`Expected 12 production manifests, found ${productionManifests.length}`);
+  const runtimeCapabilities = ['resize', 'zeroSize', 'pointer', 'windowFocus', 'keyboard', 'reducedMotion', 'lifecycle', 'gpu', 'primaryAction'];
+  for (const file of productionManifests) {
+    const manifest = JSON.parse(await readFile(file, 'utf8'));
+    if (manifest.schemaVersion !== 3) throw new Error(`${path.basename(file)} must use the V3 manifest contract`);
+    if (manifest.tier !== 'production') throw new Error(`${path.basename(file)} must declare the production tier`);
+    for (const capability of runtimeCapabilities) {
+      if (!Object.hasOwn(manifest.capabilities ?? {}, capability)) {
+        throw new Error(`${path.basename(file)} must declare runtime capability ${capability}`);
+      }
+      const declaration = manifest.capabilities[capability];
+      const supported = declaration === true || declaration?.supported === true;
+      if (supported && !(manifest.runtimeScenarios ?? []).some(scenario => scenario.requires?.includes(capability))) {
+        throw new Error(`${path.basename(file)} must exercise supported capability ${capability}`);
+      }
     }
   }
 
@@ -87,6 +131,11 @@ async function verifySkill() {
     'prefers-reduced-motion',
     'requestAnimationFrame',
     'visibilitychange',
+    'pointercancel',
+    'lostpointercapture',
+    "addEventListener('blur'",
+    'zero-size',
+    'describe',
     'dispose'
   ];
   const starterFiles = javascriptFiles.filter(file => file.includes(`${path.sep}starters${path.sep}`));
@@ -176,14 +225,29 @@ async function verifyBrowser() {
 
           if (pathname === '/' && viewport.name === 'desktop') {
             await page.click('[data-direction="glass"]');
+            await page.click('[data-entropy="far"]');
+            await page.click('[data-temporal="bifurcation"]');
             await page.click('[data-progress="0.75"]');
             const director = await page.evaluate(() => ({
               direction: document.querySelector('.direction-stage')?.dataset.direction,
+              entropy: document.querySelector('.direction-stage')?.dataset.entropy,
+              temporal: document.querySelector('.direction-stage')?.dataset.temporal,
               name: document.querySelector('#stage-name')?.textContent,
               readout: document.querySelector('#motion-readout')?.textContent,
+              scoreStates: [...document.querySelectorAll('.score-states b')].map(node => node.textContent),
+              contactStates: [...document.querySelectorAll('.contact-sheet figcaption b')].map(node => node.textContent),
               loadedFrames: document.querySelectorAll('iframe[data-loaded="true"]').length
             }));
-            if (director.direction !== 'glass' || !director.name?.includes('Glass') || !director.readout?.includes('75%')) {
+            const expectedStates = ['Stable', 'Pressure', 'Split', 'Consequence', 'Reconcile'];
+            if (
+              director.direction !== 'glass'
+              || director.entropy !== 'far'
+              || director.temporal !== 'bifurcation'
+              || !director.name?.includes('Glass')
+              || director.readout !== 'Consequence / 75%'
+              || JSON.stringify(director.scoreStates) !== JSON.stringify(expectedStates)
+              || JSON.stringify(director.contactStates) !== JSON.stringify(expectedStates)
+            ) {
               failures.push(`desktop /: director controls failed ${JSON.stringify(director)}`);
             }
           }
@@ -207,7 +271,7 @@ async function verifyBrowser() {
                 return { height: button.getBoundingClientRect().height, contrast };
               });
             });
-            if (targets.some(target => target.height < 24 || target.contrast < 4.5)) {
+            if (targets.some(target => target.height < 44 || target.contrast < 4.5)) {
               failures.push(`mobile /: motion-score targets fail size/contrast ${JSON.stringify(targets)}`);
             }
           }
@@ -365,14 +429,39 @@ async function verifyStarters() {
         }
         const controllerContract = await page.evaluate(() => window.__starters.map(controller => ({
           callable: typeof controller === 'function',
+          ready: controller.ready === true,
           dispose: typeof controller.dispose === 'function',
           setSeed: typeof controller.setSeed === 'function',
           seek: typeof controller.seek === 'function',
           setPointer: typeof controller.setPointer === 'function',
-          render: typeof controller.render === 'function'
+          render: typeof controller.render === 'function',
+          describe: typeof controller.describe === 'function'
         })));
         if (controllerContract.some(contract => Object.values(contract).some(value => value !== true))) {
           failures.push(`${viewport.name} starter controller contract: ${JSON.stringify(controllerContract)}`);
+        }
+        const fallbackContract = await page.evaluate(() => {
+          for (const controller of window.__fallbackStarters) {
+            controller.setPointer({ x: 0.3, y: 0.65, active: true, strength: 0.75 });
+            controller.render();
+          }
+          return window.__fallbackStarters.map(controller => controller.describe());
+        });
+        if (fallbackContract.some(state => (
+          state.ready !== true
+          || state.disposed !== false
+          || state.fallback !== true
+          || typeof state.fallbackReason !== 'string'
+          || typeof state.paused !== 'boolean'
+          || !Array.isArray(state.pauseReasons)
+          || state.width <= 0
+          || state.height <= 0
+          || typeof state.dpr !== 'number'
+          || typeof state.reducedMotion !== 'boolean'
+          || state.pointer?.active !== true
+          || state.pointer?.strength !== 0.75
+        ))) {
+          failures.push(`${viewport.name} authored fallback contract: ${JSON.stringify(fallbackContract)}`);
         }
         const deterministicContract = await page.evaluate(() => {
           const names = ['canvas', 'three', 'webgl', 'svg'];
@@ -383,7 +472,7 @@ async function verifyStarters() {
           const beta = snapshotSeeds();
           for (const controller of window.__starters) {
             controller.seek({ time: 1.5, progress: 0.5 });
-            controller.setPointer({ x: 0.5, y: 0.25, active: 1 });
+            controller.setPointer({ x: 0.5, y: 0.25, active: true, strength: 1 });
             controller.render();
           }
           return { alpha, beta, observations: window.__starterObservations };
@@ -402,8 +491,68 @@ async function verifyStarters() {
         };
         for (const [name, expected] of Object.entries(pointerExpectations)) {
           const actual = deterministicContract.observations[name].pointer;
-          if (!actual || Math.abs(actual.x - expected.x) > 0.001 || Math.abs(actual.y - expected.y) > 0.001 || actual.active !== 1) {
+          if (!actual || Math.abs(actual.x - expected.x) > 0.001 || Math.abs(actual.y - expected.y) > 0.001 || actual.active !== true || actual.strength !== 1) {
             failures.push(`${viewport.name} ${name} pointer contract: expected ${JSON.stringify(expected)}, received ${JSON.stringify(actual)}`);
+          }
+        }
+
+        const cancelledPointers = await page.evaluate(() => {
+          const ids = ['canvas', 'three', 'webgl', 'svg'];
+          for (const controller of window.__starters) controller.setPointer({ x: 0.7, y: 0.3, active: true, strength: 1 });
+          for (const id of ids) document.querySelector(`#${id}`).dispatchEvent(new PointerEvent('pointercancel', { bubbles: true }));
+          return window.__starters.map(controller => controller.describe().pointer.active);
+        });
+        if (cancelledPointers.some(active => active !== false)) {
+          failures.push(`${viewport.name} starter pointer cancellation failed: ${JSON.stringify(cancelledPointers)}`);
+        }
+
+        const blurred = await page.evaluate(() => {
+          window.dispatchEvent(new Event('blur'));
+          return window.__starters.map(controller => controller.describe());
+        });
+        if (blurred.some(state => !state.paused || !state.pauseReasons.includes('window-blur') || state.pointer.active !== false || state.pointer.strength !== 0)) {
+          failures.push(`${viewport.name} starter window-blur contract failed: ${JSON.stringify(blurred)}`);
+        }
+        await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+
+        await page.emulateMedia({ reducedMotion: 'reduce' });
+        await page.waitForTimeout(80);
+        const reducedRuntime = await page.evaluate(() => window.__starters.map(controller => controller.describe()));
+        if (reducedRuntime.some(state => !state.reducedMotion || !state.pauseReasons.includes('reduced-motion'))) {
+          failures.push(`${viewport.name} starter runtime reduced-motion contract failed: ${JSON.stringify(reducedRuntime)}`);
+        }
+        await page.emulateMedia({ reducedMotion: 'no-preference' });
+        await page.waitForTimeout(80);
+
+        const zeroSize = await page.evaluate(async () => {
+          for (const tile of document.querySelectorAll('.tile')) tile.style.display = 'none';
+          await new Promise(resolve => setTimeout(resolve, 80));
+          return window.__starters.map(controller => controller.describe());
+        });
+        if (zeroSize.some(state => state.width !== 0 || state.height !== 0 || !state.pauseReasons.includes('zero-size'))) {
+          failures.push(`${viewport.name} starter zero-size pause failed: ${JSON.stringify(zeroSize)}`);
+        }
+        const recoveredSize = await page.evaluate(async () => {
+          for (const tile of document.querySelectorAll('.tile')) tile.style.display = '';
+          await new Promise(resolve => setTimeout(resolve, 100));
+          return window.__starters.map(controller => controller.describe());
+        });
+        if (recoveredSize.some(state => state.width <= 0 || state.height <= 0 || state.pauseReasons.includes('zero-size'))) {
+          failures.push(`${viewport.name} starter zero-size recovery failed: ${JSON.stringify(recoveredSize)}`);
+        }
+
+        for (let cycle = 0; cycle < 3; cycle += 1) {
+          const remount = await page.evaluate(() => {
+            window.__disposeAll();
+            window.__mountStarters();
+            return {
+              count: document.querySelectorAll('.tile canvas, .tile svg').length,
+              ready: window.__starters.map(controller => controller.ready),
+              mounts: window.__starterMountCount()
+            };
+          });
+          if (remount.count !== 4 || remount.ready.some(value => value !== true)) {
+            failures.push(`${viewport.name} starter remount cycle ${cycle + 1} failed: ${JSON.stringify(remount)}`);
           }
         }
         await page.evaluate(() => window.__disposeAll());

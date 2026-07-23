@@ -25,7 +25,7 @@ Assign jobs before choosing hex values:
 - **Ground:** establishes contrast and temperature.
 - **Body:** carries most of the visual mass.
 - **Signal:** reveals state change or focus.
-- **Exception:** appears rarely at the peak or anomaly.
+- **Exception:** appears rarely at a high-salience state or anomaly.
 - **Annotation:** supports labels and measurement.
 
 One color may fill several roles in a monochrome system. Keep exception color genuinely scarce so it retains meaning.

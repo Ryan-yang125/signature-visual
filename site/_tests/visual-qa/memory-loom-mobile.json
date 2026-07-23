@@ -1,4 +1,6 @@
 {
+  "schemaVersion": 3,
+  "tier": "production",
   "name": "Memory Loom — mobile peak",
   "serveRoot": "../../",
   "url": "/examples/particle-current/",
@@ -6,8 +8,361 @@
   "viewport": { "width": 390, "height": 844, "deviceScaleFactor": 2 },
   "captureSelector": ".loom",
   "readySelector": "#field",
-  "seed": "memory-loom-v2",
+  "seed": "memory-loom-v3",
   "failOnNetworkError": true,
+  "capabilities": {
+      "resize": true,
+      "zeroSize": true,
+      "pointer": true,
+      "windowFocus": true,
+      "keyboard": {
+        "supported": false,
+        "reason": "The loom has no focusable visual control; its pointer response is supplementary."
+      },
+      "reducedMotion": true,
+      "lifecycle": true,
+      "gpu": {
+        "supported": false,
+        "reason": "This case uses the Canvas 2D renderer and has no GPU context."
+      },
+      "primaryAction": {
+        "supported": false,
+        "reason": "The editorial specimen contains no primary CTA."
+      }
+    },
+    "runtimeScenarios": [
+      {
+        "name": "resize and zero-size recovery",
+        "requires": [
+          "resize",
+          "zeroSize"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "setOwnerSize",
+            "selector": ".loom",
+            "width": 0,
+            "height": 0
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "pauseReasons",
+            "includes": "zero-size"
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.raf",
+            "equals": 0
+          },
+          {
+            "action": "setOwnerSize",
+            "selector": ".loom",
+            "width": 1180,
+            "height": 760
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "setViewport",
+            "width": 1160,
+            "height": 760
+          },
+          {
+            "action": "assertHook",
+            "path": "ready",
+            "equals": true
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      },
+      {
+        "name": "pointer cancellation and focus recovery",
+        "requires": [
+          "pointer",
+          "windowFocus"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".loom",
+            "event": "pointermove",
+            "x": 0.62,
+            "y": 0.44
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": true
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".loom",
+            "event": "pointercancel"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "pointercancel"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".loom",
+            "event": "pointermove",
+            "x": 0.48,
+            "y": 0.56
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".loom",
+            "event": "pointerleave"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "pointerleave"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".loom",
+            "event": "pointermove",
+            "x": 0.54,
+            "y": 0.48
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".loom",
+            "event": "lostpointercapture"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "lostpointercapture"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".loom",
+            "event": "pointermove",
+            "x": 0.58,
+            "y": 0.5
+          },
+          {
+            "action": "windowBlur"
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "pauseReasons",
+            "includes": "window-blur"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "window-blur"
+          },
+          {
+            "action": "windowFocus"
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      },
+      {
+        "name": "runtime reduced-motion change",
+        "requires": [
+          "reducedMotion"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "assertHook",
+            "path": "reducedMotion",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "setReducedMotion",
+            "value": "reduce"
+          },
+          {
+            "action": "assertHook",
+            "path": "reducedMotion",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "pauseReasons",
+            "includes": "reduced-motion"
+          },
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "assertHook",
+            "path": "reducedMotion",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      },
+      {
+        "name": "idempotent dispose and clean remount",
+        "requires": [
+          "lifecycle"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.listeners",
+            "truthy": true
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.observers",
+            "truthy": true
+          },
+          {
+            "action": "dispose"
+          },
+          {
+            "action": "assertHook",
+            "path": "disposed",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "ready",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.listeners",
+            "equals": 0
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.observers",
+            "equals": 0
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.raf",
+            "equals": 0
+          },
+          {
+            "action": "dispose"
+          },
+          {
+            "action": "assertHook",
+            "path": "disposeCount",
+            "equals": 1
+          },
+          {
+            "action": "remount"
+          },
+          {
+            "action": "assertHook",
+            "path": "disposed",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "ready",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "mountCount",
+            "equals": 2
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.listeners",
+            "truthy": true
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.observers",
+            "truthy": true
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      }
+    ]
+  ,
   "states": [
     { "name": "knot-mobile", "progress": 0.68, "pointer": { "atMs": 0, "x": 0.72, "y": 0.52 } }
   ]

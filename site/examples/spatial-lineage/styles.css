@@ -26,6 +26,8 @@ body {
   min-height: 100svh;
   color: var(--ink);
   font-family: "Chivo Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
   overflow: hidden;
 }
 
@@ -36,9 +38,7 @@ body {
   padding: clamp(18px, 3vw, 42px);
   place-items: center;
   overflow: hidden;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px) 0 0 / 100% 7px,
-    radial-gradient(ellipse at 50% 50%, #403b3d, var(--room) 70%);
+  background: var(--room);
 }
 
 .plate {
@@ -49,9 +49,7 @@ body {
   height: min(800px, calc(100svh - clamp(36px, 6vw, 84px)));
   min-height: 650px;
   padding: clamp(22px, 2.8vw, 38px) clamp(25px, 3.2vw, 44px) 20px;
-  background:
-    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.2), transparent 35%),
-    var(--paper);
+  background: var(--paper);
   box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
   isolation: isolate;
 }
@@ -61,12 +59,8 @@ body {
   position: absolute;
   z-index: -1;
   inset: 0;
-  opacity: 0.15;
-  background-image:
-    radial-gradient(circle, rgba(65, 38, 42, 0.7) 0 0.45px, transparent 0.7px),
-    repeating-linear-gradient(102deg, transparent 0 10px, rgba(255, 255, 255, 0.22) 10px 11px, transparent 11px 22px);
-  background-size: 6px 6px, 100% 100%;
-  mix-blend-mode: multiply;
+  border: 1px solid rgba(65, 38, 42, 0.18);
+  box-shadow: inset 0 0 0 7px rgba(255, 255, 255, 0.035);
   pointer-events: none;
 }
 
@@ -74,7 +68,7 @@ body {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 0.7fr 2fr 0.7fr;
+  grid-template-columns: 224px minmax(0, 1fr) 224px;
   gap: 24px;
   align-items: start;
   padding-bottom: 13px;
@@ -105,7 +99,7 @@ h1 {
   font-family: "League Gothic", sans-serif;
   font-size: clamp(52px, 6.8vw, 94px);
   font-weight: 400;
-  line-height: 0.67;
+  line-height: 64px;
   letter-spacing: 0.015em;
   text-transform: uppercase;
 }
@@ -193,6 +187,8 @@ h1 em {
   height: 100%;
   overflow: visible;
   color: var(--quiet);
+  /* Integer-aligned technical marks keep repeated SVG evidence byte-stable. */
+  shape-rendering: crispEdges;
 }
 
 .grid {
@@ -224,7 +220,9 @@ h1 em {
 }
 
 .signals {
+  display: none;
   fill: var(--signal);
+  stroke: none;
 }
 
 .node {
@@ -446,9 +444,48 @@ h1 em {
     padding: 7px 0 5px;
   }
 
-  .case-notes,
-  .trace-notes {
+  .case-notes {
     display: none;
+  }
+
+  .plate-body {
+    position: relative;
+  }
+
+  .trace-notes {
+    position: absolute;
+    z-index: 4;
+    right: 2px;
+    bottom: 8px;
+    display: grid;
+    width: min(54vw, 210px);
+    padding: 10px 11px;
+    border: 1px solid var(--ink);
+    background: rgba(240, 188, 192, 0.94);
+    box-shadow: 5px 5px 0 rgba(45, 41, 43, 0.13);
+  }
+
+  .trace-notes .section-label,
+  .trace-notes ol {
+    display: none;
+  }
+
+  .trace-notes > strong {
+    margin: 0 0 6px;
+    font-size: 24px;
+  }
+
+  .trace-notes > p:nth-of-type(2) {
+    min-height: 0;
+    margin: 0;
+    font-size: 7px;
+    line-height: 1.35;
+  }
+
+  .trace-notes .confidence {
+    gap: 4px 8px;
+    margin-top: 8px;
+    font-size: 6px;
   }
 
   .diagram-wrap {

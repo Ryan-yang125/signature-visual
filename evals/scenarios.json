@@ -1,77 +1,137 @@
 {
-  "version": 1,
+  "version": 3,
   "skill": "signature-visual",
+  "global_assertions": [
+    "Pattern Language is consulted only after the candidate set and selected direction freeze.",
+    "Landmark work records obvious attractors as a shadow baseline and saves a replayable creative-offset JSON before generating anti-literal and offset directions.",
+    "Landmark creative-offset schemaVersion 3 records one coherent causal route plus a spatial representation pressure while remaining renderer, artifact, and palette neutral.",
+    "Coordinated independent alternatives and benchmark runs allocate one replayable offset cohort whose causal route and representation IDs are pairwise distinct.",
+    "Every landmark pair retained for selection has at least four visibly evidenced far ratings across the six structural distance axes.",
+    "Landmark selection forecasts the likely independent-run convergence cluster and visibly breaks at least two of material causality, temporal archetype, and interaction meaning before implementation.",
+    "Renderer selection follows the frozen direction and cites a design reason.",
+    "Source distance and output distance are evaluated separately; unavailable history is recorded with the search performed.",
+    "A schemaVersion 3 design record contains tier, surface, thesis, directions, distanceMatrix, selection, signatureRule, renderer, states, runtimeCapabilities, and revision.",
+    "Any rubric score of 5 includes artifact evidence, the strongest counterevidence, and confirmation from an independent reviewer; otherwise the score is capped at 4."
+  ],
   "scenarios": [
     {
-      "id": "agent-review-history",
+      "id": "landmark-review-history",
       "task": "direct",
-      "prompt": "Our collaborative review product has a competent editorial landing page, yet the hero has no memorable visual. The product preserves decisions, revisions, and evidence across people and AI agents. Add one calm visual system that makes this history feel valuable. Keep the headline primary and support reduced motion.",
+      "tier": "landmark",
+      "prompt": "Our collaborative review product has a competent editorial landing page, yet the hero has no memorable visual. The product preserves decisions, revisions, disagreements, and evidence across people and AI agents. Add one calm identity-level visual system that makes this history feel valuable. Keep the headline primary and support reduced motion.",
       "assertions": [
-        "The thesis encodes review history or evidence through an observable phenomenon.",
-        "Three directions differ on at least four fingerprint axes and have different silhouettes.",
-        "The selected direction defines a five-phase motion score and a persistent or recoverable state.",
-        "Renderer selection follows the chosen direction.",
-        "The capture plan includes deterministic desktop, mobile, and reduced-motion states."
+        "The work classifies the hero as landmark scope and searches beyond one familiar editorial or archive answer.",
+        "At least one candidate is taxonomy-external and derives its governing rule directly from review history, decisions, disagreement, or evidence.",
+        "A pairwise candidate distance matrix cites silhouette, spatial, material, temporal, interaction, and type evidence without reducing selection to palette or renderer.",
+        "The selected temporal archetype follows revision history and may be held, accretive, event-driven, or another justified structure.",
+        "The resting frame preserves headline hierarchy and reduced motion preserves the governing rule."
       ]
     },
     {
-      "id": "climate-evidence-section",
+      "id": "section-climate-evidence",
       "task": "direct",
-      "prompt": "This climate intelligence page needs a visual for the evidence section. Visitors should understand how thousands of local observations become a defensible regional conclusion. The brand uses warm paper, dark green type, and restrained red annotations. Make the section feel researched and alive.",
+      "tier": "section",
+      "prompt": "This climate intelligence page needs one visual for the evidence section. Visitors should understand how thousands of local observations become a defensible regional conclusion. The brand uses warm paper, dark green type, and restrained red annotations. Make the section feel researched and alive while keeping it concise and readable.",
       "assertions": [
-        "The direction extends the paper, green, and annotation language without default deep-tech styling.",
-        "At least one direction uses a document, instrument, or archive stance.",
-        "Data states cover empty, typical, peak, and edge inputs.",
-        "Material and edge behavior belong to one authored substance model.",
-        "The visual meaning survives in a static frame."
+        "The work starts with one evidence-led section direction instead of producing ceremonial alternatives.",
+        "An extra branch appears only when a named source, output-distance, or page-fit failure is documented, and it changes the failed structural axes.",
+        "Local-to-regional evidence drives the governing rule while paper, green, and red extend the brand with one causal material model.",
+        "A held or low-motion temporal archetype is accepted when it communicates the method more clearly than continuous animation.",
+        "Desktop, 390px mobile, reduced motion, and relevant evidence states remain legible."
       ]
     },
     {
-      "id": "modular-audio-tool",
+      "id": "landmark-modular-audio",
       "task": "direct",
-      "prompt": "The hero for a modular audio tool feels like a normal SaaS page. Give it one tactile, responsive moment that communicates patches combining into a sound. Existing UI is black, cream, and safety orange. Pointer and touch should feel like operating an instrument.",
+      "tier": "landmark",
+      "prompt": "The hero for a modular audio tool feels like a normal SaaS page. Give it one tactile identity-level moment that communicates patches combining into sound. Existing UI is black, cream, and safety orange. Pointer and touch should feel like operating the system.",
       "assertions": [
-        "Interaction is mapped to an instrument control with bounds, latency, and recovery.",
-        "The three directions do not share the same copy/effect split.",
-        "Audio structure appears through routing, assembly, trace, or another native behavior.",
-        "Mobile interaction has an authored touch state.",
-        "Decorative HUD labels and generic waveform styling are actively avoided."
+        "The landmark search contains structurally different candidate worlds and one taxonomy-external direction derived from the tool's actual patch or signal behavior.",
+        "The pairwise matrix shows differences in generating rule; alternate waveform styling, copy/effect splits, and renderers count as tuning evidence.",
+        "Interaction represents a real operation with bounds, latency, cancellation, and aftermath; pointer and touch have semantic parity.",
+        "The temporal archetype comes from signal or patch causality and is not forced into a universal five-stage arc.",
+        "Mobile has an authored composition and usable touch targets."
       ]
     },
     {
-      "id": "biotech-template-refine",
+      "id": "refine-biotech-permeability",
       "task": "refine",
-      "prompt": "This biotechnology hero currently has a glowing purple Three.js sphere with noise displacement and slow rotation. It works technically and looks familiar. Redesign it so the form expresses selective permeability: an external signal crosses the membrane, changes the interior, then the organism heals.",
+      "tier": "refine",
+      "prompt": "This biotechnology hero currently has a glowing purple Three.js sphere with noise displacement and slow rotation. Its confirmed thesis is selective permeability: an external signal crosses the membrane, changes the interior, and leaves evidence of healing. Refine the working implementation so the thesis becomes unmistakable while preserving its healthy Three.js lifecycle.",
       "assertions": [
-        "The new fingerprint changes at least three axes from the purple rotating sphere.",
-        "Permeability drives geometry, material, motion, and interaction.",
-        "The resting silhouette remains strong without animation.",
-        "Peak and recovery show a structural or material consequence.",
-        "Three.js lifecycle and resource cleanup remain complete."
+        "The refinement reuses the confirmed selective-permeability thesis and does not begin with unrelated greenfield concepts.",
+        "Current and proposed fingerprints identify the smallest structural changes needed across boundary, interior consequence, material causality, or temporal behavior.",
+        "Broad branching occurs only if the thesis proves invalid or the proposal remains too close to the rotating purple sphere or recent outputs.",
+        "A held frame communicates permeability and the chosen aftermath follows healing or persistent evidence.",
+        "Three.js ownership, resizing, visibility pause, reduced motion, context handling, and cleanup remain verified."
       ]
     },
     {
-      "id": "reference-transformation",
+      "id": "study-archival-search-landmark",
       "task": "study",
-      "prompt": "Study the supplied generative HTML reference, explain why its tiny central specimen and huge blank paper field feel special, then create a fresh direction for an archival search product. Preserve the emotional precision while giving the target its own visual identity.",
+      "tier": "landmark",
+      "prompt": "Study the supplied generative HTML reference, explain why its tiny central specimen and huge blank paper field feel special, then create a fresh landmark direction for an archival search product. Preserve the emotional precision while giving the target its own visual identity.",
       "assertions": [
-        "The study separates evidence, portable rules, and recognizable surface traits.",
-        "A source fingerprint and target transformation matrix are produced.",
-        "The target changes at least three fingerprint axes.",
-        "The result remains precise through scale and negative space without copying the specimen.",
-        "License and asset boundaries are acknowledged."
+        "The study separates source evidence, portable rules, recognizable surface traits, and license or asset boundaries.",
+        "Creative search begins from archival-search behavior after the source study and includes a taxonomy-external candidate.",
+        "The selected result cites source distance and output distance through structural fingerprints, with no fixed count standing in for visible evidence.",
+        "Scale and negative space preserve emotional precision while the dominant silhouette, causal rule, and target behavior establish independent identity.",
+        "The renderer remains undecided until direction freeze."
       ]
     },
     {
-      "id": "provenance-mobile",
+      "id": "refine-provenance-mobile",
       "task": "refine",
-      "prompt": "Our SVG provenance diagram is readable on desktop, crowded on mobile, and every route animates continuously. Redesign the behavior around one decision trace from evidence to signed output. It must work with keyboard focus, touch selection, reduced motion, and a 390px viewport.",
+      "tier": "refine",
+      "prompt": "Our SVG provenance diagram has a sound thesis: one decision remains traceable from evidence to signed output. Desktop is readable, mobile is crowded, and every route animates continuously. Refine the composition and behavior for keyboard focus, touch selection, reduced motion, and a 390px viewport.",
       "assertions": [
-        "The trace follows a causal sequence with one dominant route.",
-        "Mobile receives a distinct topology and label strategy.",
-        "Hover, focus, and touch reach equivalent semantic states.",
-        "Reduced motion retains the complete decision trace.",
-        "Capture states reveal hierarchy, selection, consequence, and resolution."
+        "The refinement keeps the confirmed traceability thesis and records current-to-proposed fingerprint distance.",
+        "Mobile receives a distinct topology, crop, density, and label strategy while the signature rule survives.",
+        "Continuous screensaver motion is replaced by held, finite-state, event-response, or another justified temporal archetype.",
+        "Hover, focus, and touch reach equivalent semantic states with stable exit and cancellation.",
+        "Reduced motion retains the complete decision trace and SVG lifecycle verification remains current."
+      ]
+    },
+    {
+      "id": "section-static-policy-index",
+      "task": "direct",
+      "tier": "section",
+      "prompt": "A public-policy report page needs a compact visual beside a section explaining how 36 clauses map to four obligations. The page is quiet, typographic, and print-like. The relationship is already clear in a strong still, and the team prefers no decorative motion or pointer behavior.",
+      "assertions": [
+        "The work accepts held/static time and absent interaction as intentional design decisions.",
+        "One section direction is sufficient when target fit and source/output distance pass.",
+        "Clause-to-obligation mapping drives hierarchy, typography, and spatial structure without instrument or archive styling by default.",
+        "Mobile and print-like readability preserve the complete relationship.",
+        "Capture states focus on desktop, mobile, reduced motion, and meaningful data variants instead of a percentage timeline."
+      ]
+    },
+    {
+      "id": "section-suite-output-distance",
+      "task": "direct",
+      "tier": "section",
+      "prompt": "Add a second visual to our logistics product page. The existing hero already uses pale route lines converging on a circular hub with small mono labels and traveling dots. This new section explains exception handling across warehouses. Keep the same brand system while making the new moment structurally distinct from the hero.",
+      "assertions": [
+        "The existing hero is named as the nearest output neighbor and fingerprinted before direction freeze.",
+        "The first section proposal is checked against the hero on silhouette, spatial grammar, temporal archetype, interaction meaning, and type role.",
+        "A distance failure triggers a structural branch that changes the governing rule; route color, node count, label wording, and renderer remain tuning evidence.",
+        "The final visual still belongs to the brand through shared tokens or production language without repeating the convergent hub skeleton.",
+        "The design record preserves the nearest-output evidence for future work."
+      ]
+    },
+    {
+      "id": "landmark-common-room-attractor",
+      "task": "direct",
+      "tier": "landmark",
+      "prompt": "Common Room is a smart-home privacy product where households negotiate which device data is retained, shared, or forgotten. Create an identity-level hero that feels calm, civic, exact, and humane. The brand uses luminous white, ultramarine, and a scarce tangerine signal. The headline is: Every device gets a rule everyone can see. The primary action drafts the household policy and must change the visual state meaningfully.",
+      "assertions": [
+        "The literal common room or civic table, smart-home network, floor plan, and device inventory are recorded as obvious-attractor baselines before candidate generation.",
+        "The landmark record preserves a fresh creative offset and generates anti-literal plus offset-taxonomy-external directions without direct product-name objects.",
+        "The creative offset coordinates substance, time, interaction, and spatial representation, and reproduces exactly from its recorded seed.",
+        "Parallel benchmark implementations receive entries from one recorded cohort with pairwise-distinct causal routes and representation modes.",
+        "A baseline-derived candidate remains ineligible until a second-order transform changes at least three structural axes, and every retained candidate pair clears four-axis admission.",
+        "The selection forecast names the likely civic-document cluster and the winner visibly breaks at least two causal axes before renderer routing.",
+        "The selected visual still makes negotiated retain, share, and forget policy legible while surviving removal of the product name and supplied palette.",
+        "The primary action changes topology, ownership, history, or another structural state with keyboard and touch parity; desktop, 390px mobile, and reduced motion preserve the signature rule."
       ]
     }
   ]

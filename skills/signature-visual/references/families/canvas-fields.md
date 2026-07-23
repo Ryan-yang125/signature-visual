@@ -12,7 +12,7 @@ VELOCITY     movement with material-specific drag
 IDENTITY     role, group, age, or source
 ENERGY       capacity to respond or emit
 HISTORY      trail, deposit, scar, or path memory
-PHASE        rest / wake / develop / peak / recover
+TEMPORAL     held state, accumulated history, branch, reveal, or authored progress
 ```
 
 Typed arrays suit high counts. Objects suit smaller systems with diverse behavior. Keep rendering state separate from the page framework.
@@ -29,7 +29,7 @@ Useful force families:
 - curl derived from a scalar field for coherent circulation;
 - data-driven vector or density fields.
 
-Use one global rule, one local consequence, and a recovery force. Tune in normalized page coordinates so the behavior survives resizing.
+Use one global rule, one local consequence, and any containment or aftermath required by the selected temporal archetype. Tune in normalized page coordinates so the behavior survives resizing.
 
 Semi-implicit integration is stable for many web systems:
 
@@ -46,7 +46,7 @@ Cap `dt` in production. Use a fixed step during deterministic capture.
 
 ## Seeded variation
 
-Use a small deterministic random generator for initial conditions and mutations. A seed should reproduce emitter placement, agent identity, and any stochastic phase changes. Keep time-based entropy outside capture mode.
+Use a small deterministic random generator for initial conditions and mutations. A seed should reproduce emitter placement, agent identity, and any stochastic state changes. Keep time-based entropy outside capture mode.
 
 ```js
 function mulberry32(seed) {
@@ -69,7 +69,7 @@ Choose mark and decay together:
 - short crisp dashes + sampled cadence become an instrument trace;
 - variable-width ribbons + directional blur become flow or weaving.
 
-Use `source-over` for physical layering. Reserve additive compositing for a sparse signal or peak. Shadow blur across hundreds of marks is costly; render a small secondary glow pass when the direction truly needs emission.
+Use `source-over` for physical layering. Reserve additive compositing for a sparse signal or high-energy state. Shadow blur across hundreds of marks is costly; render a small secondary glow pass when the direction truly needs emission.
 
 ## Spatial hierarchy
 
@@ -104,10 +104,10 @@ For long simulations, store a few checkpoints or make state analytically evaluab
 - uniform field: design emitters and density gradients;
 - brown/random drift: strengthen the global equation and reduce force count;
 - sparkle soup: reduce additive blend and assign signal color a state;
-- no readable peak: change topology or density during the motion score;
+- indistinguishable states: change topology, density, history, or ownership across the temporal program;
 - frozen reduced-motion frame: choose an authored composition and render full-length marks;
 - resize reset flash: preserve normalized state or crossfade into rebuilt state.
 
 ## Runtime shell
 
-Use [canvas-field.js](../starters/canvas-field.js) for ownership and lifecycle patterns. Replace its visual program fully: agent state, field equations, emitters, mark material, composition, and phase score.
+Use [canvas-field.js](../starters/canvas-field.js) for ownership and lifecycle patterns. Replace its visual program fully: agent state, field equations, emitters, mark material, composition, and temporal program.

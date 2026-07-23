@@ -1,4 +1,6 @@
 {
+  "schemaVersion": 3,
+  "tier": "production",
   "name": "Permeable Intelligence — motion score",
   "serveRoot": "../../",
   "url": "/examples/living-orb/",
@@ -6,9 +8,417 @@
   "viewport": { "width": 1400, "height": 900, "deviceScaleFactor": 1 },
   "captureSelector": ".specimen-sheet",
   "readySelector": "#three-stage canvas",
-  "seed": "permeable-intelligence-v2",
+  "seed": "permeable-intelligence-v3",
   "failOnNetworkError": true,
   "timeoutMs": 45000,
+  "capabilities": {
+      "resize": true,
+      "zeroSize": true,
+      "pointer": true,
+      "windowFocus": true,
+      "keyboard": {
+        "supported": false,
+        "reason": "The specimen response is ambient and has no focusable visual control."
+      },
+      "reducedMotion": true,
+      "lifecycle": true,
+      "gpu": true,
+      "primaryAction": {
+        "supported": false,
+        "reason": "The journal plate contains no primary CTA."
+      }
+    },
+    "runtimeScenarios": [
+      {
+        "name": "resize and zero-size recovery",
+        "requires": [
+          "resize",
+          "zeroSize"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "setOwnerSize",
+            "selector": ".specimen-sheet",
+            "width": 0,
+            "height": 0
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "pauseReasons",
+            "includes": "zero-size"
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.raf",
+            "equals": 0
+          },
+          {
+            "action": "setOwnerSize",
+            "selector": ".specimen-sheet",
+            "width": 1180,
+            "height": 760
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "setViewport",
+            "width": 1160,
+            "height": 760
+          },
+          {
+            "action": "assertHook",
+            "path": "ready",
+            "equals": true
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      },
+      {
+        "name": "pointer cancellation and focus recovery",
+        "requires": [
+          "pointer",
+          "windowFocus"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".specimen-sheet",
+            "event": "pointermove",
+            "x": 0.62,
+            "y": 0.44
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": true
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".specimen-sheet",
+            "event": "pointercancel"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "pointercancel"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".specimen-sheet",
+            "event": "pointermove",
+            "x": 0.48,
+            "y": 0.56
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".specimen-sheet",
+            "event": "pointerleave"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "pointerleave"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".specimen-sheet",
+            "event": "pointermove",
+            "x": 0.54,
+            "y": 0.48
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".specimen-sheet",
+            "event": "lostpointercapture"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "lostpointercapture"
+          },
+          {
+            "action": "pointerEvent",
+            "selector": ".specimen-sheet",
+            "event": "pointermove",
+            "x": 0.58,
+            "y": 0.5
+          },
+          {
+            "action": "windowBlur"
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "pauseReasons",
+            "includes": "window-blur"
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "pointer.lastEvent",
+            "equals": "window-blur"
+          },
+          {
+            "action": "windowFocus"
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      },
+      {
+        "name": "runtime reduced-motion change",
+        "requires": [
+          "reducedMotion"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "assertHook",
+            "path": "reducedMotion",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "setReducedMotion",
+            "value": "reduce"
+          },
+          {
+            "action": "assertHook",
+            "path": "reducedMotion",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "pauseReasons",
+            "includes": "reduced-motion"
+          },
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "assertHook",
+            "path": "reducedMotion",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      },
+      {
+        "name": "idempotent dispose and clean remount",
+        "requires": [
+          "lifecycle"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.listeners",
+            "truthy": true
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.observers",
+            "truthy": true
+          },
+          {
+            "action": "dispose"
+          },
+          {
+            "action": "assertHook",
+            "path": "disposed",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "ready",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.listeners",
+            "equals": 0
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.observers",
+            "equals": 0
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.raf",
+            "equals": 0
+          },
+          {
+            "action": "dispose"
+          },
+          {
+            "action": "assertHook",
+            "path": "disposeCount",
+            "equals": 1
+          },
+          {
+            "action": "remount"
+          },
+          {
+            "action": "assertHook",
+            "path": "disposed",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "ready",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "mountCount",
+            "equals": 2
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.listeners",
+            "truthy": true
+          },
+          {
+            "action": "assertHook",
+            "path": "resources.observers",
+            "truthy": true
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      },
+      {
+        "name": "authored GPU context fallback",
+        "requires": [
+          "gpu"
+        ],
+        "steps": [
+          {
+            "action": "setReducedMotion",
+            "value": "no-preference"
+          },
+          {
+            "action": "assertHook",
+            "path": "fallback.active",
+            "equals": false
+          },
+          {
+            "action": "gpuContext",
+            "state": "lost"
+          },
+          {
+            "action": "assertHook",
+            "path": "fallback.active",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "fallback.reason",
+            "equals": "context-lost"
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": true
+          },
+          {
+            "action": "assertHook",
+            "path": "pauseReasons",
+            "includes": "gpu-context-lost"
+          },
+          {
+            "action": "gpuContext",
+            "state": "restored"
+          },
+          {
+            "action": "assertHook",
+            "path": "fallback.active",
+            "equals": false
+          },
+          {
+            "action": "assertHook",
+            "path": "paused",
+            "equals": false
+          },
+          {
+            "action": "assertNoErrors"
+          }
+        ]
+      }
+    ]
+  ,
   "states": [
     { "name": "dormant", "progress": 0.03 },
     { "name": "osmosis", "progress": 0.24 },

@@ -1,9 +1,12 @@
+import { createRuntimeState } from '../runtime-state.js';
+
 const canvas = document.querySelector('#field');
 const loom = document.querySelector('.loom');
 const phaseLabel = document.querySelector('#phase');
 const scoreProgress = document.querySelector('#score-progress');
 const context = canvas.getContext('2d', { alpha: true });
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const runtime = createRuntimeState({ reducedMotion });
 
 const CYCLE = 16000;
 const THREADS = 64;
@@ -15,8 +18,6 @@ let width = 1;
 let height = 1;
 let dpr = 1;
 let frame = 0;
-let visible = true;
-let pageVisible = true;
 let start = performance.now();
 
 function hash(index, salt = 0) {
@@ -159,8 +160,15 @@ function draw(timeMs = 0) {
 
 function resize() {
   const rect = loom.getBoundingClientRect();
-  width = Math.max(1, rect.width);
-  height = Math.max(1, rect.height);
+  const explicitlyZero = loom.style.width === '0px' || loom.style.height === '0px';
+  const zeroSize = explicitlyZero || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  if (zeroSize || runtime.state.disposed) {
+    sync();
+    return;
+  }
+  width = rect.width;
+  height = rect.height;
   dpr = Math.min(devicePixelRatio || 1, 1.75);
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);
@@ -168,22 +176,56 @@ function resize() {
   draw(reducedMotion.matches ? CYCLE * 0.68 : performance.now() - start);
 }
 
+function refreshSizePause() {
+  const rect = loom.getBoundingClientRect();
+  const zeroSize = loom.style.width === '0px' || loom.style.height === '0px' || rect.width < 1 || rect.height < 1;
+  runtime.setPauseReason('zero-size', zeroSize);
+  if (zeroSize) {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    runtime.setRafScheduled(false);
+  } else if (!runtime.state.disposed && !runtime.state.paused && !runtime.state.resources.raf) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
+}
+
 function pointerMove(event) {
   const rect = loom.getBoundingClientRect();
+  if (rect.width < 1 || rect.height < 1) return;
   pointer.tx = (event.clientX - rect.left) / rect.width;
   pointer.ty = (event.clientY - rect.top) / rect.height;
   pointer.target = 1;
+  runtime.setPointer({ x: pointer.tx, y: pointer.ty, active: true, event: event.type });
 }
 
 function animate(now) {
   draw(now - start);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  }
 }
 
 function sync() {
   cancelAnimationFrame(frame);
-  if (visible && pageVisible && !document.hidden && !reducedMotion.matches) frame = requestAnimationFrame(animate);
-  else draw(CYCLE * 0.68);
+  frame = 0;
+  runtime.setRafScheduled(false);
+  runtime.setPauseReason('document-hidden', document.hidden);
+  runtime.setReducedMotion(reducedMotion.matches);
+  if (!runtime.state.paused && !runtime.state.disposed) {
+    draw(performance.now() - start);
+    frame = requestAnimationFrame(animate);
+    runtime.setRafScheduled(true);
+  } else if (!runtime.state.disposed && !runtime.describe().pauseReasons.includes('zero-size')) {
+    draw(CYCLE * 0.68);
+  }
+}
+
+function clearPointer(event = 'pointerleave') {
+  pointer.target = 0;
+  pointer.active = 0;
+  runtime.clearPointer(event);
 }
 
 const qaState = { seed: 125, timeMs: 0, progress: 0 };
@@ -219,37 +261,78 @@ const qa = {
     pointer.y = next.y;
     pointer.target = next.active === false ? 0 : 1;
     pointer.active = pointer.target;
+    runtime.setPointer({ x: next.x, y: next.y, active: pointer.target > 0, event: 'hook' });
   },
   render() {
     draw(qaState.timeMs);
   },
   describe() {
-    return { phase: phaseLabel.textContent, seed: qaState.seed, time: qaState.timeMs / 1000, progress: qaState.progress };
+    refreshSizePause();
+    return runtime.describe({
+      phase: phaseLabel.textContent,
+      seed: qaState.seed,
+      time: qaState.timeMs / 1000,
+      progress: qaState.progress,
+      renderer: 'canvas-2d'
+    });
   },
   flush() {
     seekQa({ timeMs: reducedMotion.matches ? CYCLE * 0.68 : performance.now() - start });
+  },
+  dispose,
+  remount() {
+    if (!runtime.state.disposed) dispose();
+    start = performance.now();
+    mount();
+    return qa.describe();
   }
 };
 
 window.__signatureVisual = qa;
 window.__signatureVisualQA = qa;
 
-new ResizeObserver(resize).observe(loom);
-new IntersectionObserver(entries => {
-  visible = entries[0]?.isIntersecting ?? true;
-  sync();
-}).observe(loom);
-loom.addEventListener('pointermove', pointerMove, { passive: true });
-loom.addEventListener('pointerleave', () => { pointer.target = 0; }, { passive: true });
-document.addEventListener('visibilitychange', sync);
-reducedMotion.addEventListener('change', sync);
-window.addEventListener('message', event => {
-  if (event.origin !== location.origin) return;
-  if (event.data?.type === 'signature-visual-visibility') {
-    pageVisible = Boolean(event.data.visible);
-    sync();
-  }
-});
+function dispose() {
+  if (!runtime.disposeManaged()) return qa.describe();
+  cancelAnimationFrame(frame);
+  frame = 0;
+  clearPointer('dispose');
+  return qa.describe();
+}
 
-resize();
-sync();
+function mount() {
+  runtime.beginMount();
+  runtime.setFallback(false);
+  runtime.setPauseReason('window-blur', false);
+  runtime.setPauseReason('host-hidden', false);
+  runtime.addObserver(new ResizeObserver(resize), loom);
+  runtime.addObserver(new IntersectionObserver(entries => {
+    runtime.setPauseReason('outside-viewport', !(entries[0]?.isIntersecting ?? true));
+    sync();
+  }), loom);
+  runtime.addListener(loom, 'pointermove', pointerMove, { passive: true });
+  for (const type of ['pointerleave', 'pointercancel', 'lostpointercapture']) {
+    runtime.addListener(loom, type, () => clearPointer(type), { passive: true });
+  }
+  runtime.addListener(document, 'visibilitychange', sync);
+  runtime.addListener(reducedMotion, 'change', sync);
+  runtime.addListener(window, 'blur', () => {
+    clearPointer('window-blur');
+    runtime.setPauseReason('window-blur', true);
+    sync();
+  });
+  runtime.addListener(window, 'focus', () => {
+    runtime.setPauseReason('window-blur', false);
+    sync();
+  });
+  runtime.addListener(window, 'message', event => {
+    if (event.origin !== location.origin || event.data?.type !== 'signature-visual-visibility') return;
+    runtime.setPauseReason('host-hidden', !event.data.visible);
+    sync();
+  });
+  runtime.addListener(window, 'pagehide', dispose, { once: true });
+  resize();
+  runtime.finishMount();
+  sync();
+}
+
+mount();
