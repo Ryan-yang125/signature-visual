@@ -15,7 +15,7 @@
 - Made supported capabilities prove their own action and semantic-assertion patterns, then committed each stored runtime description through an atomic render-and-describe boundary.
 - Added ownership-marked staged artifact promotion so successful QA runs remove retired captures while preserving reviewer notes, failed runs restore the last successful evidence, and incomplete rollback data stays available for recovery.
 - Resolved output targets through symbolic links and stabilized the virtual clock from a deterministic lead-in before every capture and runtime scenario.
-- Added deterministic replay of all 12 public manifests, with exact CPU hashes and bounded same-host GPU pixel stability.
+- Added deterministic replay of all 12 public manifests, with near-zero CPU raster tolerance and separately bounded same-host GPU stability; byte-level PNG variance is separated from decoded visual variance.
 - Added executable Draft 2020-12 validation for the documented design record, documented production manifest, all public-case manifests, and every CI-generated QA result.
 - Hardened all four runtime shells for zero-size pause, cancellation, window focus, runtime motion-preference changes, initialization rollback, fallback, context loss, and repeatable disposal/remount.
 - Split starter pointer reporting into an immediate semantic `active` boolean and an eased numeric `strength`, then verified the shared cancellation contract in the browser harness.

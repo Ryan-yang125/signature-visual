@@ -200,7 +200,7 @@ Each successful run stages the complete managed artifact set and promotes its ma
 
 SHA-256 hashes answer one question: did deterministic output change? They do not grade beauty or visual correctness. GPU rasterization and compositor filters can create byte changes across machines, so approve through named-state evidence and direct comparison.
 
-For automated same-host replay, require exact hashes from CPU-rendered cases. GPU cases may use a documented, narrow pixel tolerance after state names, semantic descriptions, runtime results, viewport, seed, and clock all match; the repository case runner limits mean channel difference, changed-channel ratio, and maximum channel difference independently.
+For automated same-host replay, compare decoded pixels whenever PNG bytes differ so encoder metadata cannot create a false failure. CPU-rendered cases may use a documented near-zero raster tolerance for isolated anti-aliasing variance; keep the changed-channel ratio at or below one millionth. GPU cases may use a separately documented, narrow pixel tolerance after state names, semantic descriptions, runtime results, viewport, seed, and clock all match. Limit mean channel difference, changed-channel ratio, and maximum channel difference independently.
 
 Review in four passes:
 

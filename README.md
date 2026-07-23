@@ -211,7 +211,7 @@ visual-qa-output/
 
 Managed artifacts are written to a staging directory and promoted through a rollback transaction, so renamed or removed states cannot leave stale captures in a new review. The first successful adoption writes `.signature-visual-qa`; later runs require that ownership marker before preserving reviewer notes beside managed evidence. Broad or unrelated output targets are rejected, and an incomplete rollback retains its recovery directory instead of discarding the previous evidence.
 
-Hashes are determinism signals. The public-case runner repeats every manifest: CPU-rendered cases require exact state and contact-sheet hashes, while GPU cases use a narrow same-host pixel tolerance for driver-level channel rounding. Visual approval comes from authored states, derived views, visible critique, and production behavior.
+Hashes are determinism signals. The public-case runner repeats every manifest: CPU-rendered cases use a near-zero same-host raster tolerance capped at one millionth of changed channels, while GPU cases use a separately bounded tolerance for driver-level channel rounding. Byte-identical PNGs, pixel-identical PNGs, and bounded raster replays are reported separately. Visual approval comes from authored states, derived views, visible critique, and production behavior.
 
 See [visual-qa.md](skills/signature-visual/references/visual-qa.md), [motion-direction.md](skills/signature-visual/references/motion-direction.md), and [failure-signatures.md](skills/signature-visual/references/failure-signatures.md).
 
